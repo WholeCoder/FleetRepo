@@ -1,2 +1,2 @@
 # FleetRepo
-This is an app to alllow Fleet Repair Solutions to keep their customers informed on their trailer repares
+This is an app to allow Fleet Repair Solutions to keep their customers informed on trailer repaires
