@@ -29,7 +29,7 @@ var mongoose = require ("mongoose");
 
 
 //app.use(cookieParser());
-app.use(session({
+/*app.use(session({
   store: new MongoStore({
     url: mongodbconnectionstring
   }),
@@ -44,6 +44,7 @@ mongoose.connect(connStr, function(err) {
     console.log('Successfully connected to MongoDB');
 });
 
+*/
 // save user to database
 function saveUserToDatabase(u, req, res)
 {
