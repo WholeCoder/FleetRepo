@@ -35,7 +35,7 @@
     }
     </style>
 
-
+    <link href="logosheenstyle.css" rel="stylesheet"></link>
  </head>
 <body style="background:url('http://www.fleetrep.net/wp-content/uploads/2014/05/lightAmerican-Flag-Christian-Stock-Images.jpg')">
  <div class="container">
@@ -43,7 +43,24 @@
     <!-- The justified navigation menu is meant for single line per list item.
          Multiple lines will require custom code not provided by Bootstrap. -->
     <div class="masthead">
-      <h3 class="text-muted"><img src="./fleetreplogo.jpg"></h3>
+      <div class="container">
+        <div class="row">
+          <div  class="col-sm-12">
+            <h3>
+              <div id="banner" class="pull-left">
+                <div class="sheen"></div>
+                <img src="./fleetreplogo.jpg" class="logo">
+              </div>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <script>
+        setTimeout(function() {
+          //alert("shimmering");
+          document.getElementById('banner').className = 'loaded pull-left';
+        }, 50);
+      </script>
       <nav>
         <ul class="nav nav-justified">
           <li class="active"><a href="http://getbootstrap.com/examples/justified-nav/#">Home</a></li>
