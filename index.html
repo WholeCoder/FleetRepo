@@ -142,6 +142,50 @@
    </div>
 </script>
 
+<script type="text/template" id="reset-user-password-form">
+   <div class="container">
+    <div class="row">
+      <form accept-charset="UTF-8" role="form">
+       <div  class="col-sm-6">
+   
+          <div class="panel panel-danger">
+             <div class="panel-heading">Reset User Password</div>
+             <div class="panel-body" style="height: 300px;">
+                <fieldset>
+                   <div>
+                      Username:  <b>rpierich@hotmail.com</b>
+                   </div>
+                   <div>
+                      <input placeholder="Temporary Password" name="password" type="text" value="">
+                   </div>
+                   <div>
+                      <input placeholder="Temporary Password (Confirmation)" name="passwordconfirmation" type="text" value="">
+                   </div>
+                </fieldset>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-submit" type="submit" value="Reset User Password"></div>
+          </div>
+
+       </div>
+       <div  class="col-sm-6">
+   
+
+          <div class="panel panel-danger">
+             <div class="panel-heading"><b>Note</b></div>
+             <div class="panel-body" style="height: 300px;">
+                <p><b>*note*</b>  An email will be sent to this user to reset their password.  You will need to call them and tell them their temporary password as email is not encrypted.</p>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-canceluserreset" type="submit" value="Cancel Reset" /></div>
+          </div>
+
+
+
+       </div>
+     </form>
+    </div>
+   </div>
+</script>
+
   <script type="text/template" id="trailer-list">
     <thead>
       <tr>
@@ -593,6 +637,8 @@
 
   <script src="./newassets/js/apps/user/new/new_view.js"></script>
   <script src="./newassets/js/apps/user/new/new_controller.js"></script>
+  <script src="./newassets/js/apps/user/new/resetpassword_view.js"></script>
+  <script src="./newassets/js/apps/user/new/resetpassword_controller.js"></script>
   <script src="./newassets/js/apps/user/user_app.js"></script>
 
   <script type="text/javascript">

@@ -1,17 +1,26 @@
-FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, Marionette, $, _){
-  New.User = Marionette.ItemView.extend({
-    title: "Create Account",
+FleetRepManager.module("UserApp.ResetPassword", function(ResetPassword, VapeBookManager, Backbone, Marionette, $, _){
+  ResetPassword.User = Marionette.ItemView.extend({
+    title: "Reset Password",
 
-        template: "#new-user-form",
+        template: "#reset-user-password-form",
 
     events: {
       "click .js-submit": "submitClicked",
-      "click .js-resetuserpassword": "showResetPasswordForm"
+      "click .js-resetuserpassword" : "resetUserPassword",
+      "click .js-canceluserreset" : "cancelRestUserPassword"
     },
 
-    showResetPasswordForm: function(e) {
+    cancelRestUserPassword: function(e) {
       e.preventDefault();
-      FleetRepManager.trigger("show:resetpassword");
+      FleetRepManager.trigger("user:new");
+    },
+
+    resetUserPassword: function(e) {
+      e.preventDefault();
+      var data = Backbone.Syphon.serialize(this);
+      alert('submit form clicked! -resetUserPassword()');
+      this.trigger("form:submit", data);
+      //FleetRepManager.trigger("show:resetpassword");
     },
 
     submitClicked: function(e){
@@ -19,7 +28,7 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
       var data = Backbone.Syphon.serialize(this);
       //alert('submit form clicked!');
       this.trigger("form:submit", data);
-      FleetRepManager.trigger("show:resetpassword");
+      FleetRepManager.trigger("trailers:list");
     },
 
     onFormDataInvalid: function(errors){

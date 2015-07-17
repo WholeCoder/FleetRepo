@@ -25,8 +25,16 @@ FleetRepManager.module("UserApp", function(UserApp, FleetRepManager, Backbone, M
 */    },
     showCreateNewUserProfile: function() {
 /*      UserApp.NewUser.Controller.showNewProfile();
-*/    }
+*/    },
+    showResetPassword: function() {
+      UserApp.ResetPassword.Controller.showResetPassword();
+    }
   };
+
+  FleetRepManager.on("show:resetpassword", function(){
+    //ContactManager.navigate("about");
+    API.showResetPassword();
+  });
 
   FleetRepManager.on("show:createnewprofile", function(){
     //ContactManager.navigate("about");
