@@ -38,7 +38,7 @@
     <link href="logosheenstyle.css" rel="stylesheet"></link>
     <link rel="stylesheet" href="./theme.blue.css">
  </head>
-<body style="background:url('http://www.fleetrep.net/wp-content/uploads/2014/05/lightAmerican-Flag-Christian-Stock-Images.jpg')">
+<body style="background:url('./lightAmerican-Flag-Christian-Stock-Images.jpg')">
 
   <script type="text/template" id="trailer-list-none">
     <td colspan="11">No trailers to display.</td>
@@ -61,13 +61,13 @@
     <td><img src="./<%- status %>" /></td>
     <td><%- dateapproved %></td>
     <td>
-      <a href="#trailers/<%- id %>/edit" class="btn btn-xs js-edit">
+      <a href="#trailers/<%- id %>/edit" class="btn btn-xs btn-danger js-edit">
         <i class="icon-pencil"></i>
         Edit
       </a>
     </td>
     <td>
-      <button class="btn btn-xs js-delete">
+      <button class="btn btn-xs btn-danger js-delete">
         <i class="icon-remove"></i>
         Delete
       </button>

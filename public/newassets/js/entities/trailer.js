@@ -63,12 +63,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       var defer = $.Deferred();
       trailers.fetch({
         success: function(data){
-          console.log("Successfully retrieved trailers!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-          console.log("data == "+JSON.stringify(data));
           defer.resolve(data);
-        },
-        failure: function(){
-          console.log("Did NOT Successfully retrieved trailers!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
       });
       var promise = defer.promise();
