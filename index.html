@@ -13,10 +13,10 @@
     <link href="./newassets/css/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 
 
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="http://getbootstrap.com/examples/justified-nav/justified-nav.css" rel="stylesheet">
+    <link href="./justified-nav.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -32,6 +32,12 @@
     <style type="text/css">
     .container {
       width: 1400px !important;
+    }
+
+    .btn-xs {
+      padding: 0px 0px;
+      font-size: 12px;
+      border-radius: 8px;
     }
     </style>
 
@@ -74,7 +80,64 @@
     </td>
   </script>
 
+<script type="text/template" id="new-user-form">
+   <div class="container">
+    <div class="row">
+      <form accept-charset="UTF-8" role="form">
+       <div  class="col-sm-6">
+   
+          <div class="panel panel-danger">
+             <div class="panel-heading">Create New User Account</div>
+             <div class="panel-body" style="height: 300px;">
+                <fieldset>
+                   <div>
+                      <input placeholder="E-mail" name="email" type="text">
+                   </div>
+                   <div>
+                      <input placeholder="E-mail (Confirmation)" name="emailconfirmation" type="text">
+                   </div>
+                   <div>
+                      <input placeholder="Password" name="password" type="text" value="">
+                   </div>
+                   <div>
+                      <input placeholder="Password (Confirmation)" name="passwordconfirmation" type="text" value="">
+                   </div>
+                </fieldset>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-submit" type="submit" value="Create User Account"></div>
+          </div>
 
+       </div>
+       <div  class="col-sm-6">
+   
+
+          <div class="panel panel-danger">
+             <div class="panel-heading">Current User Accounts</div>
+             <div class="panel-body" style="height: 300px;">
+                <fieldset>
+                   <div>
+                      <select size="13"  style="width: 142px;" id="chatusers">
+                        <option value="rpierich">rpierich</option>
+                        <option value="VapeExpert">VapeExpert</option>
+                        <option value="Cameron">Cameron</option>
+                        <option value="Lev">Lev</option>
+                        <option value="Boedy">Boedy</option>
+                        <option value="WonderBoy">WonderBoy</option>
+                        <option value="Injection">Injection</option>
+                     </select>
+                   </div>
+                </fieldset>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-deleteuser" type="submit" value="Delete User Account" /><input class="btn btn-lg btn-danger btn-block js-edituser" type="submit" value="Edit User Account" /></div>
+          </div>
+
+
+
+       </div>
+     </form>
+    </div>
+   </div>
+</script>
 
   <script type="text/template" id="trailer-list">
     <thead>
@@ -128,24 +191,39 @@
       </script>
       <nav>
         <ul class="nav nav-justified">
-          <li class="active"><a href="http://getbootstrap.com/examples/justified-nav/#">Home</a></li>
-          <li><a href="http://getbootstrap.com/examples/justified-nav/#">Projects</a></li>
-          <li><a href="http://getbootstrap.com/examples/justified-nav/#">Services</a></li>
-          <li><a href="http://getbootstrap.com/examples/justified-nav/#">Downloads</a></li>
-          <li><a href="http://getbootstrap.com/examples/justified-nav/#">About</a></li>
-          <li><a href="http://getbootstrap.com/examples/justified-nav/#">Contact</a></li>
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Projects</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Downloads</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
         </ul>
       </nav>
     </div>
 
   <!-- Jumbotron -->
   <div class="jumbotron">
-     <div class="panel-group">
-        <div class="panel panel-danger" id="app-container">
+     <div class="panel-group" id="app-container">
+        <div class="panel panel-danger">
            <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Repair Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type To Filter The Table"></div>
 
            <div class="panel-body" id="table-region">
 
+           </div>
+        </div>
+        <div class="panel panel-danger">
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Repair Portal User Functions</b></div>
+           <div class="panel-body" id="user-admin-region">
+              <div class="container">
+                 <div class="row">
+                    <div  class="col-sm-6">
+
+                    </div>
+                    <div  class="col-sm-6">
+
+                    </div>
+                 </div>
+              </div>
            </div>
         </div>
         <div class="panel panel-danger">
@@ -509,6 +587,10 @@
   <script src="./newassets/js/apps/trailers/list/list_view.js"></script>
   <script src="./newassets/js/apps/trailers/list/list_controller.js"></script>
   <script src="./newassets/js/apps/trailers/trailers_app.js"></script>
+
+  <script src="./newassets/js/apps/user/new/new_view.js"></script>
+  <script src="./newassets/js/apps/user/new/new_controller.js"></script>
+  <script src="./newassets/js/apps/user/user_app.js"></script>
 
   <script type="text/javascript">
     FleetRepManager.start();

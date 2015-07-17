@@ -14,7 +14,8 @@ FleetRepManager.on("before:start", function(){
     el: "#app-container",
 
     regions: {
-      table: "#table-region"
+      table: "#table-region",
+      userRegion: "#user-admin-region"
     }
   });
 
@@ -46,6 +47,7 @@ FleetRepManager.on("start", function(){
 
     if(this.getCurrentRoute() === ""){
       FleetRepManager.trigger("trailers:list");
+      FleetRepManager.trigger("user:new");
     }
   }
 });
