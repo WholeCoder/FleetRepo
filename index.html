@@ -61,11 +61,13 @@
     <td><img src="./<%- status %>" /></td>
     <td><%- dateapproved %></td>
     <td>
-      <a href="#trailers/<%- id %>/edit" class="btn btn-small js-edit">
+      <a href="#trailers/<%- id %>/edit" class="btn btn-xs js-edit">
         <i class="icon-pencil"></i>
         Edit
       </a>
-      <button class="btn btn-small js-delete">
+    </td>
+    <td>
+      <button class="btn btn-xs js-delete">
         <i class="icon-remove"></i>
         Delete
       </button>
@@ -87,6 +89,7 @@
          <th><a href="#" data-toggle="tooltip" title="Sort This Column!" data-placement="top">% Complete<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
          <th><a href="#" data-toggle="tooltip" title="Sort This Column!" data-placement="top">Status<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
          <th><a href="#" data-toggle="tooltip" title="Sort This Column!" data-placement="top">Date Approved<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
+          <th></th>
           <th></th>
       </tr>
    </thead>
