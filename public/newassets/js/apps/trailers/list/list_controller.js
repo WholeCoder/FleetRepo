@@ -12,12 +12,26 @@ $.when(fetchingTrailers).done(function(trailers){
 
       trailersListLayout.on("show", function(){
         trailersListLayout.trailersRegion.show(contactsListView);
+
+        $("#myTable").tablesorter();
+        $("#searchInput").keyup(function () {
+            var rows = $("#fbody").find("tr").hide();
+            if (this.value.length) {
+                var data = this.value.split(" ");
+                $.each(data, function (i, v) {
+                    rows.filter(":contains('" + v + "')").show();
+                });
+            } else rows.show();
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
       });
 
+      FleetRepManager.regions.table.show(trailersListLayout);
 });
 
 
-      FleetRepManager.regions.table.show(trailersListLayout);
+      // FleetRepManager.regions.table.show(trailersListLayout);
     }
   }
 });

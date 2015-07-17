@@ -34,7 +34,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
     }
   });
 
-  Entities.configureStorage("FleetRepManager.Entities.Trailer");
+  //Entities.configureStorage("FleetRepManager.Entities.Trailer");
 
   Entities.TrailerCollection = Backbone.Collection.extend({
     url: "trailers",
@@ -42,7 +42,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
     comparator: "unitnumber"
   });
 
-  Entities.configureStorage("FleetRepManager.Entities.TrailerCollection");
+  //Entities.configureStorage("FleetRepManager.Entities.TrailerCollection");
 
   var initializeTrailers = function(){
     var trailers = new Entities.TrailerCollection([
@@ -63,7 +63,12 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       var defer = $.Deferred();
       trailers.fetch({
         success: function(data){
+          console.log("Successfully retrieved trailers!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          console.log("data == "+JSON.stringify(data));
           defer.resolve(data);
+        },
+        failure: function(){
+          console.log("Did NOT Successfully retrieved trailers!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
       });
       var promise = defer.promise();

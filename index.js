@@ -216,6 +216,18 @@ function sendIfNoSSLRequired(page_path, req, res)
     sendIfNoSSLRequired(__dirname + '/chat.html',req, res)
  });
  
+app.get("/trailers", function(req, res) {
+  var trailerRay = [
+      { id: 1, unitnumber: "1245",  issue: "1",  location: "EDC III",  requestedby: "John",  assignedto: "Mary",  startdate: "11/19/2015",  duedate: "11/27/2015",  percentcomplete: "75%",  status: "greenlight.png",  dateapproved: "11/3/2015"},
+      { id: 2, unitnumber: "1238",  issue: "2",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  startdate: "11/19/2015",  duedate: "11/20/2015",  percentcomplete: "20%",  status: "greenlight.png",  dateapproved: "11/18/2015"},
+      { id: 3, unitnumber: "1294",  issue: "3",  location: "FRS",  requestedby: "Dan",  assignedto: "Robert",  startdate: "11/19/2015",  duedate: "11/26/2015",  percentcomplete: "10%",  status: "yellowlight.png",  dateapproved: "11/1/2015"},
+      { id: 4, unitnumber: "1134",  issue: "4",  location: "HW",  requestedby: "Robert",  assignedto: "James",  startdate: "11/19/2015",  duedate: "11/25/2015",  percentcomplete: "0%",  status: "redlight.png",  dateapproved: "11/19/2015"}
+  ];
+  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end(JSON.stringify(trailerRay));
+});
+ 
 app.post("/savenewaccount", function(req, res) {
   if (req.method == 'POST') {
       var jsonString = '';
@@ -231,6 +243,8 @@ app.post("/savenewaccount", function(req, res) {
   res.writeHead(200);
   res.end("{}");
 });
+
+
 
 function getAllObjectsProperties(obj)
 {
