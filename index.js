@@ -93,6 +93,10 @@ app.get("/", function(req, res) {
    res.sendFile(path.join(__dirname, 'index.html'))
 });
  
+app.get("/mockup", function(req, res) {
+   res.sendFile(path.join(__dirname, 'mockup.html'))
+});
+ 
 
 app.get("/activate", function(req, res) {
   var queryData = url.parse(req.url, true).query;
