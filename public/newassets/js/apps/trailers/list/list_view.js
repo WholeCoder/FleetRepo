@@ -49,6 +49,8 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
     className: "alert"
   });
 
+  List.NoTrailersView = NoTrailersView;
+
   List.Trailers = Marionette.CompositeView.extend({
     tagName: "table",
     className: "tablesorter table table-striped table-bordered table-hover",
@@ -57,6 +59,15 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
     childView: List.Trailer,
     childViewContainer: "tbody",
     id: "myTable",
+
+    disableLink: function(e){
+      e.preventDefault();
+      //alert('link clicked!');
+    },
+
+    events: {
+      "click a": "disableLink"
+    },
 
     initialize: function(){
 /*      this.listenTo(this.collection, "reset", function(){

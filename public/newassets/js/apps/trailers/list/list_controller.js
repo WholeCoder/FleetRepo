@@ -3,7 +3,10 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
     listContacts: function(criterion){
       var fetchingTrailers = FleetRepManager.request("trailer:entities");
       var trailersListLayout = new List.Layout();
+      var noTrailersView = new List.NoTrailersView();
 
+      FleetRepManager.regions.table.show(noTrailersView);
+      
 $.when(fetchingTrailers).done(function(trailers){
 
         var contactsListView = new List.Trailers({
