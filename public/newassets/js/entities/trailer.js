@@ -68,11 +68,12 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       });
       var promise = defer.promise();
       $.when(promise).done(function(fetchedtrailers){
-        if(fetchedtrailers.length === 0){
+/*        if(fetchedtrailers.length === 0){
           // if we don't have any trailers yet, create some for convenience
           var models = initializeTrailers();
           trailers.reset(models);
         }
+*/
       });
       return promise;
     },
