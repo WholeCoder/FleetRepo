@@ -159,6 +159,60 @@
    </div>
 </script>
 
+<script type="text/template" id="login-form">
+   <div class="container">
+    <div class="row">
+      <div  class="col-sm-6">
+       <form accept-charset="UTF-8" role="form">
+          <div class="panel panel-danger">
+             <div class="panel-heading">Login</div>
+             <div class="panel-body" style="height: 225px;">
+                <br />
+                <br />
+                <br />
+                <br />
+                <fieldset>
+                   <div>
+                      <input placeholder="E-mail" name="email" type="text">
+                   </div>
+                   <div>
+                      <input placeholder="Password" name="password" type="password" value="">
+                   </div>
+                </fieldset>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-submit" type="submit" value="Log In"></div>
+          </div>
+       </form>
+     </div>
+     <div  class="col-sm-6">
+   
+
+          <div class="panel panel-danger">
+             <div class="panel-heading">Contact Us</div>
+             <div class="panel-body">
+                <p><b>Contact Us</b> if you would like access to the <b>Fleet Repair Solutions Customer Portal</b>.</p><br />
+                <img src="./call-us.png" alt="Call us">
+                (717) 469-4524
+                <p>6068 Firehouse Rd.<br/>
+                  PO Box 459<br/>
+                  Grantville, PA 17028<br/>
+                  <a href="mailto:service@fleetrep.net">service@fleetrep.net</a></p/>
+             </div>
+             <div class="panel-footer">
+<!--
+                <input class="btn btn-lg btn-danger btn-block js-deleteuser" type="submit" value="Delete User Account" />
+                <input class="btn btn-lg btn-danger btn-block js-resetuserpassword" type="submit" value="Reset User Account Password" />
+-->             
+             </div>
+          </div>
+
+
+
+       </div>
+    </div>
+   </div>
+</script>
+
 <script type="text/template" id="reset-user-password-form">
    <div class="container">
     <div class="row">
@@ -296,25 +350,105 @@
               <div class="container">
                  <div class="row">
                     <div  class="col-sm-6">
-                       <div id="piechart" style="width:600px;height:400px;"></div>
+                       <div id="piechart"></div>
 
                     </div>
                     <div  class="col-sm-6">
-                       <div id="barchart" style="width:600px;height:400px;"></div>
+                       <div id="barchart"></div>
                     </div>
                  </div>
               </div>
            </div>
         </div>
      </div>
+
+     <!--[if lt IE 9]><script src="./excanvas.min.js"></script><![endif]-->
+     <script src="./flotr2.min.js"></script>
+     <!-- Site footer -->
+     <footer class="footer">
+        <p>© <b>Fleet Repair Solutions 2015</b></p>
+     </footer>
+  </div>
+
+<!-- /container -->
+
+
+
+  <script src="./newassets/js/vendor/jquery.js"></script>
+  <script src="./newassets/js/vendor/jquery-ui-1.10.3.js"></script>
+  <script src="./newassets/js/vendor/json2.js"></script>
+  <script src="./newassets/js/vendor/underscore.js"></script>
+  <script src="./newassets/js/vendor/backbone.js"></script>
+  <script src="./newassets/js/vendor/backbone.picky.js"></script>
+  <script src="./newassets/js/vendor/backbone.syphon.js"></script>
+  <script src="./newassets/js/vendor/backbone.localstorage.js"></script>
+  <script src="./newassets/js/vendor/backbone.marionette.js"></script>
+  <script src="./newassets/js/vendor/spin.js"></script>
+  <script src="./newassets/js/vendor/spin.jquery.js"></script>
+  <script src="./jquery.tablesorter.combined.js"></script>
+
+  <script src="./newassets/js/app.js"></script>
+  <script src="./newassets/js/apps/config/localstorage.js"></script>
+
+  <script src="./newassets/js/entities/trailer.js"></script>
+
+  <script src="./newassets/js/apps/trailers/list/list_view.js"></script>
+  <script src="./newassets/js/apps/trailers/list/list_controller.js"></script>
+  <script src="./newassets/js/apps/trailers/trailers_app.js"></script>
+
+  <script src="./newassets/js/apps/user/new/new_view.js"></script>
+  <script src="./newassets/js/apps/user/new/new_controller.js"></script>
+
+  <script src="./newassets/js/apps/user/new/resetpassword_view.js"></script>
+  <script src="./newassets/js/apps/user/new/resetpassword_controller.js"></script>
+
+  <script src="./newassets/js/apps/user/login/login_view.js"></script>
+  <script src="./newassets/js/apps/user/login/login_controller.js"></script>
+
+  <script src="./newassets/js/apps/user/user_app.js"></script>
+
+  <script type="text/javascript">
+    FleetRepManager.start();
+  </script>
+
+  <script type="text/javascript">
+    $(function(){
+      $("#myTable").tablesorter();
+      $("#searchInput").keyup(function () {
+          var rows = $("#fbody").find("tr").hide();
+          if (this.value.length) {
+              var data = this.value.split(" ");
+              $.each(data, function (i, v) {
+                  rows.filter(":contains('" + v + "')").show();
+              });
+          } else rows.show();
+      });
+
+      $('[data-toggle="tooltip"]').tooltip(); 
+    });
+  </script>
+  <script>
+    $(function() {
+      $( document ).tooltip();
+    });
+  </script>
+
      <script>
-        window.onload = function () {
+        FleetRepManager.loadCharts = function () {
+
+          //style="width:600px;height:400px;"
+          $("#piechart").css("width", "600px");
+          $("#piechart").css("height", "400px");
+
+          $("#barchart").css("width", "600px");
+          $("#barchart").css("height", "400px");
+
           $.ajax('/barchartdata', {
             type: 'POST',
             data: JSON.stringify({}),
             contentType: 'text/json',
             success: function(dta) {
-              window.loadbarchartdata(dta);
+              FleetRepManager.loadbarchartdata(dta);
               //alert('credit card successfully processed.');
             },
             error  : function() { if ( callback ) callback(false); }
@@ -325,7 +459,7 @@
             data: JSON.stringify({}),
             contentType: 'text/json',
             success: function(dta) {
-              window.loadpiechart(dta);
+              FleetRepManager.loadpiechart(dta);
               //alert('credit card successfully processed.');
             },
             error  : function() { if ( callback ) callback(false); }
@@ -333,7 +467,7 @@
 
         }; // end onload
 
-        window.loadbarchartdata = function (data) {
+        FleetRepManager.loadbarchartdata = function (data) {
         
 /*        wins = [[0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]];
         var percents = [
@@ -376,7 +510,7 @@
      </script>
      <script>
 
-        window.loadpiechart = function (data) {
+        FleetRepManager.loadpiechart = function (data) {
 
 /*            data = [
                 {data: [[0,14]], label: "0%"},
@@ -408,70 +542,5 @@
 
     </script>
 
-     <!--[if lt IE 9]><script src="./excanvas.min.js"></script><![endif]-->
-     <script src="./flotr2.min.js"></script>
-     <!-- Site footer -->
-     <footer class="footer">
-        <p>© <b>Fleet Repair Solutions 2015</b></p>
-     </footer>
-  </div>
-
-<!-- /container -->
-
-
-
-  <script src="./newassets/js/vendor/jquery.js"></script>
-  <script src="./newassets/js/vendor/jquery-ui-1.10.3.js"></script>
-  <script src="./newassets/js/vendor/json2.js"></script>
-  <script src="./newassets/js/vendor/underscore.js"></script>
-  <script src="./newassets/js/vendor/backbone.js"></script>
-  <script src="./newassets/js/vendor/backbone.picky.js"></script>
-  <script src="./newassets/js/vendor/backbone.syphon.js"></script>
-  <script src="./newassets/js/vendor/backbone.localstorage.js"></script>
-  <script src="./newassets/js/vendor/backbone.marionette.js"></script>
-  <script src="./newassets/js/vendor/spin.js"></script>
-  <script src="./newassets/js/vendor/spin.jquery.js"></script>
-  <script src="./jquery.tablesorter.combined.js"></script>
-
-  <script src="./newassets/js/app.js"></script>
-  <script src="./newassets/js/apps/config/localstorage.js"></script>
-
-  <script src="./newassets/js/entities/trailer.js"></script>
-
-  <script src="./newassets/js/apps/trailers/list/list_view.js"></script>
-  <script src="./newassets/js/apps/trailers/list/list_controller.js"></script>
-  <script src="./newassets/js/apps/trailers/trailers_app.js"></script>
-
-  <script src="./newassets/js/apps/user/new/new_view.js"></script>
-  <script src="./newassets/js/apps/user/new/new_controller.js"></script>
-  <script src="./newassets/js/apps/user/new/resetpassword_view.js"></script>
-  <script src="./newassets/js/apps/user/new/resetpassword_controller.js"></script>
-  <script src="./newassets/js/apps/user/user_app.js"></script>
-
-  <script type="text/javascript">
-    FleetRepManager.start();
-  </script>
-
-  <script type="text/javascript">
-    $(function(){
-      $("#myTable").tablesorter();
-      $("#searchInput").keyup(function () {
-          var rows = $("#fbody").find("tr").hide();
-          if (this.value.length) {
-              var data = this.value.split(" ");
-              $.each(data, function (i, v) {
-                  rows.filter(":contains('" + v + "')").show();
-              });
-          } else rows.show();
-      });
-
-      $('[data-toggle="tooltip"]').tooltip(); 
-    });
-  </script>
-  <script>
-    $(function() {
-      $( document ).tooltip();
-    });
-  </script>
 </body>
 </html>

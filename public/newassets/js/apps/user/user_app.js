@@ -10,8 +10,8 @@ FleetRepManager.module("UserApp", function(UserApp, FleetRepManager, Backbone, M
 
   var API = {
     showUserLogin: function(){
-/*      UserApp.Login.Controller.showUserLogin();
-*/      //ContactManager.execute("set:active:header", "about");
+      UserApp.Login.Controller.showUserLogin();
+      //ContactManager.execute("set:active:header", "about");
     },
     showNewUser: function(){
       UserApp.New.Controller.showNewUser();
@@ -36,6 +36,11 @@ FleetRepManager.module("UserApp", function(UserApp, FleetRepManager, Backbone, M
     API.showResetPassword();
   });
 
+  FleetRepManager.on("show:login", function(){
+    //ContactManager.navigate("about");
+    API.showUserLogin();
+  });
+
   FleetRepManager.on("show:createnewprofile", function(){
     //ContactManager.navigate("about");
     API.showCreateNewUserProfile();
@@ -54,11 +59,6 @@ FleetRepManager.module("UserApp", function(UserApp, FleetRepManager, Backbone, M
   FleetRepManager.on("user:new", function(){
     //ContactManager.navigate("about");
     API.showNewUser();
-  });
-
-  FleetRepManager.on("user:login", function(){
-    //ContactManager.navigate("about");
-    API.showUserLogin();
   });
 
   UserApp.on("start", function(){
