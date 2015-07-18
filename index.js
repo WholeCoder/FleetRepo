@@ -90,7 +90,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
  /* serves main page */
 app.get("/", function(req, res) {
-   res.sendFile(path.join(__dirname, 'index.html'))
+   sendIfNoSSLRequired(path.join(__dirname, 'index.html'),req, res)
 });
  
 app.get("/mockup", function(req, res) {
