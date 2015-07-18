@@ -8,7 +8,7 @@ FleetRepManager.module("UserApp.New", function(New, FleetRepManager, Backbone, M
       var view = new FleetRepManager.UserApp.New.User({});
 
       view.on("form:submit", function(data){
-        alert('submitted the new user form!');
+        //alert('submitted the new user form!');
           //VapeBookManager.trigger("show:createnewprofile");
       });
 

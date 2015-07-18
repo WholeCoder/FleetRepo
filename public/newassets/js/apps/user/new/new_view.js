@@ -17,9 +17,12 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
     submitClicked: function(e){
       e.preventDefault();
       var data = Backbone.Syphon.serialize(this);
+      console.log("email == "+data.email);
+      console.log("password == "+data.password);
+      console.log("customer == "+data.customer);
       //alert('submit form clicked!');
       this.trigger("form:submit", data);
-      FleetRepManager.trigger("show:resetpassword");
+      //FleetRepManager.trigger("show:resetpassword");
     },
 
     onFormDataInvalid: function(errors){
