@@ -46,9 +46,9 @@ FleetRepManager.on("start", function(){
     Backbone.history.start();
 
     if(this.getCurrentRoute() === ""){
-      FleetRepManager.trigger("trailers:list");
-      //FleetRepManager.trigger("show:login");
-      FleetRepManager.trigger("user:new");
+      //FleetRepManager.trigger("trailers:list");
+      FleetRepManager.trigger("show:login");
+      //FleetRepManager.trigger("user:new");
     }
   }
 });
