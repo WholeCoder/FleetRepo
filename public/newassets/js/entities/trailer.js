@@ -2,7 +2,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
 //alert('Backbone.Model.extend == '+Backbone.Model.extend);
   Entities.Trailer = Backbone.Model.extend({
     urlRoot: "trailers",
-    idAttribute: "_id",
+    idAttribute: "_id", /* If this changes then update trailer-list-item or be in for a world of trouble! */
 
     defaults: {
       unitnumber: "",
