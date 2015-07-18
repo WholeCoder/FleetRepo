@@ -14,12 +14,26 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
     template: "#trailer-list-item",
 
     triggers: {
-      "click td a.js-edit": "trailer:edit",
+/*      "click td a.js-edit": "trailer:edit",
       "click button.js-delete": "trailer:delete"
-    },
+*/    },
 
     events: {
-      "click": "highlightName"
+      "click": "highlightName",
+      "click td a.js-edit": "showEditTrailer",
+      "click button.js-delete": "deleteTrailer"
+    },
+
+    showEditTrailer: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      alert("Edit Trailer not implemented yet!");
+    },
+
+    deleteTrailer: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      alert("Delete trailer not implemented yet!");
     },
 
     flash: function(cssClass){
