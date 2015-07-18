@@ -228,6 +228,42 @@ app.get("/trailers", function(req, res) {
   res.end(JSON.stringify(trailerRay));
 });
  
+app.post("/barchartdata", function(req, res) {
+  var wins2 = [[0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]];
+  var percents2 = [
+      [0, "0 %"],
+      [1, "10%"],
+      [2, "20%"],
+      [3, "40%"],
+      [4, "60%"],
+      [5, "80%"],
+      [6, "100%"]];
+
+  var barchartdata = {"wins": wins2, "percents": percents2};
+
+  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end(JSON.stringify(barchartdata));
+
+});
+
+app.post("/piechartdata", function(req, res) {
+  var piechartdata = [
+      {data: [[0,14]], label: "0%"},
+      {data: [[1,14]], label: "10%"},
+      {data: [[2,14]], label: "20%"},
+      {data: [[3,14]], label: "40%"},
+      {data: [[4,14]], label: "60%"},
+      {data: [[5,14]], label: "80%"},
+      {data: [[6,38]], label: "100%"}
+  ];
+
+  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end(JSON.stringify(piechartdata));
+
+});
+
 app.post("/savenewaccount", function(req, res) {
   if (req.method == 'POST') {
       var jsonString = '';

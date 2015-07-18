@@ -308,9 +308,34 @@
         </div>
      </div>
      <script>
-        window.onload1 = function () {
+        window.onload = function () {
+          $.ajax('/barchartdata', {
+            type: 'POST',
+            data: JSON.stringify({}),
+            contentType: 'text/json',
+            success: function(dta) {
+              window.loadbarchartdata(dta);
+              //alert('credit card successfully processed.');
+            },
+            error  : function() { if ( callback ) callback(false); }
+          });
+
+          $.ajax('/piechartdata', {
+            type: 'POST',
+            data: JSON.stringify({}),
+            contentType: 'text/json',
+            success: function(dta) {
+              window.loadpiechart(dta);
+              //alert('credit card successfully processed.');
+            },
+            error  : function() { if ( callback ) callback(false); }
+          });
+
+        }; // end onload
+
+        window.loadbarchartdata = function (data) {
         
-        wins = [[0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]];
+/*        wins = [[0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]];
         var percents = [
             [0, "0 %"],
             [1, "10%"],
@@ -320,6 +345,9 @@
             [5, "80%"],
             [6, "100%"]
         ];
+*/
+        wins = data.wins;
+        percents = data.percents;
         Flotr.draw(document.getElementById("barchart"),[wins], {
           title: "Percentage Completed",
           colors: ["#89AFD2"],
@@ -348,10 +376,9 @@
      </script>
      <script>
 
-        window.onload = function () {
-            window.onload1();
+        window.loadpiechart = function (data) {
 
-            data = [
+/*            data = [
                 {data: [[0,14]], label: "0%"},
                 {data: [[1,14]], label: "10%"},
                 {data: [[2,14]], label: "20%"},
@@ -360,6 +387,7 @@
                 {data: [[5,14]], label: "80%"},
                 {data: [[6,38]], label: "100%"}
             ];
+*/
             Flotr.draw(document.getElementById("piechart"),data, {
                 title: "Percentage Completed",
                 pie: {
