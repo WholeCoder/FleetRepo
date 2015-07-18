@@ -411,22 +411,6 @@
     FleetRepManager.start();
   </script>
 
-  <script type="text/javascript">
-    $(function(){
-      $("#myTable").tablesorter();
-      $("#searchInput").keyup(function () {
-          var rows = $("#fbody").find("tr").hide();
-          if (this.value.length) {
-              var data = this.value.split(" ");
-              $.each(data, function (i, v) {
-                  rows.filter(":contains('" + v + "')").show();
-              });
-          } else rows.show();
-      });
-
-      $('[data-toggle="tooltip"]').tooltip(); 
-    });
-  </script>
   <script>
     $(function() {
       $( document ).tooltip();
