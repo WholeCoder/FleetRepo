@@ -81,7 +81,7 @@
     <td><img src="./<%- status == "Completed"? "greenlight.png" : (status == "EIP"? "yellowlight.png" : "redlight.png") %>" /><%- status %></td>
     <td><%- dateapproved %></td>
     <td>
-      <a href="#trailers/<%- id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
+      <a href="#trailers/<%- _id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
         <i class="icon-pencil"></i>
         Edit
       </a>
@@ -455,14 +455,12 @@
   <script src="./newassets/js/vendor/backbone.js"></script>
   <script src="./newassets/js/vendor/backbone.picky.js"></script>
   <script src="./newassets/js/vendor/backbone.syphon.js"></script>
-  <script src="./newassets/js/vendor/backbone.localstorage.js"></script>
   <script src="./newassets/js/vendor/backbone.marionette.js"></script>
   <script src="./newassets/js/vendor/spin.js"></script>
   <script src="./newassets/js/vendor/spin.jquery.js"></script>
   <script src="./jquery.tablesorter.combined.js"></script>
 
   <script src="./newassets/js/app.js"></script>
-  <script src="./newassets/js/apps/config/localstorage.js"></script>
 
   <script src="./newassets/js/entities/trailer.js"></script>
 

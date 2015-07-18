@@ -1,6 +1,8 @@
 FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone, Marionette, $, _){
+//alert('Backbone.Model.extend == '+Backbone.Model.extend);
   Entities.Trailer = Backbone.Model.extend({
     urlRoot: "trailers",
+    idAttribute: "_id",
 
     defaults: {
       unitnumber: "",
@@ -14,11 +16,11 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       status: "",
       dateapproved: "",
       tooltipnote: ""
-    },
+    }/*,
 
     validate: function(attrs, options) {
       var errors = {}
-      /*if (! attrs.firstName) {
+      if (! attrs.firstName) {
         errors.firstName = "can't be blank";
       }
       if (! attrs.lastName) {
@@ -31,8 +33,9 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       }
       if( ! _.isEmpty(errors)){
         return errors;
-      }*/
+      }
     }
+*/
   });
 
   //Entities.configureStorage("FleetRepManager.Entities.Trailer");
@@ -47,14 +50,14 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
 
   var initializeTrailers = function(){
     var trailers = new Entities.TrailerCollection([
-      { id: 1, unitnumber: "1245",  issue: "1",  location: "EDC III",  requestedby: "John",  assignedto: "Mary",  startdate: "11/19/2015",  duedate: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015", tooltipnote: "John worked on this one!"},
-      { id: 2, unitnumber: "1238",  issue: "2",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  startdate: "11/19/2015",  duedate: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015", tooltipnote: "Just getting started.  Truck bed needs repaired!"},
-      { id: 3, unitnumber: "1294",  issue: "3",  location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  startdate: "11/19/2015",  duedate: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015", tooltipnote: "Drive shaft needs replaced.  Waiting on part from manufacturer!"},
-      { id: 4, unitnumber: "1134",  issue: "4",  location: "HW",  requestedby: "Kirk",  assignedto: "James",  startdate: "11/19/2015",  duedate: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015", tooltipnote: "Maintenance parts are on back order!"}
+      { _id: 1, unitnumber: "1245",  issue: "1",  location: "EDC III",  requestedby: "John",  assignedto: "Mary",  startdate: "11/19/2015",  duedate: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015", tooltipnote: "John worked on this one!"},
+      { _id: 2, unitnumber: "1238",  issue: "2",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  startdate: "11/19/2015",  duedate: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015", tooltipnote: "Just getting started.  Truck bed needs repaired!"},
+      { _id: 3, unitnumber: "1294",  issue: "3",  location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  startdate: "11/19/2015",  duedate: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015", tooltipnote: "Drive shaft needs replaced.  Waiting on part from manufacturer!"},
+      { _id: 4, unitnumber: "1134",  issue: "4",  location: "HW",  requestedby: "Kirk",  assignedto: "James",  startdate: "11/19/2015",  duedate: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015", tooltipnote: "Maintenance parts are on back order!"}
     ]);
-    trailers.forEach(function(trailer){
+    /*trailers.forEach(function(trailer){
       trailer.save();
-    });
+    });*/
     return trailers.models;
   };
 
@@ -74,13 +77,14 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
           var models = initializeTrailers();
           trailers.reset(models);
         }
+
 */
       });
       return promise;
     },
 
     getContactEntity: function(contactId){
-      var contact = new Entities.Trailer({id: contactId});
+      var contact = new Entities.Trailer({_id: contactId});
       var defer = $.Deferred();
       setTimeout(function(){
         contact.fetch({

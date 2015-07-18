@@ -3,7 +3,7 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
     appRoutes: {
       "trailers(/filter/criterion::criterion)": "listContacts",
       "trailers/:id": "showContact",
-      "railers/:id/edit": "editContact"
+      "trailers/:id/edit": "editContact"
     }
   });
 
