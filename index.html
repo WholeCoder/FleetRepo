@@ -78,7 +78,7 @@
     <td><%- startdate %></td>
     <td><%- duedate %></td>
     <td><%- percentcomplete %></td>
-    <td><img src="./<%- status %>" /><%- status == "greenlight.png"? "Completed" : (status == "yellowlight.png"? "EIP" : "WIP") %></td>
+    <td><img src="./<%- status == "Completed"? "greenlight.png" : (status == "EIP"? "yellowlight.png" : "redlight.png") %>" /><%- status %></td>
     <td><%- dateapproved %></td>
     <td>
       <a href="#trailers/<%- id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
