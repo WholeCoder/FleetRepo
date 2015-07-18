@@ -36,7 +36,6 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
         success: function(data2) { 
           if (data2.email == data.email)
           {
-            FleetRepManager.showSearchBox
             FleetRepManager.loadCharts();
             FleetRepManager.trigger("trailers:list");
             FleetRepManager.trigger("user:new");
