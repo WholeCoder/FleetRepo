@@ -330,7 +330,7 @@
            </div>
         </div>
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal User Functions</b></div>
+           <div class="panel-heading" style="color: black;"><b id="userfunctions">Fleet Repair Solutions Customer Portal User Functions</b></div>
            <div class="panel-body" id="user-admin-region">
               <div class="container">
                  <div class="row">
@@ -345,7 +345,7 @@
            </div>
         </div>
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal Graphs</b></div>
+           <div class="panel-heading" style="color: black;"><b id="portalgraphs">Fleet Repair Solutions Customer Portal Graphs</b></div>
            <div class="panel-body">
               <div class="container">
                  <div class="row">
@@ -408,17 +408,18 @@
   <script src="./newassets/js/apps/user/user_app.js"></script>
 
   <script type="text/javascript">
-    FleetRepManager.start();
-  </script>
+    $('#searchInput').hide();
+    $('#userfunctions').hide();
+    $('#portalgraphs').hide();
 
-  <script>
-    $(function() {
-      $( document ).tooltip();
-    });
+    FleetRepManager.start();
   </script>
 
      <script>
         FleetRepManager.loadCharts = function () {
+          $('#searchInput').show();
+          $('#userfunctions').show();
+          $('#portalgraphs').show();
 
           //style="width:600px;height:400px;"
           $("#piechart").css("width", "600px");
