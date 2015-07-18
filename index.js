@@ -218,10 +218,10 @@ function sendIfNoSSLRequired(page_path, req, res)
  
 app.get("/trailers", function(req, res) {
   var trailerRay = [
-      { id: 1, unitnumber: "1245",  issue: "1",  location: "EDC III",  requestedby: "John",  assignedto: "Mary",  startdate: "11/19/2015",  duedate: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015", tooltipnote: "This is a note!"},
-      { id: 2, unitnumber: "1238",  issue: "2",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  startdate: "11/19/2015",  duedate: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015", tooltipnote: "This is a note!"},
-      { id: 3, unitnumber: "1294",  issue: "3",  location: "FRS",  requestedby: "Dan",  assignedto: "Robert",  startdate: "11/19/2015",  duedate: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015", tooltipnote: "This is a note!"},
-      { id: 4, unitnumber: "1134",  issue: "4",  location: "HW",  requestedby: "Robert",  assignedto: "James",  startdate: "11/19/2015",  duedate: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015", tooltipnote: "This is a note!"}
+      { id: 1, unitnumber: "1245",  issue: "1",  location: "EDC III",  requestedby: "John",  assignedto: "Mary",  startdate: "11/19/2015",  duedate: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015", tooltipnote: "John worked on this one!"},
+      { id: 2, unitnumber: "1238",  issue: "2",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  startdate: "11/19/2015",  duedate: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015", tooltipnote: "Just getting started.  Truck bed needs repaired!"},
+      { id: 3, unitnumber: "1294",  issue: "3",  location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  startdate: "11/19/2015",  duedate: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015", tooltipnote: "Drive shaft needs replaced.  Waiting on part from manufacturer!"},
+      { id: 4, unitnumber: "1134",  issue: "4",  location: "HW",  requestedby: "Kirk",  assignedto: "James",  startdate: "11/19/2015",  duedate: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015", tooltipnote: "Maintenance parts are on back order!"}
   ];
   res.setHeader('content-type', 'application/json');
   res.writeHead(200);
