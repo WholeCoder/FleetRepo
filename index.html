@@ -323,14 +323,14 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table"></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"></div>
 
            <div class="panel-body" id="table-region">
 
            </div>
         </div>
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b id="userfunctions">Fleet Repair Solutions Customer Portal User Functions</b></div>
+           <div class="panel-heading" style="color: black;"><b id="userfunctions" style="display:none;">Fleet Repair Solutions Customer Portal User Functions</b></div>
            <div class="panel-body" id="user-admin-region">
               <div class="container">
                  <div class="row">
@@ -345,7 +345,7 @@
            </div>
         </div>
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b id="portalgraphs">Fleet Repair Solutions Customer Portal Graphs</b></div>
+           <div class="panel-heading" style="color: black;"><b id="portalgraphs" style="display:none;">Fleet Repair Solutions Customer Portal Graphs</b></div>
            <div class="panel-body">
               <div class="container">
                  <div class="row">
@@ -408,10 +408,6 @@
   <script src="./newassets/js/apps/user/user_app.js"></script>
 
   <script type="text/javascript">
-    $('#searchInput').hide();
-    $('#userfunctions').hide();
-    $('#portalgraphs').hide();
-
     FleetRepManager.start();
   </script>
 
