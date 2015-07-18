@@ -8,7 +8,7 @@ FleetRepManager.module("UserApp.ResetPassword", function(ResetPassword, FleetRep
       var view = new FleetRepManager.UserApp.ResetPassword.User({});
 
       view.on("form:submit", function(data){
-        alert('submitted the new user form!');
+        //alert('submitted the new user form!');
           //VapeBookManager.trigger("show:createnewprofile");
       });
 

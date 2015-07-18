@@ -28,7 +28,8 @@ FleetRepManager.module("UserApp.ResetPassword", function(ResetPassword, VapeBook
       var data = Backbone.Syphon.serialize(this);
       //alert('submit form clicked!');
       this.trigger("form:submit", data);
-      FleetRepManager.trigger("trailers:list");
+      //FleetRepManager.trigger("trailers:list");
+      alert('Reset User Password Not Implemented Yet');
     },
 
     onFormDataInvalid: function(errors){

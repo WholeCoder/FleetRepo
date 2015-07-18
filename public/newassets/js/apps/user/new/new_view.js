@@ -6,7 +6,13 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
 
     events: {
       "click .js-submit": "submitClicked",
-      "click .js-resetuserpassword": "showResetPasswordForm"
+      "click .js-resetuserpassword": "showResetPasswordForm",
+      "click .js-deleteuser": "deleteUser"
+    },
+
+    deleteUser: function(e) {
+      e.preventDefault();
+      alert("Delete User Not Implemented Yet.");
     },
 
     showResetPasswordForm: function(e) {
