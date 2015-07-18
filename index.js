@@ -17,19 +17,23 @@ var express = require('express'),
 // ** MUST set this as a config variable on the heroku.com website **
 var DISABLE_SSL = process.env.DISABLE_SSL == 'true';
 
+var mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds047802.mongolab.com:47802/heroku_dswxx1s9";
+
 if (DISABLE_SSL)
 {
   console.log("!!!!!!!DISABLE_SSL was set - admin app won't be encrypted!!!!!!")
+  console.log("setting connection to local mongodb!!!!!!!!!!!!");
+  mongodbconnectionstring = "mongodb://localhost/test";
 }
 
 
 
-var mongodbconnectionstring = "mongodb://localhost/test";
+
 var mongoose = require ("mongoose");
 
 
-//app.use(cookieParser());
-/*app.use(session({
+app.use(cookieParser());
+app.use(session({
   store: new MongoStore({
     url: mongodbconnectionstring
   }),
@@ -44,7 +48,7 @@ mongoose.connect(connStr, function(err) {
     console.log('Successfully connected to MongoDB');
 });
 
-*/
+
 // save user to database
 function saveUserToDatabase(u, req, res)
 {
@@ -56,7 +60,8 @@ function saveUserToDatabase(u, req, res)
   var testUser = new User({
       username: u.email,
       password: u.password,
-      activated: false,
+      customer: u.customer,
+      activated: true,
       activationtoken: token
   });
 

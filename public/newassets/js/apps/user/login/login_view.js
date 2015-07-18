@@ -28,9 +28,25 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
       var data = Backbone.Syphon.serialize(this);
       //alert('submit form clicked!');
       this.trigger("form:submit", data);
-      FleetRepManager.loadCharts();
-      FleetRepManager.trigger("trailers:list");
-      FleetRepManager.trigger("user:new");
+
+      $.ajax('/login', {
+        type: 'POST',
+        data: JSON.stringify({ email: data.email, password: data.password}),
+        contentType: 'text/json',
+        success: function(data2) { 
+          if (data2.email == data.email)
+          {
+            FleetRepManager.loadCharts();
+            FleetRepManager.trigger("trailers:list");
+            FleetRepManager.trigger("user:new");
+          } else
+          {
+            alert("Could not authenticate user - "+data2.email);
+          }
+        },
+        error  : function() { alert('Error - could not login');}
+      });
+
     },
 
     onFormDataInvalid: function(errors){
