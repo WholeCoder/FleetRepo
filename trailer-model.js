@@ -2,12 +2,12 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var TrailerSchema = new Schema({
-    unitnumber: { type: String, required: true},
-    customer: { type: String, required: true },
-    issue: { type: String, required: true },
-    location: Boolean,
-    requestedby: { type: String, required: true},
-    assignedto: { type: String, required: true},
+    unitnumber: { type: String},
+    customer: { type: String},
+    issue: { type: String},
+    location: { type: String},
+    requestedby: { type: String},
+    assignedto: { type: String},
     startdate: { type: String },
     duedate: { type: String },
     percentcomplete: { type: String },
