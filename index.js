@@ -7,7 +7,8 @@ var express = require('express'),
 
     path = require('path'),    
     User = require('./user-model'),
-    Token = require('./token-model')
+    Token = require('./token-model'),
+    Trailer = require('./trailer-model'),
     nodemailer = require('nodemailer'),
     randtoken = require('rand-token'),
     url = require('url'),
@@ -223,10 +224,10 @@ function sendIfNoSSLRequired(page_path, req, res)
  
 app.get("/trailers", function(req, res) {
   var trailerRay = [
-      { "_id": 1, unitnumber: "1245",  issue: "1",  location: "EDC III",  requestedby: "John",  assignedto: "Mary",  startdate: "11/19/2015",  duedate: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015", tooltipnote: "John worked on this one!"},
-      { "_id": 2, unitnumber: "1238",  issue: "2",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  startdate: "11/19/2015",  duedate: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015", tooltipnote: "Just getting started.  Truck bed needs repaired!"},
-      { "_id": 3, unitnumber: "1294",  issue: "3",  location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  startdate: "11/19/2015",  duedate: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015", tooltipnote: "Drive shaft needs replaced.  Waiting on part from manufacturer!"},
-      { "_id": 4, unitnumber: "1134",  issue: "4",  location: "HW",  requestedby: "Kirk",  assignedto: "James",  startdate: "11/19/2015",  duedate: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015", tooltipnote: "Maintenance parts are on back order!"}
+      { _id: 1, unitnumber: "1245",  customer: "UPS", issue: "1",  location: "EDC III",  requestedby: "John",  assignedto: "Mary",  startdate: "11/19/2015",  duedate: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015", tooltipnote: "John worked on this one!"},
+      { _id: 2, unitnumber: "1238",  customer: "FEDEX", issue: "2",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  startdate: "11/19/2015",  duedate: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015", tooltipnote: "Just getting started.  Truck bed needs repaired!"},
+      { _id: 3, unitnumber: "1294",  customer: "USMAIL", issue: "3",  location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  startdate: "11/19/2015",  duedate: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015", tooltipnote: "Drive shaft needs replaced.  Waiting on part from manufacturer!"},
+      { _id: 4, unitnumber: "1134",  customer: "NENGLAND", issue: "4",  location: "HW",  requestedby: "Kirk",  assignedto: "James",  startdate: "11/19/2015",  duedate: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015", tooltipnote: "Maintenance parts are on back order!"}
   ];
   res.setHeader('content-type', 'application/json');
   res.writeHead(200);
@@ -277,6 +278,35 @@ app.post("/savenewaccount", function(req, res) {
       });
       req.on('end', function () {
            saveUserToDatabase(JSON.parse(jsonString),req, res);
+      });
+  }
+
+  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end("{}");
+});
+
+app.post("/savetrailer", function(req, res) {
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var newTrailerObject = JSON.parse(jsonString);
+           console.log("jsonString for trailer == "+jsonString);
+           console.log("newTrailerObject.unitnumber == "+newTrailerObject.unitnumber);
+            var trailer = new Trailer(newTrailerObject);
+            trailer.save(function (err) {
+              if (err) 
+              {
+                console.log('ERROR saving trailer!!');
+              } else 
+              {
+                console.log("Trailer saved successfully!");
+              }
+              
+            });
       });
   }
 

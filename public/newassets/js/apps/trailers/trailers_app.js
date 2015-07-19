@@ -8,6 +8,10 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   });
 
   var API = {
+    showNewTrailer: function() {
+      TrailersApp.New.Controller.showNewTrailerForm();
+    },
+
     listContacts: function(criterion){
       //alert('listContacts called.');
       TrailersApp.List.Controller.listContacts(criterion);
@@ -26,6 +30,11 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
       FleetRepManager.execute("set:active:header", "contacts");
 */    }
   };
+
+  FleetRepManager.on("trailers:new", function(){
+    //FleetRepManager.navigate("contacts");
+    API.showNewTrailer();
+  });
 
   FleetRepManager.on("trailers:list", function(){
     //FleetRepManager.navigate("contacts");

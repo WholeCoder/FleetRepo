@@ -71,6 +71,7 @@
           </span>
         </span>
     </td>
+    <td><%- customer %></td>
     <td><%- issue %></td>
     <td><%- location %></td>
     <td><%- requestedby %></td>
@@ -253,10 +254,95 @@
    </div>
 </script>
 
+  <script type="text/template" id="trailer-form">
+          <div class="container">
+             <div class="row">
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>New Trailer Record</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+<form>             
+                <fieldset>
+                   <table>
+                   <tbody>
+                     <tr>
+                        <td><b>Unit #:<br /></b></td>
+                        <td><input placeholder="Unit #" name="unitnumber" type="text" value="<%- unitnumber %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Customer:</b></td>
+                        <td><input placeholder="Customer" name="customer" type="text" value="<%- customer %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>issue:</b></td>
+                        <td><input placeholder="Issue" name="issue" type="text" value="<%- issue %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Location:</b></td>
+                        <td><input placeholder="Location" name="location" type="text" value="<%- location %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Requested By:</b></td>
+                        <td><input placeholder="Requested By" name="requestedby" type="text" value="<%- requestedby %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Assigned To:</b></td>
+                        <td><input placeholder="Assigned To" name="assignedto" type="text" value="<%- assignedto %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Start Date:</b></td>
+                        <td><input placeholder="Start Date" name="startdate" type="text" value="<%- startdate %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Due Date:</b></td>
+                        <td><input placeholder="Due Date" name="duedate" type="text" value="<%- duedate %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Percent Complete:</b></td>
+                        <td><input placeholder="Percent Complete" name="percentcomplete" type="text" value="<%- percentcomplete %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Status:</b></td>
+                        <td><input placeholder="Status" name="status" type="text" value="<%- status %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Date Approved:</b></td>
+                        <td><input placeholder="Date Approved" name="dateapproved" type="text" value="<%- dateapproved %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Unit # Tool Tip Note:</b></td>
+                        <td><input placeholder="Tool Tip Node for Unit #" name="tooltipnote" type="text" value="<%- tooltipnote %>"></td>
+                     </tr>
+                     </tbody>
+                   </table>
+                </fieldset>
+      </form>
+
+                     </div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-savetrailer" type="submit" value="Save Trailer" /></div>
+                  </div>
+
+                </div>
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Note</b></div>
+                     <div class="panel-body" style="height: 300px;">
+
+                     </div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-cancelsavetrailer" type="submit" value="Cancel Save Trailer" /></div>
+                  </div>
+
+                </div>
+             </div>
+          </div>
+  </script>
+
   <script type="text/template" id="trailer-list">
     <thead>
       <tr>
          <th><a href="#" data-toggle="tooltip" title="Sort By Unit #!" data-placement="left">Unit #<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
+         <th><a href="#" data-toggle="tooltip" title="Sort By Customer!" data-placement="top">Customer<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
          <th><a href="#" data-toggle="tooltip" title="Sort By Issue!" data-placement="top">Issue<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
          <th><a href="#" data-toggle="tooltip" title="Sort By Location!" data-placement="top">Location<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
          <th><a href="#" data-toggle="tooltip" title="Sort By Requested by!" data-placement="top">Requested by<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
@@ -397,7 +483,7 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div class="pull-right"><a href="#" id="newtrailer" class="js-newtrailer" style="display:none;"><b>New Trailer</b></a></div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -466,6 +552,10 @@
 
   <script src="./newassets/js/apps/trailers/list/list_view.js"></script>
   <script src="./newassets/js/apps/trailers/list/list_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/new/new_view.js"></script>
+  <script src="./newassets/js/apps/trailers/new/new_controller.js"></script>
+
   <script src="./newassets/js/apps/trailers/trailers_app.js"></script>
 
   <script src="./newassets/js/apps/user/new/new_view.js"></script>
@@ -485,6 +575,11 @@
 
      <script>
         FleetRepManager.loadCharts = function () {
+          $( "#newtrailer" ).on( "click", function(event) {
+            event.preventDefault();
+            FleetRepManager.trigger("trailers:new");
+          });
+          $('#newtrailer').show();
           $('#searchInput').show();
           $('#userfunctions').show();
           $('#portalgraphs').show();

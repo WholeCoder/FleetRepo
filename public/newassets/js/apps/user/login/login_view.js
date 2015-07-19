@@ -38,6 +38,7 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
           {
             FleetRepManager.loadCharts();
             FleetRepManager.trigger("trailers:list");
+            //FleetRepManager.trigger("trailers:new");
             FleetRepManager.trigger("user:new");
           } else
           {
