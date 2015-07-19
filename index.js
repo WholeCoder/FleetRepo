@@ -223,15 +223,30 @@ function sendIfNoSSLRequired(page_path, req, res)
  });
  
 app.get("/trailers", function(req, res) {
-  var trailerRay = [
+  var trailerRay = [/*
       { _id: 1, unitnumber: "1245",  customer: "UPS", issue: "1",  location: "EDC III",  requestedby: "John",  assignedto: "Mary",  startdate: "11/19/2015",  duedate: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015", tooltipnote: "John worked on this one!"},
       { _id: 2, unitnumber: "1238",  customer: "FEDEX", issue: "2",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  startdate: "11/19/2015",  duedate: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015", tooltipnote: "Just getting started.  Truck bed needs repaired!"},
       { _id: 3, unitnumber: "1294",  customer: "USMAIL", issue: "3",  location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  startdate: "11/19/2015",  duedate: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015", tooltipnote: "Drive shaft needs replaced.  Waiting on part from manufacturer!"},
       { _id: 4, unitnumber: "1134",  customer: "NENGLAND", issue: "4",  location: "HW",  requestedby: "Kirk",  assignedto: "James",  startdate: "11/19/2015",  duedate: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015", tooltipnote: "Maintenance parts are on back order!"}
-  ];
+  */];
+
+Trailer.find({}, function(err, docs){
+  if(err)
+  {
+     console.log("ERROR - getting all Trailers.");
+    res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
+    res.end(JSON.stringify(trailerRay));
+  } else
+  {
+    trailerRay = docs;
   res.setHeader('content-type', 'application/json');
   res.writeHead(200);
   res.end(JSON.stringify(trailerRay));
+  }
+});
+
+
 });
  
 app.post("/barchartdata", function(req, res) {
