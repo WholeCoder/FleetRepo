@@ -354,8 +354,6 @@ app.post("/savetrailer", function(req, res) {
       });
       req.on('end', function () {
            var newTrailerObject = JSON.parse(jsonString);
-           console.log("jsonString for trailer == "+jsonString);
-           console.log("newTrailerObject.unitnumber == "+newTrailerObject.unitnumber);
             var trailer = new Trailer(newTrailerObject);
             trailer.save(function (err) {
               if (err) 
@@ -374,6 +372,69 @@ app.post("/savetrailer", function(req, res) {
   res.writeHead(200);
   res.end("{}");
 });
+
+app.post("/updatetrailer", function(req, res) {
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var newTrailerObject = JSON.parse(jsonString);
+           console.log("/updatetrailer - jsonString == "+jsonString);
+            Trailer.findOneAndUpdate({_id: newTrailerObject._id}, newTrailerObject, {}, function(err, doc){
+                if (err)
+                {
+                  console.log("ERROR - could not find and update the trailer with _id == "+newTrailerObject._id);
+                } else
+                {
+                  console.log("found in updatetrailer - _id found == "+doc._id);
+                }
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end("{}");
+            });/*            var trailer = new Trailer(newTrailerObject);
+            trailer.save(function (err) {
+              if (err) 
+              {
+                console.log('ERROR saving trailer!!');
+              } else 
+              {
+                console.log("Trailer saved successfully!");
+              }
+              
+            });
+*/
+      });
+  }
+
+});
+
+app.post("/gettrailer", function(req, res) {
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           Trailer.find({_id:_idObj._id},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find trailer record with _id == "+_id);
+              } else
+              {
+                console.log("called gettrailer obj == "+JSON.stringify(obj[0]));
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end(JSON.stringify(obj[0]));
+              }
+            });
+      });
+  }
+
+});
+ 
 
 app.post("/deletetrailer", function(req, res) {
   if (req.method == 'POST') {

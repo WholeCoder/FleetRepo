@@ -14,7 +14,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       startdate: "",
       duedate: "",
       percentcomplete: "",
-      status: "",
+      status: "Completed",
       dateapproved: "",
       tooltipnote: ""
     }/*,

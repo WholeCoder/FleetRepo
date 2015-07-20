@@ -24,7 +24,12 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
     },
 
     showNewTrailer: function() {
+      console.log("showNewTrailer in controller called");
       TrailersApp.New.Controller.showNewTrailerForm();
+    },
+
+    showEditTrailer: function() {
+      TrailersApp.Edit.Controller.showEditTrailerForm();
     },
 
     listContacts: function(criterion){
@@ -55,6 +60,11 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   FleetRepManager.on("trailers:new", function(){
     //FleetRepManager.navigate("contacts");
     API.showNewTrailer();
+  });
+
+  FleetRepManager.on("trailers:edit", function(){
+    //FleetRepManager.navigate("contacts");
+    API.showEditTrailer();
   });
 
   FleetRepManager.on("trailers:list", function(){

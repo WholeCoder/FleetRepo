@@ -27,7 +27,27 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
     showEditTrailer: function(e) {
       e.preventDefault();
       e.stopPropagation();
-      alert("Edit Trailer not implemented yet!");
+
+      $.ajax('/gettrailer', {
+        type: 'POST',
+        data: JSON.stringify({_id:this.model.get('_id')}),
+        contentType: 'text/json',
+        success: function(data2) { 
+          var trailer = new FleetRepManager.Entities.Trailer(data2);
+          var view = new FleetRepManager.TrailersApp.Edit.Trailer({model: trailer});
+
+          view.on("form:submit", function(data){
+              //VapeBookManager.trigger("show:createnewprofile");
+          });
+
+          FleetRepManager.regions.table.show(view);
+
+        },
+        error  : function() { alert('Error - could not get trailer row!');}
+      }); // end $.post
+
+      //"/gettrailer"
+      //alert("Edit Trailer not implemented yet!");
     },
 
     deleteTrailer: function(e) {

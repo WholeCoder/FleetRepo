@@ -306,9 +306,9 @@
                         <td><b>Status:</b></td>
                         <td>
 <select name="status">
-  <option value="Completed">Completed</option>
-  <option value="EIP">EIP</option>
-  <option value="WIP">WIP</option>
+  <option <%- status == "Completed" ? " selected " : " " %> value="Completed">Completed</option>
+  <option <%- status == "EIP" ? " selected " : " " %> value="EIP">EIP</option>
+  <option <%- status == "WIP" ? " selected " : " " %> value="WIP">WIP</option>
 
 </select>
 
@@ -564,6 +564,9 @@
 
   <script src="./newassets/js/apps/trailers/new/new_view.js"></script>
   <script src="./newassets/js/apps/trailers/new/new_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/new/edit_view.js"></script>
+  <script src="./newassets/js/apps/trailers/new/edit_controller.js"></script>
 
   <script src="./newassets/js/apps/trailers/trailers_app.js"></script>
 
