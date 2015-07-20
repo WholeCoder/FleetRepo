@@ -605,19 +605,22 @@
               event.preventDefault();
               if(confirm("WARNING!!! Are you sure you want to delete ALL DATA in the database?"))
               {
+                if(confirm("WARNING!!! Are you sure? Data deleted is LOST FOREVER!"))
+                {
 
-                $.ajax('/deletealltrailers', {
-                  type: 'GET',
-                  data: "",
-                  contentType: 'text/json',
-                  success: function(data2) { 
-                      FleetRepManager.trigger("trailers:list");
-                  },
-                  error  : function() { alert('Error - could not save the trailer');}
-                }); // end $.post
+                  $.ajax('/deletealltrailers', {
+                    type: 'GET',
+                    data: "",
+                    contentType: 'text/json',
+                    success: function(data2) { 
+                        FleetRepManager.trigger("trailers:list");
+                    },
+                    error  : function() { alert('Error - could not save the trailer');}
+                  }); // end $.post
+                }
               } // end if
-            });
-            
+              });
+              
            } // if (!FleetRepManager.clickHandlersSet)
           $('#deletealldata').show();
           $('#loaddummydata').show();

@@ -34,7 +34,7 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
       e.preventDefault();
       e.stopPropagation();
 
-if(confirm("Are you sure you want to delete this record?"))
+if(confirm("Are you sure you want to delete this record? This row will be lost forever if deleted!"))
 {
       $.ajax('/deletetrailer', {
         type: 'POST',
