@@ -75,7 +75,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       trailers.fetch({
         success: function(data){
           console.log("successfully got all trailers");
-          console.log("trailers == "+JSON.stringify(data));
+          //console.log("trailers == "+JSON.stringify(data));
           defer.resolve(data);
         }
       });
