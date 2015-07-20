@@ -42,7 +42,13 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
   //Entities.configureStorage("FleetRepManager.Entities.Trailer");
 
   Entities.TrailerCollection = Backbone.Collection.extend({
-    url: "trailers",
+    urlRoot: "/trailers",
+
+    url: function() {
+      // send the url along with the serialized query params
+      console.log("accessing url function!!! in fetch TrailerColections == "+this.urlRoot + "?dummyforie="+new Date().getTime().toString());
+      return this.urlRoot + "?dummyforie="+new Date().getMilliseconds().toString();
+    },
     model: Entities.Trailer,
     comparator: "unitnumber"
   });
@@ -68,6 +74,8 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       var defer = $.Deferred();
       trailers.fetch({
         success: function(data){
+          console.log("successfully got all trailers");
+          console.log("trailers == "+JSON.stringify(data));
           defer.resolve(data);
         }
       });
