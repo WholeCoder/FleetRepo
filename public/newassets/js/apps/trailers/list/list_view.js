@@ -33,7 +33,27 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
     deleteTrailer: function(e) {
       e.preventDefault();
       e.stopPropagation();
-      alert("Delete trailer not implemented yet!");
+
+      $.ajax('/deletetrailer', {
+        type: 'POST',
+        data: JSON.stringify({_id:this.model.get('_id')}),
+        contentType: 'text/json',
+        success: function(data2) { 
+/*          if (data2.email == data.email)
+          {
+*/            FleetRepManager.loadCharts();
+            FleetRepManager.trigger("trailers:list");
+            //FleetRepManager.trigger("trailers:new");
+            FleetRepManager.trigger("user:new");
+/*          } else
+          {
+            alert("Could not authenticate user - "+data2.email);
+  */
+/*          }
+*/        },
+        error  : function() { alert('Error - could not delete trailer row!');}
+      }); // end $.post
+      //alert("Delete trailer not implemented yet! - model's _id == "+this.model.get('_id'));
     },
 
     flash: function(cssClass){

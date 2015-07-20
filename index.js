@@ -240,6 +240,7 @@ Trailer.find({}, function(err, docs){
   } else
   {
     trailerRay = docs;
+    console.log("trailerRay == "+JSON.stringify(trailerRay));
   res.setHeader('content-type', 'application/json');
   res.writeHead(200);
   res.end(JSON.stringify(trailerRay));
@@ -328,6 +329,38 @@ app.post("/savetrailer", function(req, res) {
   res.setHeader('content-type', 'application/json');
   res.writeHead(200);
   res.end("{}");
+});
+
+app.post("/deletetrailer", function(req, res) {
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var newDeleteTrailerObject = JSON.parse(jsonString);
+           console.log("jsonString for delete trailer == "+jsonString);
+           console.log("newDeleteTrailerObject._id == "+newDeleteTrailerObject._id);
+
+          Trailer.findOneAndRemove({'_id' : newDeleteTrailerObject._id}, function (err,trailer){
+              res.setHeader('content-type', 'application/json');
+              res.writeHead(200);
+              res.end("{}");
+          });
+            //var trailer = new Trailer(newTrailerObject);
+/*            trailer.save(function (err) {
+              if (err) 
+              {
+                console.log('ERROR saving trailer!!');
+              } else 
+              {
+                console.log("Trailer saved successfully!");
+              }
+              
+            });
+*/      });
+  }
+
 });
 
 
