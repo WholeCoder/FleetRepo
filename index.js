@@ -240,7 +240,7 @@ app.get("/trailers", function(req, res) {
     } else
     {
       trailerRay = docs;
-      console.log("trailerRay == "+JSON.stringify(trailerRay));
+      //console.log("trailerRay == "+JSON.stringify(trailerRay));
     res.setHeader('content-type', 'application/json');
     res.writeHead(200);
     res.end(JSON.stringify(trailerRay));
