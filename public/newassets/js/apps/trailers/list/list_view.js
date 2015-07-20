@@ -34,6 +34,8 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
       e.preventDefault();
       e.stopPropagation();
 
+if(confirm("Are you sure you want to delete this record?"))
+{
       $.ajax('/deletetrailer', {
         type: 'POST',
         data: JSON.stringify({_id:this.model.get('_id')}),
@@ -41,8 +43,7 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
         success: function(data2) { 
 /*          if (data2.email == data.email)
           {
-*/            FleetRepManager.loadCharts();
-            FleetRepManager.trigger("trailers:list");
+*/            FleetRepManager.trigger("trailers:list");
             //FleetRepManager.trigger("trailers:new");
             FleetRepManager.trigger("user:new");
 /*          } else
@@ -53,6 +54,7 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
 */        },
         error  : function() { alert('Error - could not delete trailer row!');}
       }); // end $.post
+} // end if      
       //alert("Delete trailer not implemented yet! - model's _id == "+this.model.get('_id'));
     },
 

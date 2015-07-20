@@ -31,8 +31,7 @@ console.log('new trailer data == '+JSON.stringify(data));
         success: function(data2) { 
 /*          if (data2.email == data.email)
           {
-*/            FleetRepManager.loadCharts();
-            FleetRepManager.trigger("trailers:list");
+*/          FleetRepManager.trigger("trailers:list");
             //FleetRepManager.trigger("trailers:new");
             FleetRepManager.trigger("user:new");
 /*          } else
