@@ -41,7 +41,7 @@ console.log('new trailer data == '+JSON.stringify(data));
   */
 /*          }
 */        },
-        error  : function() { alert('Error - could not login');}
+        error  : function() { alert('Error - could not save the trailer');}
       }); // end $.post
 
     }

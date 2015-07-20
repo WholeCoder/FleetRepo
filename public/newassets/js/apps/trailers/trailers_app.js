@@ -8,6 +8,21 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   });
 
   var API = {
+    loadDummyTrailerData: function() {
+
+      $.ajax('/loaddummytrailerdata', {
+        type: 'GET',
+        data: "{}",
+        contentType: 'text/json',
+        success: function(data2) { 
+            FleetRepManager.trigger("trailers:list");
+            FleetRepManager.trigger("user:new");
+        },
+        error  : function() { alert('Error - could not load dummy trailer data');}
+      }); // end $.post
+
+    },
+
     showNewTrailer: function() {
       TrailersApp.New.Controller.showNewTrailerForm();
     },
@@ -30,6 +45,12 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
       FleetRepManager.execute("set:active:header", "contacts");
 */    }
   };
+
+
+  FleetRepManager.on("trailers:loaddummydata", function(){
+    //FleetRepManager.navigate("contacts");
+    API.loadDummyTrailerData();
+  });
 
   FleetRepManager.on("trailers:new", function(){
     //FleetRepManager.navigate("contacts");
