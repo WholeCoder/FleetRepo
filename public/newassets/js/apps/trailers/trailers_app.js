@@ -10,7 +10,7 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   var API = {
     loadDummyTrailerData: function() {
 
-      $.ajax('/loaddummytrailerdata', {
+      $.ajax('/loaddummytrailerdata' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'GET',
         data: "{}",
         contentType: 'text/json',

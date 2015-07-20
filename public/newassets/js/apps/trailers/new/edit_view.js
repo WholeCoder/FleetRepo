@@ -30,7 +30,7 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
 
 console.log('update trailer data == '+JSON.stringify(this.model));
 data._id = this.model.get('_id');
-      $.ajax('/updatetrailer', {
+      $.ajax('/updatetrailer' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'text/json',

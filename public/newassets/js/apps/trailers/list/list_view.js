@@ -28,7 +28,7 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
       e.preventDefault();
       e.stopPropagation();
 
-      $.ajax('/gettrailer', {
+      $.ajax('/gettrailer' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'POST',
         data: JSON.stringify({_id:this.model.get('_id')}),
         contentType: 'text/json',
@@ -56,7 +56,7 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
 
 if(confirm("Are you sure you want to delete this record? This row will be lost forever if deleted!"))
 {
-      $.ajax('/deletetrailer', {
+      $.ajax('/deletetrailer' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'POST',
         data: JSON.stringify({_id:this.model.get('_id')}),
         contentType: 'text/json',

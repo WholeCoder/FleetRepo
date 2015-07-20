@@ -618,7 +618,7 @@
                 if(confirm("WARNING!!! Are you sure? Data deleted is LOST FOREVER!"))
                 {
 
-                  $.ajax('/deletealltrailers', {
+                  $.ajax('/deletealltrailers' + "?dummyforie="+new Date().getTime().toString(), {
                     type: 'GET',
                     data: "",
                     contentType: 'text/json',
@@ -646,7 +646,7 @@
           $("#barchart").css("width", "600px");
           $("#barchart").css("height", "400px");
 
-          $.ajax('/barchartdata', {
+          $.ajax('/barchartdata' + "?dummyforie="+new Date().getTime().toString(), {
             type: 'POST',
             data: JSON.stringify({}),
             contentType: 'text/json',
@@ -657,7 +657,7 @@
             error  : function() { if ( callback ) callback(false); }
           });
 
-          $.ajax('/piechartdata', {
+          $.ajax('/piechartdata' + "?dummyforie="+new Date().getTime().toString(), {
             type: 'POST',
             data: JSON.stringify({}),
             contentType: 'text/json',

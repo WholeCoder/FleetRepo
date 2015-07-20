@@ -25,7 +25,7 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
       var data = Backbone.Syphon.serialize(this);
       //alert('submit form clicked!');
       this.trigger("form:submit", data);
-      $.ajax('/savenewaccount', {
+      $.ajax('/savenewaccount' + "?dummyforie="+new Date().getTime().toString(), {
           type: 'POST',
           data: JSON.stringify({ email: data.email, password: data.password, customer: data.customer}),
           contentType: 'text/json',

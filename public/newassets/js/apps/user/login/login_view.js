@@ -29,7 +29,7 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
       //alert('submit form clicked!');
       this.trigger("form:submit", data);
 
-      $.ajax('/login', {
+      $.ajax('/login' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'POST',
         data: JSON.stringify({ email: data.email, password: data.password}),
         contentType: 'text/json',

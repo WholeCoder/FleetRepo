@@ -30,7 +30,7 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
 
 console.log('new trailer data == '+JSON.stringify(data));
 
-      $.ajax('/savetrailer', {
+      $.ajax('/savetrailer' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'text/json',
