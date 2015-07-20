@@ -601,7 +601,10 @@
             $( "#loaddummydata" ).on( "click", function(event) {
               event.preventDefault();
               console.log("loading dummy data!!!!!!!!!!");
-              FleetRepManager.trigger("trailers:loaddummydata");
+              if(confirm("Are you sure you want to add DUMMY data into the database?"))
+              {
+                FleetRepManager.trigger("trailers:loaddummydata");
+              }
             });
             
             $( "#deletealldata" ).on( "click", function(event) {
