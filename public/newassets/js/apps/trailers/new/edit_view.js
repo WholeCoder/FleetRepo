@@ -9,6 +9,12 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
       "click .js-cancelsavetrailer": "cancelClicked"
     },
 
+    onRender: function(){
+      this.$('.js-startdate').datepicker({autoclose: true});
+      this.$('.js-duedate').datepicker({autoclose: true});
+      this.$('.js-dateapproved').datepicker({autoclose: true});
+    },
+
     cancelClicked: function(e) {
       e.preventDefault();
       /*var data = Backbone.Syphon.serialize(this);

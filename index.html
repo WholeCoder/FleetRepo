@@ -13,6 +13,8 @@
     <link href="./newassets/css/application.css" rel="stylesheet">
     <link href="./newassets/css/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 
+    <link href="./newassets/js/vendor/datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
     <!-- Styles tooltips ith white background -->
     <link rel="stylesheet" href="./jquery-ui.css">
 
@@ -292,11 +294,11 @@
                      </tr>
                      <tr>
                         <td><b>Start Date:</b></td>
-                        <td><input placeholder="Start Date" name="startdate" type="text" value="<%- startdate %>"></td>
+                        <td><input placeholder="Start Date" name="startdate" class="js-startdate" type="text" value="<%- startdate %>"></td>
                      </tr>
                      <tr>
                         <td><b>Due Date:</b></td>
-                        <td><input placeholder="Due Date" name="duedate" type="text" value="<%- duedate %>"></td>
+                        <td><input placeholder="Due Date" class="js-duedate" name="duedate" type="text" value="<%- duedate %>"></td>
                      </tr>
                      <tr>
                         <td><b>Percent Complete:</b></td>
@@ -317,7 +319,7 @@
                      </tr>
                      <tr>
                         <td><b>Date Approved:</b></td>
-                        <td><input placeholder="Date Approved" name="dateapproved" type="text" value="<%- dateapproved %>"></td>
+                        <td><input placeholder="Date Approved" class="js-dateapproved" name="dateapproved" type="text" value="<%- dateapproved %>"></td>
                      </tr>
                      <tr>
                         <td><b>Unit # Tool Tip Note:</b></td>
@@ -554,6 +556,8 @@
   <script src="./newassets/js/vendor/spin.js"></script>
   <script src="./newassets/js/vendor/spin.jquery.js"></script>
   <script src="./jquery.tablesorter.combined.js"></script>
+  <script src="./newassets/js/vendor/datepicker/js/bootstrap-datepicker.js"></script>
+  <script src="./newassets/js/vendor/datepicker/locales/bootstrap-datepicker.el.min.js"></script>
 
   <script src="./newassets/js/app.js"></script>
 
