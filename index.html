@@ -487,7 +487,7 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div class="pull-right"><a href="#" id="loaddummydata" class="js-loaddummydata" style="display:none;"><b>Load Dummy Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="deletealldata" class="js-ldeletealldata" style="display:none;"><b>Delete all Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer" style="display:none;"><b>New Trailer</b></a></div></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div class="pull-right"><a href="/" id="logout" class="js-logout" style="display:none;"><b>Log Out</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="loaddummydata" class="js-loaddummydata" style="display:none;"><b>Load Dummy Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="deletealldata" class="js-ldeletealldata" style="display:none;"><b>Delete all Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer" style="display:none;"><b>New Trailer</b></a></div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -625,6 +625,8 @@
               });
               
            } // if (!FleetRepManager.clickHandlersSet)
+
+          $('#logout').show();
           $('#deletealldata').show();
           $('#loaddummydata').show();
           $('#newtrailer').show();
