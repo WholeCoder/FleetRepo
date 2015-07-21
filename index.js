@@ -410,6 +410,30 @@ app.post("/updatetrailer", function(req, res) {
 
 });
 
+app.get("/getusers", function(req, res) {
+  User.find({},function(err, obj) {
+    if (err)
+    {
+      console.log("ERROR! - can not find any users!!!");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end("[]");
+    } else
+    {
+      var usersWithJustEmailAndCustomer = [];
+      for (var i = 0; i < obj.length; i++)
+      {
+        usersWithJustEmailAndCustomer.push({email: obj[i].username, customer: obj[i].customer})
+      }
+
+      console.log("found these users == "+JSON.stringify(usersWithJustEmailAndCustomer));
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(usersWithJustEmailAndCustomer));
+    }
+  });
+});
+ 
 app.post("/gettrailer", function(req, res) {
   if (req.method == 'POST') {
       var jsonString = '';
@@ -464,6 +488,33 @@ app.post("/deletetrailer", function(req, res) {
               
             });
 */      });
+  }
+
+});
+
+app.post("/deleteuseraccount", function(req, res) {
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+          var newDeleteUserObject = JSON.parse(jsonString);
+
+          User.findOneAndRemove({'username' : newDeleteUserObject.email}, function (err,user){
+              if (err)
+              {
+                console.log("ERROR in /deleteuseraccount")
+              } else
+              {
+                console.log("COMPLETED /deleteuseraccount successfully")
+
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end("{}");
+              }
+          });
+      });
   }
 
 });

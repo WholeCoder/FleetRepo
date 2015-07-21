@@ -10,9 +10,71 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
       "click .js-deleteuser": "deleteUser"
     },
 
+    onRender: function(){
+// <option value="rpierich@hotmail.com" style="background-color: red; color: white;">  ADMIN - rpierich@hotmail.com</option>
+
+      var that = this;
+
+      $.ajax('/getusers' + "?dummyforie="+new Date().getTime().toString(), {
+          type: 'GET',
+          data: "",
+          contentType: 'text/json',
+          success: function(data) {
+                    //if ( callback ) callback(true); 
+
+                    //alert("successfully created user");
+                    //$().style("display:block;")
+                    that.$('#siteusers')
+                          .find('option')
+                          .remove()
+                          .end();
+
+                      for (var i = 0; i < data.length; i++)
+                      { 
+                        var stylestring = '';
+                        if (data[i].customer == 'ADMIN')
+                        {
+                          stylestring = 'style="background-color: red; color: white;"'
+                        } else
+                        {
+                          stylestring = ''
+                        }
+                        
+                        that.$('#siteusers').append('<option value="'+data[i].email+'" '+stylestring+'>  '+data[i].customer+' - '+data[i].email+'</option>');
+                          // .val('whatever');
+                      }
+                    // alert('New Got Usernames data == '+data[0].email);
+
+                   },
+          error  : function() { if ( callback ) callback(false); }
+      });
+
+    },
+
     deleteUser: function(e) {
       e.preventDefault();
-      alert("Delete User Not Implemented Yet.");
+//      alert("Delete User Not Implemented Yet.");
+
+      var data = Backbone.Syphon.serialize(this);
+if(confirm("Are you sure you want to delete user "+data.siteusers+"?"))
+{
+      $.ajax('/deleteuseraccount' + "?dummyforie="+new Date().getTime().toString(), {
+          type: 'POST',
+          data: JSON.stringify({ email: data.siteusers}),
+          contentType: 'text/json',
+          success: function() {
+                    //if ( callback ) callback(true); 
+
+                    //alert("successfully created user");
+                    //$().style("display:block;")
+
+                    FleetRepManager.trigger("user:new");
+                    //alert('User Deleted!');
+
+                   },
+          error  : function() { if ( callback ) callback(false); }
+      }); // end $.ajax
+}
     },
 
     showResetPasswordForm: function(e) {
@@ -36,6 +98,7 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
                     //$().style("display:block;")
 
                     alert('New User Created!');
+                    FleetRepManager.trigger("user:new");
 
                    },
           error  : function() { if ( callback ) callback(false); }
@@ -64,11 +127,6 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
 
       clearFormErrors();
       _.each(errors, markErrors);
-    },
-
-    onRender: function(){
-      //this.$(".js-submit").text("Log In");
-      //this.$('.agreetoterms').datepicker({autoclose: true});
     }
   });
 });
