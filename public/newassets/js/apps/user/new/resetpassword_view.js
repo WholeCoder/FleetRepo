@@ -5,7 +5,6 @@ FleetRepManager.module("UserApp.ResetPassword", function(ResetPassword, VapeBook
         template: "#reset-user-password-form",
 
     events: {
-      "click .js-submit": "submitClicked",
       "click .js-resetuserpassword" : "resetUserPassword",
       "click .js-canceluserreset" : "cancelRestUserPassword"
     },
@@ -18,18 +17,11 @@ FleetRepManager.module("UserApp.ResetPassword", function(ResetPassword, VapeBook
     resetUserPassword: function(e) {
       e.preventDefault();
       var data = Backbone.Syphon.serialize(this);
-      alert('submit form clicked! -resetUserPassword()');
+      //alert('submit form clicked! -resetUserPassword()');
       this.trigger("form:submit", data);
       //FleetRepManager.trigger("show:resetpassword");
-    },
-
-    submitClicked: function(e){
-      e.preventDefault();
-      var data = Backbone.Syphon.serialize(this);
-      //alert('submit form clicked!');
-      this.trigger("form:submit", data);
-      //FleetRepManager.trigger("trailers:list");
-      alert('Reset User Password Not Implemented Yet');
+      data.siteusers = FleetRepManager.siteusers;
+      FleetRepManager.trigger("trailer:resetuserspassword", data);
     },
 
     onFormDataInvalid: function(errors){
@@ -58,6 +50,7 @@ FleetRepManager.module("UserApp.ResetPassword", function(ResetPassword, VapeBook
     onRender: function(){
       //this.$(".js-submit").text("Log In");
       //this.$('.agreetoterms').datepicker({autoclose: true});
+      this.$('#resetemail').val(FleetRepManager.siteusers);
     }
   });
 });

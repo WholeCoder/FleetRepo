@@ -28,8 +28,16 @@ FleetRepManager.module("UserApp", function(UserApp, FleetRepManager, Backbone, M
 */    },
     showResetPassword: function() {
       UserApp.ResetPassword.Controller.showResetPassword();
+    },
+    resetUsersPassword: function(user) {
+      UserApp.ResetPassword.Controller.resetThePassword(user)
     }
   };
+
+  FleetRepManager.on("trailer:resetuserspassword", function(user){
+    //FleetRepManager.navigate("contacts");
+    API.resetUsersPassword(user);
+  });
 
   FleetRepManager.on("show:resetpassword", function(){
     //ContactManager.navigate("about");

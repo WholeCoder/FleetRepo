@@ -346,6 +346,30 @@ app.post("/savenewaccount", function(req, res) {
   res.end("{}");
 });
 
+app.post("/resetuserspassword", function(req, res) {
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var userdata = JSON.parse(jsonString);
+           console.log("/resetuserspassword - jsonString == "+jsonString);
+
+
+           User.findOne({ username: userdata.email }, function (err, user){
+            user.password = userdata.password;
+            user.save();
+
+            res.setHeader('content-type', 'application/json');
+            res.writeHead(200);
+            res.end("{}");
+          });
+      });
+  }
+
+});
+
 app.post("/savetrailer", function(req, res) {
   if (req.method == 'POST') {
       var jsonString = '';

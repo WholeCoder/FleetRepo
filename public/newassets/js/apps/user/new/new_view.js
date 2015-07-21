@@ -79,6 +79,8 @@ if(confirm("Are you sure you want to delete user "+data.siteusers+"?"))
 
     showResetPasswordForm: function(e) {
       e.preventDefault();
+      var data = Backbone.Syphon.serialize(this);
+      FleetRepManager.siteusers = data.siteusers;
       FleetRepManager.trigger("show:resetpassword");
     },
 
