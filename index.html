@@ -591,7 +591,7 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div class="pull-right"><a href="/" id="logout" class="js-logout" style="display:none;"><b>Log Out</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="loaddummydata" class="js-loaddummydata" style="display:none;"><b>Load Dummy Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="deletealldata" class="js-ldeletealldata" style="display:none;"><b>Delete all Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer" style="display:none;"><b>New Trailer</b></a></div></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div id="toolbar" style="display:none;" class="pull-right"><a href="/" id="logout" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="loaddummydata" class="js-loaddummydata"><b>Load Dummy Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="deletealldata" class="js-deletealldata"><b>Delete all Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Trailer</b></a>    <input type="checkbox" id="autoupdate" value="true"> Auto-Update Table     </div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -688,6 +688,8 @@
 
      <script>
         FleetRepManager.clickHandlersSet = false;
+        FleetRepManager.doAutoUpdateTable = false;
+
         FleetRepManager.loadCharts = function () {
           console.log("loadCharts Called!");      
 
@@ -695,6 +697,23 @@
           if (!FleetRepManager.clickHandlersSet)
           {    
             FleetRepManager.clickHandlersSet = true;
+            // autoupdate
+            // $('#checkMeOut').prop('checked') // returns true or false
+            $('#autoupdate').click(function() {
+                if ($(this).is(':checked')) {
+                  if(confirm("Allow table to auto refresh every 30 seconds?"))
+                  {
+                    FleetRepManager.doAutoUpdateTable = false;
+                    FleetRepManager.autoUpdateTimerID = setInterval(function(){FleetRepManager.trigger("trailers:list");}, 30000);
+                    //return confirm("Are you sure?");
+                  }
+                } else
+                {
+                  FleetRepManager.doAutoUpdateTable = false;
+                  clearInterval(FleetRepManager.autoUpdateTimerID);
+                }
+            });
+
             $( "#newtrailer" ).on( "click", function(event) {
               event.preventDefault();
               FleetRepManager.trigger("trailers:new");
@@ -730,11 +749,15 @@
               
            } // if (!FleetRepManager.clickHandlersSet)
 
-          $('#logout').show();
-          $('#deletealldata').show();
-          $('#loaddummydata').show();
-          $('#newtrailer').show();
+          // $('#logout').show();
+          // $('#deletealldata').show();
+          // $('#loaddummydata').show();
+          // $('#newtrailer').show();
           $('#searchInput').show();
+
+          $('#toolbar').show();
+
+
           $('#userfunctions').show();
           $('#portalgraphs').show();
 
