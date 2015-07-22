@@ -59,6 +59,25 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
         source: availableTags
       });
 
+      var accountTypeTags = [
+          "CHAMBERSBURG WASTE PAPER",
+          "CONTRACT LEASING CORP.",
+          "CR ENGLAND",
+          "EMERGENCY BREAKDOWN SERVICE",
+          "FORWARD AIR, INC.",
+          "LOGISTICS & DISTRIBUTION SERVICES",
+          "NEW ERA TRANSPORTATION",
+          "PREMIER TRAILER LEASING",
+          "ROAD & RAIL SERVICES",
+          "UNITED PARCEL SERVICE",
+          "WESTERN  EXPRESS INC.",
+          "WHITE ARROW"
+          ];
+          this.$( ".js-account" ).autocomplete({
+            source: accountTypeTags
+          });
+
+
     },
 
     deleteUser: function(e) {

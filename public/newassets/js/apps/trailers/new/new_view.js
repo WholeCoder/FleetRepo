@@ -36,6 +36,26 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
             source: vehicleTypeTags
           });
 
+         var accountTypeTags = [
+          "CHAMBERSBURG WASTE PAPER",
+          "CONTRACT LEASING CORP.",
+          "CR ENGLAND",
+          "EMERGENCY BREAKDOWN SERVICE",
+          "FORWARD AIR, INC.",
+          "LOGISTICS & DISTRIBUTION SERVICES",
+          "NEW ERA TRANSPORTATION",
+          "PREMIER TRAILER LEASING",
+          "ROAD & RAIL SERVICES",
+          "UNITED PARCEL SERVICE",
+          "WESTERN  EXPRESS INC.",
+          "WHITE ARROW"
+          ];
+          this.$( ".js-account" ).autocomplete({
+            source: accountTypeTags
+          });
+
+
+
     },
 
     cancelClicked: function(e) {

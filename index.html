@@ -109,10 +109,10 @@
                       <input placeholder="Password (Confirmation)" name="passwordconfirmation" type="text" value="">
                    </div>
                    <div>
-                      <input placeholder="Customer" name="customer" class="js-account" type="text" value="">
+                      <input placeholder="Customer" name="customer" class="js-customer" type="text" value="">
                    </div>
                    <div>
-                      <input placeholder="Account" class="js-account" name="account" type="text" value="">
+                      <input placeholder="Account" class="js-account" name="account" class="js-account" type="text" value="">
                    </div>
                 </fieldset>
                 <p>Use the value of <b>ADMIN</b> in the <b>Customer form field</b> to give this user Administration rights (add, edit, view, delete, users and trailers).</p>
@@ -259,7 +259,7 @@
                      </tr>
                      <tr>
                         <td><b>Customer:</b></td>
-                        <td><input placeholder="Customer" name="customer" type="text" value="<%- customer %>"></td>
+                        <td><input placeholder="Customer" name="customer" class="js-customer" type="text" value="<%- customer %>"></td>
                      </tr>
                      <tr>
                         <td><b>Account:</b></td>
