@@ -49,6 +49,16 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
           error  : function() { if ( callback ) callback(false); }
       });
 
+      var availableTags = [
+          "Dedicated Hershey",
+          "OTR",
+          "Intermodal",
+          "ADMIN"
+          ];
+      this.$( ".js-account" ).autocomplete({
+        source: availableTags
+      });
+
     },
 
     deleteUser: function(e) {
@@ -91,7 +101,7 @@ if(confirm("Are you sure you want to delete user "+data.siteusers+"?"))
       this.trigger("form:submit", data);
       $.ajax('/savenewaccount' + "?dummyforie="+new Date().getTime().toString(), {
           type: 'POST',
-          data: JSON.stringify({ email: data.email, password: data.password, customer: data.customer}),
+          data: JSON.stringify({ email: data.email, password: data.password, customer: data.customer, account: data.account}),
           contentType: 'text/json',
           success: function() {
                     //if ( callback ) callback(true); 

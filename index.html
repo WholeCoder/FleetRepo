@@ -36,7 +36,7 @@
 
     <style type="text/css">
     .container {
-      width: 1400px !important;
+      width: 1700px !important;
     }
 
     .btn-xs {
@@ -62,27 +62,16 @@
   </script>
 
   <script type="text/template" id="trailer-list-item">
-    <td>
-       <span class="tooltip tooltip-effect-4" style="opacity: 1;">
-          <span style="color:black;" class="tooltip-item"><%- unitnumber %></span>
-          <span class="tooltip-content clearfix">
-            <img src="./littlefleetreplogo.png">
-            <span class="tooltip-text">
-                <%- tooltipnote %>
-            </span>
-          </span>
-        </span>
-    </td>
+    <td><%- unitnumber %></td>
     <td><%- customer %></td>
-    <td><%- issue %></td>
+    <td><%- account %></td>
+    <td><%- vehicletype %></td>
     <td><%- location %></td>
-    <td><%- requestedby %></td>
-    <td><%- assignedto %></td>
-    <td><%- startdate %></td>
-    <td><%- duedate %></td>
-    <td><%- percentcomplete %></td>
-    <td><img src="./<%- status == "Completed"? "greenlight.png" : (status == "EIP"? "yellowlight.png" : "redlight.png") %>" /><%- status %></td>
+    <td><%- datersnotified %></td>
     <td><%- dateapproved %></td>
+    <td><%- estimatedtimeofcompletion %></td>
+    <td><img src="./<%- status == "Completed"? "greenlight.png" : (status == "EIP"? "yellowlight.png" : "redlight.png") %>" /><%- status %></td>
+    <td><%- percentcomplete %></td>
     <td>
       <a href="#trailers/<%- _id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
         <i class="icon-pencil"></i>
@@ -120,7 +109,10 @@
                       <input placeholder="Password (Confirmation)" name="passwordconfirmation" type="text" value="">
                    </div>
                    <div>
-                      <input placeholder="Customer" name="customer" type="text" value="">
+                      <input placeholder="Customer" name="customer" class="js-account" type="text" value="">
+                   </div>
+                   <div>
+                      <input placeholder="Account" class="js-account" name="account" type="text" value="">
                    </div>
                 </fieldset>
                 <p>Use the value of <b>ADMIN</b> in the <b>Customer form field</b> to give this user Administration rights (add, edit, view, delete, users and trailers).</p>
@@ -270,28 +262,28 @@
                         <td><input placeholder="Customer" name="customer" type="text" value="<%- customer %>"></td>
                      </tr>
                      <tr>
-                        <td><b>issue:</b></td>
-                        <td><input placeholder="Issue" name="issue" type="text" value="<%- issue %>"></td>
+                        <td><b>Account:</b></td>
+                        <td><input placeholder="Account" name="account" type="text" value="<%- account %>" class="js-account"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Vehicle Type:</b></td>
+                        <td><input placeholder="Vehicle Type" name="vehicletype" class="js-vehicletype" type="text" value="<%- vehicletype %>"></td>
                      </tr>
                      <tr>
                         <td><b>Location:</b></td>
                         <td><input placeholder="Location" name="location" type="text" value="<%- location %>"></td>
                      </tr>
                      <tr>
-                        <td><b>Requested By:</b></td>
-                        <td><input placeholder="Requested By" name="requestedby" type="text" value="<%- requestedby %>"></td>
+                        <td><b>Date RS Notified:</b></td>
+                        <td><input placeholder="Date RS Notified" name="datersnotified" class="js-datersnotified" type="text" value="<%- datersnotified %>"></td>
                      </tr>
                      <tr>
-                        <td><b>Assigned To:</b></td>
-                        <td><input placeholder="Assigned To" name="assignedto" type="text" value="<%- assignedto %>"></td>
+                        <td><b>Date Approved:</b></td>
+                        <td><input placeholder="Date Approved" class="js-dateapproved" name="dateapproved" type="text" value="<%- dateapproved %>"></td>
                      </tr>
                      <tr>
-                        <td><b>Start Date:</b></td>
-                        <td><input placeholder="Start Date" name="startdate" class="js-startdate" type="text" value="<%- startdate %>"></td>
-                     </tr>
-                     <tr>
-                        <td><b>Due Date:</b></td>
-                        <td><input placeholder="Due Date" class="js-duedate" name="duedate" type="text" value="<%- duedate %>"></td>
+                        <td><b>Estimated Time of Completion:</b></td>
+                        <td><input placeholder="Estimated Time of Completion" class="js-estimatedtimeofcompletion" name="estimatedtimeofcompletion" type="text" value="<%- estimatedtimeofcompletion %>"></td>
                      </tr>
                      <tr>
                         <td><b>Percent Complete:</b></td>
@@ -309,14 +301,6 @@
 
 
                         
-                     </tr>
-                     <tr>
-                        <td><b>Date Approved:</b></td>
-                        <td><input placeholder="Date Approved" class="js-dateapproved" name="dateapproved" type="text" value="<%- dateapproved %>"></td>
-                     </tr>
-                     <tr>
-                        <td><b>Unit # Tool Tip Note:</b></td>
-                        <td><input placeholder="Tool Tip Node for Unit #" name="tooltipnote" type="text" value="<%- tooltipnote %>"></td>
                      </tr>
                      </tbody>
                    </table>
@@ -345,19 +329,139 @@
   <script type="text/template" id="trailer-list">
     <thead>
       <tr>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Unit #!" data-placement="left">Unit #<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Customer!" data-placement="top">Customer<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Issue!" data-placement="top">Issue<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Location!" data-placement="top">Location<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Requested by!" data-placement="top">Requested by<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Assigend To!" data-placement="top">Assigned To<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Start Date!" data-placement="top">Start Date<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Due Date!" data-placement="top">Due Date<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By % Complete!" data-placement="top">% Complete<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Status!" data-placement="top">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-         <th><a href="#" data-toggle="tooltip" title="Sort By Date Approved!" data-placement="top">Date Approved<span class="glyphicon glyphicon-sort pull-right" aria-hidden="true"></span></a></th>
-          <th></th>
-          <th></th>
+         <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Unit #<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Unit #!                    
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Customer!
+                </span>
+              </span>
+            </span>
+        </th>
+         <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Account!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Vehicle Type!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+          
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Location<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Location!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date RS Notified!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date Approved!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Estimated Time of Completion!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Status!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">% Complete<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By % Complete!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th><div style="width:60px;">&nbsp;</div></th>
+        <th><div style="width:60px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></th>
       </tr>
    </thead>
    <tbody id="fbody">

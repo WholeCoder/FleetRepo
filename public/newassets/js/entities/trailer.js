@@ -7,16 +7,14 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
     defaults: {
       unitnumber: "",
       customer: "",
-      issue: "",
+      account: "",
+      vehicletype: "",
       location: "",
-      requestedby: "",
-      assignedto: "",
-      startdate: "",
-      duedate: "",
-      percentcomplete: "",
-      status: "Completed",
+      datersnotified: "",
       dateapproved: "",
-      tooltipnote: ""
+      estimatedtimeofcompletion: "",
+      status: "Completed",
+      percentcomplete: ""
     }/*,
 
     validate: function(attrs, options) {
@@ -57,10 +55,10 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
 
   var initializeTrailers = function(){
     var trailers = new Entities.TrailerCollection([
-      { _id: 1, unitnumber: "1245",  customer: "UPS", issue: "1",  location: "EDC III",  requestedby: "John",  assignedto: "Mary",  startdate: "11/19/2015",  duedate: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015", tooltipnote: "John worked on this one!"},
-      { _id: 2, unitnumber: "1238",  customer: "FEDEX", issue: "2",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  startdate: "11/19/2015",  duedate: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015", tooltipnote: "Just getting started.  Truck bed needs repaired!"},
-      { _id: 3, unitnumber: "1294",  customer: "USMAIL", issue: "3",  location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  startdate: "11/19/2015",  duedate: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015", tooltipnote: "Drive shaft needs replaced.  Waiting on part from manufacturer!"},
-      { _id: 4, unitnumber: "1134",  customer: "NENGLAND", issue: "4",  location: "HW",  requestedby: "Kirk",  assignedto: "James",  startdate: "11/19/2015",  duedate: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015", tooltipnote: "Maintenance parts are on back order!"}
+      { _id: 1, unitnumber: "1245",  customer: "UPS", account: "Account1", vehicletype: "tractor trailer", location: "EDC III",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015"},
+      { _id: 2, unitnumber: "1238",  customer: "FEDEX", account: "Account2", vehicletype: "tractor trailer", location: "FRS",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015"},
+      { _id: 3, unitnumber: "1294",  customer: "USMAIL", account: "Account3", vehicletype: "tractor trailer", location: "FRS",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015"},
+      { _id: 4, unitnumber: "1134",  customer: "NENGLAND", account: "Account4", vehicletype: "tractor trailer", location: "HW",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015"}
     ]);
     /*trailers.forEach(function(trailer){
       trailer.save();

@@ -4,16 +4,14 @@ var mongoose = require('mongoose'),
 var TrailerSchema = new Schema({
     unitnumber: { type: String},
     customer: { type: String},
-    issue: { type: String},
+    account: { type: String},
+    vehicletype: { type: String},
     location: { type: String},
-    requestedby: { type: String},
-    assignedto: { type: String},
-    startdate: { type: String },
-    duedate: { type: String },
-    percentcomplete: { type: String },
-    status: { type: String },
+    datersnotified: { type: String },
     dateapproved: { type: String },
-    tooltipnote: { type: String }
+    estimatedtimeofcompletion: { type: String },
+    status: { type: String },
+    percentcomplete: { type: String }
 });
 
 

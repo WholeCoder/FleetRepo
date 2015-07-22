@@ -10,9 +10,32 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
     },
 
     onRender: function(){
-      this.$('.js-startdate').datepicker({autoclose: true});
-      this.$('.js-duedate').datepicker({autoclose: true});
+      this.$('.js-datersnotified').datepicker({autoclose: true});
+      this.$('.js-estimatedtimeofcompletion').datepicker({autoclose: true});
       this.$('.js-dateapproved').datepicker({autoclose: true});
+
+      var availableTags = [
+          "Dedicated Hershey",
+          "OTR",
+          "Intermodal",
+          "ADMIN"
+          ];
+      this.$( ".js-account" ).autocomplete({
+        source: availableTags
+      });
+
+
+      var vehicleTypeTags = [
+            "Dry Van",
+            "Flat Bed",
+            "Reefer Trailer",
+            "Container Chassis",
+            "Tractor/Condo",
+            "Tractor/Daycab"
+          ];
+          this.$( ".js-vehicletype" ).autocomplete({
+            source: vehicleTypeTags
+          });
     },
 
     cancelClicked: function(e) {
