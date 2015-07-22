@@ -17,8 +17,7 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
       var availableTags = [
           "Dedicated Hershey",
           "OTR",
-          "Intermodal",
-          "ADMIN"
+          "Intermodal"
           ];
           this.$( ".js-account" ).autocomplete({
             source: availableTags
@@ -48,7 +47,8 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
           "ROAD & RAIL SERVICES",
           "UNITED PARCEL SERVICE",
           "WESTERN  EXPRESS INC.",
-          "WHITE ARROW"
+          "WHITE ARROW",
+          "ADMIN"
           ];
           this.$( ".js-customer" ).autocomplete({
             source: accountTypeTags

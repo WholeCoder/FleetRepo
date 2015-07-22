@@ -52,8 +52,7 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
       var availableTags = [
           "Dedicated Hershey",
           "OTR",
-          "Intermodal",
-          "ADMIN"
+          "Intermodal"
           ];
       this.$( ".js-account" ).autocomplete({
         source: availableTags
@@ -71,7 +70,8 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
           "ROAD & RAIL SERVICES",
           "UNITED PARCEL SERVICE",
           "WESTERN  EXPRESS INC.",
-          "WHITE ARROW"
+          "WHITE ARROW",
+          "ADMIN"
           ];
           this.$( ".js-customer" ).autocomplete({
             source: accountTypeTags
