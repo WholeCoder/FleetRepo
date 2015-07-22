@@ -36,7 +36,8 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
             source: vehicleTypeTags
           });
 
-      var accountTypeTags = [
+      var customerTypeTags = [
+          "ADMIN",
           "CHAMBERSBURG WASTE PAPER",
           "CONTRACT LEASING CORP.",
           "CR ENGLAND",
@@ -48,11 +49,10 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
           "ROAD & RAIL SERVICES",
           "UNITED PARCEL SERVICE",
           "WESTERN  EXPRESS INC.",
-          "WHITE ARROW",
-          "ADMIN"
+          "WHITE ARROW"
           ];
           this.$( ".js-customer" ).autocomplete({
-            source: accountTypeTags
+            source: customerTypeTags
           });
 
     },

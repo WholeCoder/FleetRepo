@@ -58,7 +58,8 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
         source: availableTags
       });
 
-      var accountTypeTags = [
+      var customerTypeTags = [
+          "ADMIN",
           "CHAMBERSBURG WASTE PAPER",
           "CONTRACT LEASING CORP.",
           "CR ENGLAND",
@@ -70,11 +71,10 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
           "ROAD & RAIL SERVICES",
           "UNITED PARCEL SERVICE",
           "WESTERN  EXPRESS INC.",
-          "WHITE ARROW",
-          "ADMIN"
+          "WHITE ARROW"
           ];
           this.$( ".js-customer" ).autocomplete({
-            source: accountTypeTags
+            source: customerTypeTags
           });
 
 
