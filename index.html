@@ -72,6 +72,7 @@
     <td><%- estimatedtimeofcompletion %></td>
     <td><img src="./<%- status == "Completed"? "greenlight.png" : (status == "EIP"? "yellowlight.png" : "redlight.png") %>" /><%- status %></td>
     <td><%- percentcomplete %></td>
+    <td></td>
     <td>
       <a href="#trailers/<%- _id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
         <i class="icon-pencil"></i>
@@ -456,6 +457,19 @@
                 <img src="./littlefleetreplogo.png">
                 <span class="tooltip-text">
                     Sort By % Complete!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#" >Supporting Documents<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Supporting Documents!
                 </span>
               </span>
             </span>
