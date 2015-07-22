@@ -51,7 +51,7 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
           "WESTERN  EXPRESS INC.",
           "WHITE ARROW"
           ];
-          this.$( ".js-account" ).autocomplete({
+          this.$( ".js-customer" ).autocomplete({
             source: accountTypeTags
           });
 

@@ -73,7 +73,7 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
           "WESTERN  EXPRESS INC.",
           "WHITE ARROW"
           ];
-          this.$( ".js-account" ).autocomplete({
+          this.$( ".js-customer" ).autocomplete({
             source: accountTypeTags
           });
 

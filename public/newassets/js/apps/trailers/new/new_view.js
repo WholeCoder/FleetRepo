@@ -50,7 +50,7 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
           "WESTERN  EXPRESS INC.",
           "WHITE ARROW"
           ];
-          this.$( ".js-account" ).autocomplete({
+          this.$( ".js-customer" ).autocomplete({
             source: accountTypeTags
           });
 
