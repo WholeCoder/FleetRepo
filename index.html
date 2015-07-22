@@ -706,6 +706,9 @@
                     FleetRepManager.doAutoUpdateTable = false;
                     FleetRepManager.autoUpdateTimerID = setInterval(function(){FleetRepManager.trigger("trailers:list");}, 30000);
                     //return confirm("Are you sure?");
+                  } else
+                  {
+                    $('#autoupdate').prop('checked', false);
                   }
                 } else
                 {
