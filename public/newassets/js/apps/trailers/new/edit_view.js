@@ -75,11 +75,12 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
             var slaveStatus1 = "#status1";
             var slaveStatus2 = "#status2";
           }
-
           that.$( statusid ).change(function() {
             var data1 = FleetRepManager.statuses;
             var lightFileName = FleetRepManager.getLightImage(that.$( statusid ).val()).substring(2);
-
+            console.log(statusid+" == "+that.$( statusid ).val());
+            console.log("lightFileName == "+lightFileName);
+            
             var status2Image = FleetRepManager.getLightImage(that.$( slaveStatus1 ).val()).substring(2);
             var status3Image = FleetRepManager.getLightImage(that.$( slaveStatus2 ).val()).substring(2);
 
@@ -89,12 +90,8 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
                     .find('option')
                     .remove()
                     .end();
-              var sel = "";
-              if (that.model.get(slaveStatus1.substring(1)) == "")
-              {
-                sel = "selected";
-              }
-              that.$(slaveStatus1).append('<option value="" '+sel+'></option>');
+
+              that.$(slaveStatus1).append('<option value=""></option>');
             }
 
             if(status3Image != lightFileName)
@@ -104,13 +101,7 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
                     .remove()
                     .end();
   
-              var sel2 = "";
-              if (that.model.get(slaveStatus2.substring(1)) == "")
-              {
-                sel2 = "selected";
-              }
-
-              that.$(slaveStatus2).append('<option value="" '+sel2+'></option>');
+              that.$(slaveStatus2).append('<option value=""></option>');
             }
 
   
@@ -121,28 +112,22 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
               {              
                 if(status2Image != lightFileName)
                 {
-                  var sel3 = "";
-                  if (that.model.get(slaveStatus1.substring(1)) == data1[i][0])
-                  {
-                    sel3 = "selected";
-                  }
-
-                  that.$(slaveStatus1).append('<option value="'+data1[i][0]+'" '+sel3+'>  '+data1[i][0]+'</option>');
+                  that.$(slaveStatus1).append('<option value="'+data1[i][0]+'" '+'>  '+data1[i][0]+'</option>');
                 }
                 if(status3Image != lightFileName)
                 {
-                  var sel4 = "";
-                  if (that.model.get(slaveStatus1.substring(1)) == data1[i][0])
-                  {
-                    sel4 = "selected";
-                  }
-
-                  that.$(slaveStatus2).append('<option value="'+data1[i][0]+'" '+sel4+'>  '+data1[i][0]+'</option>');
+                  that.$(slaveStatus2).append('<option value="'+data1[i][0]+'" '+'>  '+data1[i][0]+'</option>');
                 }
               } // end if
             } // end for         
-            that.$(statusid).val(that.model.get(statusid.substring(1))).prop('selected', true);
-          });
+
+            that.$(slaveStatus1).val(that.model.get(slaveStatus1.substring(1)));
+            that.$(slaveStatus2).val(that.model.get(slaveStatus2.substring(1)));
+          }); // end change
+
+
+
+
 /*
           that.$('#status1')
                 .find('option')
@@ -156,6 +141,9 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
             that.$('#status1').append('<option value="'+data[i][0]+'" '+'>  '+data[i][0]+'</option>');
           }          
 
+          //that.$("select#status1 option") .each(function() { this.selected = (this.text == that.model.get('status1')); });
+          that.$('#status1').val(that.model.get('status1'));
+          that.$('#status1').trigger('change');
         } // end function
         // "#status1" is the master status box
         makeOtherStatusInputBoxesUseOnlyThisPercentOption("#status1");
