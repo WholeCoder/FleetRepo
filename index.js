@@ -291,21 +291,51 @@ app.get("/deletealltrailers", function(req, res) {
 });
  
 app.post("/barchartdata", function(req, res) {
-  var wins2 = [[0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]];
+  var wins2 = [
+  // [0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]
+  ];
   var percents2 = [
-      [0, "0 %"],
-      [1, "10%"],
-      [2, "20%"],
-      [3, "40%"],
-      [4, "60%"],
-      [5, "80%"],
-      [6, "100%"]];
+      [0, "10%"],
+      [1, "50%, 75%, 90%"],
+      [2, "100%"]];
 
   var barchartdata = {"wins": wins2, "percents": percents2};
 
-  res.setHeader('content-type', 'application/json');
-  res.writeHead(200);
-  res.end(JSON.stringify(barchartdata));
+
+    var tempChartData = [];  
+    Trailer.find({status1: new RegExp('^10%', "i")}, function( err, trailers10){
+      console.log( "Number of 10% Trailers:", trailers10.length );
+      wins2.push([0,trailers10.length]);
+
+      Trailer.find({status1: new RegExp('^50%', "i")}, function( err, trailers50){
+        console.log( "Number of 50% Trailers:", trailers50.length );
+        wins2.push([1,trailers50.length]);
+
+        Trailer.find({status1: new RegExp('^75%', "i")}, function( err, trailers75){
+          console.log( "Number of 75% Trailers:", trailers50.length );
+          wins2[1][1] += trailers75.length
+
+          Trailer.find({status1: new RegExp('^90%', "i")}, function( err, trailers90){
+            console.log( "Number of 90% Trailers:", trailers90.length );
+            wins2[1][1] += trailers90.length
+
+            Trailer.find({status1: new RegExp('^100%', "i")}, function( err, trailers100){
+              console.log( "Number of 100% Trailers:", trailers100.length );
+              wins2.push([2,trailers100.length]);
+
+              res.setHeader('content-type', 'application/json');
+              res.writeHead(200);
+              res.end(JSON.stringify(barchartdata));
+
+
+            });
+
+          });
+        });
+      });
+
+    });
+
 
 });
 
@@ -318,7 +348,7 @@ app.post("/piechartdata", function(req, res) {
       {data: [[4,38]], label: "100%"}
 */
   ];
-    var statuses = [
+/*    var statuses = [
       ["","blanklight.png"],
       ["10% - A/Authorization","redlight.png"],
       ["10% - A/Parts","redlight.png"],
@@ -332,7 +362,7 @@ app.post("/piechartdata", function(req, res) {
       ["100% - Complete - Released to Customer","greenlight.png"],
       ["100% - Complete - Reserved for Driver","greenlight.png"]
     ];
-
+*/
     var tempChartData = [];  
     Trailer.find({status1: new RegExp('^10%', "i")}, function( err, trailers10){
       console.log( "Number of 10% Trailers:", trailers10.length );
