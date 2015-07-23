@@ -13,8 +13,8 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       datersnotified: "",
       dateapproved: "",
       estimatedtimeofcompletion: "",
-      status1: "100% - Complete - Released to Customer",
-      status2: "100% - Complete - Released to Customer",
+      status1: "",
+      status2: "",
       status3: "",
       percentcomplete: ""
     }/*,
@@ -57,10 +57,10 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
 
   var initializeTrailers = function(){
     var trailers = new Entities.TrailerCollection([
-      { unitnumber: "1245",  customer: "UPS", account: "Account1",  vehicletype: "tractor trailer", location: "EDC III",  requestedby: "John",  assignedto: "Mary",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/27/2015",  percentcomplete: "75%",  status1: "10% - A/Estimate", status2: "10% - A/Parts", status3: "10% - A/Authorization",  dateapproved: "11/3/2015"},
-      { unitnumber: "1238",  customer: "FEDEX", account: "Account2", vehicletype: "tractor trailer",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/20/2015",  percentcomplete: "20%",     status1: "", status2: "50% - Work In Progress", status3: "50% - Work In Progress",  dateapproved: "11/18/2015"},
-      { unitnumber: "1294",  customer: "USMAIL", account: "Account",  vehicletype: "tractor trailer", location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/26/2015",  percentcomplete: "10%",     status1: "100% - Complete - Reserved for Driver", status2: "100% - Complete - Released to Customer", status3: "100% - Complete - Ready for P/U",  dateapproved: "11/1/2015"},
-      { unitnumber: "1134",  customer: "NENGLAND", account: "Account4",  vehicletype: "tractor trailer", location: "HW",  requestedby: "Kirk",  assignedto: "James",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/25/2015",  percentcomplete: "0%",  status1: "", status2: "100% - Complete - Ready for P/U", status3: "100% - Complete - Reserved for Driver",  dateapproved: "11/19/2015"}
+      { unitnumber: "1245",  customer: "CHAMBERSBURG WASTE PAPER", account: "Dedicated Hershey",  vehicletype: "Flat Bed", location: "EDC III",  assignedto: "Mary",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/27/2015",  percentcomplete: "75%",  status1: "10% - A/Estimate", status2: "10% - A/Parts", status3: "10% - A/Authorization",  dateapproved: "11/3/2015"},
+      { unitnumber: "1238",  customer: "CONTRACT LEASING CORP.", account: "Intermodal", vehicletype: "Reefer Trailer",  location: "GRANTVILLE CRENGLAND",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/20/2015",  percentcomplete: "20%",     status1: "50% - Work In Progress", status2: "50% - Work In Progress", status3: "",  dateapproved: "11/18/2015"},
+      { unitnumber: "1294",  customer: "CR ENGLAND", account: "OTR",  vehicletype: "Container Chassis", location: "GRANTVILLE CRENGLAND",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/26/2015",  percentcomplete: "10%",     status1: "100% - Complete - Reserved for Driver", status2: "100% - Complete - Released to Customer", status3: "100% - Complete - Ready for P/U",  dateapproved: "11/1/2015"},
+      { unitnumber: "1134",  customer: "WHITE ARROW", account: "Intermodal",  vehicletype: "Tractor/Condo", location: "GRANTVILLE CRENGLAND",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/25/2015",  percentcomplete: "0%",  status1: "100% - Complete - Reserved for Driver", status2: "100% - Complete - Ready for P/U", status3: "",  dateapproved: "11/19/2015"}
     ]);
     /*trailers.forEach(function(trailer){
       trailer.save();

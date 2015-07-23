@@ -79,9 +79,7 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
           that.$( statusid ).change(function() {
             var data1 = FleetRepManager.statuses;
             var lightFileName = FleetRepManager.getLightImage(that.$( statusid ).val()).substring(2);
-            console.log(statusid+" == "+that.$( statusid ).val());
-            console.log("lightFileName == "+lightFileName);
-            
+
             var status2Image = FleetRepManager.getLightImage(that.$( slaveStatus1 ).val()).substring(2);
             var status3Image = FleetRepManager.getLightImage(that.$( slaveStatus2 ).val()).substring(2);
 
@@ -91,8 +89,12 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
                     .find('option')
                     .remove()
                     .end();
-
-              that.$(slaveStatus1).append('<option value=""></option>');
+              var sel = "";
+              if (that.model.get(slaveStatus1.substring(1)) == "")
+              {
+                sel = "selected";
+              }
+              that.$(slaveStatus1).append('<option value="" '+sel+'></option>');
             }
 
             if(status3Image != lightFileName)
@@ -102,7 +104,13 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
                     .remove()
                     .end();
   
-              that.$(slaveStatus2).append('<option value=""></option>');
+              var sel2 = "";
+              if (that.model.get(slaveStatus2.substring(1)) == "")
+              {
+                sel2 = "selected";
+              }
+
+              that.$(slaveStatus2).append('<option value="" '+sel2+'></option>');
             }
 
   
@@ -113,15 +121,27 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
               {              
                 if(status2Image != lightFileName)
                 {
-                  that.$(slaveStatus1).append('<option value="'+data1[i][0]+'" '+'>  '+data1[i][0]+'</option>');
+                  var sel3 = "";
+                  if (that.model.get(slaveStatus1.substring(1)) == data1[i][0])
+                  {
+                    sel3 = "selected";
+                  }
+
+                  that.$(slaveStatus1).append('<option value="'+data1[i][0]+'" '+sel3+'>  '+data1[i][0]+'</option>');
                 }
                 if(status3Image != lightFileName)
                 {
-                  that.$(slaveStatus2).append('<option value="'+data1[i][0]+'" '+'>  '+data1[i][0]+'</option>');
+                  var sel4 = "";
+                  if (that.model.get(slaveStatus1.substring(1)) == data1[i][0])
+                  {
+                    sel4 = "selected";
+                  }
+
+                  that.$(slaveStatus2).append('<option value="'+data1[i][0]+'" '+sel4+'>  '+data1[i][0]+'</option>');
                 }
               } // end if
             } // end for         
-
+            that.$(statusid).val(that.model.get(statusid.substring(1))).prop('selected', true);
           });
 /*
           that.$('#status1')
