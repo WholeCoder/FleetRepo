@@ -1,0 +1,13 @@
+Don't forget blank status
+
+10% - A/Authorization
+10% - A/Parts
+10% - A/Estimate
+10% - A/Repairs
+10% - A/Arrival of Unit
+50% - Work In Progress
+75% - Work In Progress
+90% - A/W Final Quality Check
+100% - Complete - Ready for P/U
+100% - Complete - Released to Customer
+100% - Complete - Reserved for Driver

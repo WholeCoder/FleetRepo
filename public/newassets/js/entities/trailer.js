@@ -13,7 +13,9 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       datersnotified: "",
       dateapproved: "",
       estimatedtimeofcompletion: "",
-      status: "Completed",
+      status1: "100% - Complete - Released to Customer",
+      status2: "100% - Complete - Released to Customer",
+      status3: "",
       percentcomplete: ""
     }/*,
 
@@ -55,10 +57,10 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
 
   var initializeTrailers = function(){
     var trailers = new Entities.TrailerCollection([
-      { _id: 1, unitnumber: "1245",  customer: "UPS", account: "Account1", vehicletype: "tractor trailer", location: "EDC III",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015"},
-      { _id: 2, unitnumber: "1238",  customer: "FEDEX", account: "Account2", vehicletype: "tractor trailer", location: "FRS",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015"},
-      { _id: 3, unitnumber: "1294",  customer: "USMAIL", account: "Account3", vehicletype: "tractor trailer", location: "FRS",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015"},
-      { _id: 4, unitnumber: "1134",  customer: "NENGLAND", account: "Account4", vehicletype: "tractor trailer", location: "HW",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015"}
+      { unitnumber: "1245",  customer: "UPS", account: "Account1",  vehicletype: "tractor trailer", location: "EDC III",  requestedby: "John",  assignedto: "Mary",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/27/2015",  percentcomplete: "75%",  status1: "10% - A/Estimate", status2: "10% - A/Parts", status3: "10% - A/Authorization",  dateapproved: "11/3/2015"},
+      { unitnumber: "1238",  customer: "FEDEX", account: "Account2", vehicletype: "tractor trailer",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/20/2015",  percentcomplete: "20%",     status1: "", status2: "50% - Work In Progress", status3: "50% - Work In Progress",  dateapproved: "11/18/2015"},
+      { unitnumber: "1294",  customer: "USMAIL", account: "Account",  vehicletype: "tractor trailer", location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/26/2015",  percentcomplete: "10%",     status1: "100% - Complete - Reserved for Driver", status2: "100% - Complete - Released to Customer", status3: "100% - Complete - Ready for P/U",  dateapproved: "11/1/2015"},
+      { unitnumber: "1134",  customer: "NENGLAND", account: "Account4",  vehicletype: "tractor trailer", location: "HW",  requestedby: "Kirk",  assignedto: "James",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/25/2015",  percentcomplete: "0%",  status1: "", status2: "100% - Complete - Ready for P/U", status3: "100% - Complete - Reserved for Driver",  dateapproved: "11/19/2015"}
     ]);
     /*trailers.forEach(function(trailer){
       trailer.save();

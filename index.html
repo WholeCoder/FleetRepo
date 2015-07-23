@@ -70,7 +70,11 @@
     <td><%- datersnotified %></td>
     <td><%- dateapproved %></td>
     <td><%- estimatedtimeofcompletion %></td>
-    <td><img src="./<%- status == "Completed"? "greenlight.png" : (status == "EIP"? "yellowlight.png" : "redlight.png") %>" /><%- status %></td>
+    <td>
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" /><%- status1 %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" /><%- status2 %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" /><%- status3 %><br />
+    </td>
     <td><%- percentcomplete %></td>
     <td></td>
     <td>
@@ -291,17 +295,25 @@
                         <td><input placeholder="Percent Complete" name="percentcomplete" type="text" value="<%- percentcomplete %>"></td>
                      </tr>
                      <tr>
-                        <td><b>Status:</b></td>
+                        <td><b>Status 1:</b></td>
                         <td>
-<select name="status">
-  <option <%- status == "Completed" ? " selected " : " " %> value="Completed">Completed</option>
-  <option <%- status == "EIP" ? " selected " : " " %> value="EIP">EIP</option>
-  <option <%- status == "WIP" ? " selected " : " " %> value="WIP">WIP</option>
-
-</select>
-
-
-                        
+                          <select name="status1" id="status1" style="width:300px;">
+                          </select>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Status 2:</b></td>
+                        <td>
+                          <select name="status2" id="status2" style="width:300px;">
+                          </select>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Status 3:</b></td>
+                        <td>
+                          <select name="status3" id="status3" style="width:300px;">
+                          </select>
+                        </td>
                      </tr>
                      </tbody>
                    </table>
@@ -882,6 +894,34 @@
             });
         };
 
+    </script>
+    <script type="text/javascript">
+    FleetRepManager.statuses = [
+      ["","blanklight.png"],
+      ["10% - A/Authorization","redlight.png"],
+      ["10% - A/Parts","redlight.png"],
+      ["10% - A/Estimate","redlight.png"],
+      ["10% - A/Repairs","redlight.png"],
+      ["10% - A/Arrival of Unit","redlight.png"],
+      ["50% - Work In Progress","yellowlight.png"],
+      ["75% - Work In Progress","yellowlight.png"],
+      ["90% - A/W Final Quality Check","yellowlight.png"],
+      ["100% - Complete - Ready for P/U","greenlight.png"],
+      ["100% - Complete - Released to Customer","greenlight.png"],
+      ["100% - Complete - Reserved for Driver","greenlight.png"]
+    ];
+
+    FleetRepManager.getLightImage = function(status) {
+      var imagename = "./statuserror.png"
+      for(var i = 0; i < FleetRepManager.statuses.length; i++)
+      {
+        if (FleetRepManager.statuses[i][0] == status)
+        {
+          return "./"+FleetRepManager.statuses[i][1];
+        }
+      }
+      return imagename; // name not found - use none
+    };
     </script>
 
 </body>

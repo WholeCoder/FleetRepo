@@ -247,10 +247,10 @@ app.get("/trailers", function(req, res) {
 
 app.get("/loaddummytrailerdata", function(req, res) {
   var trailerRay = [
-      { unitnumber: "1245",  customer: "UPS", account: "Account1",  vehicletype: "tractor trailer", location: "EDC III",  requestedby: "John",  assignedto: "Mary",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/27/2015",  percentcomplete: "75%",  status: "Completed",  dateapproved: "11/3/2015"},
-      { unitnumber: "1238",  customer: "FEDEX", account: "Account2", vehicletype: "tractor trailer",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/20/2015",  percentcomplete: "20%",  status: "Completed",  dateapproved: "11/18/2015"},
-      { unitnumber: "1294",  customer: "USMAIL", account: "Account",  vehicletype: "tractor trailer", location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/26/2015",  percentcomplete: "10%",  status: "EIP",  dateapproved: "11/1/2015"},
-      { unitnumber: "1134",  customer: "NENGLAND", account: "Account4",  vehicletype: "tractor trailer", location: "HW",  requestedby: "Kirk",  assignedto: "James",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/25/2015",  percentcomplete: "0%",  status: "WIP",  dateapproved: "11/19/2015"}
+      { unitnumber: "1245",  customer: "UPS", account: "Account1",  vehicletype: "tractor trailer", location: "EDC III",  requestedby: "John",  assignedto: "Mary",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/27/2015",  percentcomplete: "75%",  status1: "10% - A/Estimate", status2: "10% - A/Parts", status3: "10% - A/Authorization",  dateapproved: "11/3/2015"},
+      { unitnumber: "1238",  customer: "FEDEX", account: "Account2", vehicletype: "tractor trailer",  location: "FRS",  requestedby: "Mary",  assignedto: "Dan",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/20/2015",  percentcomplete: "20%",     status1: "", status2: "50% - Work In Progress", status3: "50% - Work In Progress",  dateapproved: "11/18/2015"},
+      { unitnumber: "1294",  customer: "USMAIL", account: "Account",  vehicletype: "tractor trailer", location: "FRS",  requestedby: "Dan",  assignedto: "Kirk",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/26/2015",  percentcomplete: "10%",     status1: "100% - Complete - Reserved for Driver", status2: "100% - Complete - Released to Customer", status3: "100% - Complete - Ready for P/U",  dateapproved: "11/1/2015"},
+      { unitnumber: "1134",  customer: "NENGLAND", account: "Account4",  vehicletype: "tractor trailer", location: "HW",  requestedby: "Kirk",  assignedto: "James",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/25/2015",  percentcomplete: "0%",  status1: "", status2: "100% - Complete - Ready for P/U", status3: "100% - Complete - Reserved for Driver",  dateapproved: "11/19/2015"}
   ];
 
   for (var i = 0; i < trailerRay.length; i++)
@@ -311,13 +311,11 @@ app.post("/barchartdata", function(req, res) {
 
 app.post("/piechartdata", function(req, res) {
   var piechartdata = [
-      {data: [[0,14]], label: "0%"},
-      {data: [[1,14]], label: "10%"},
-      {data: [[2,14]], label: "20%"},
-      {data: [[3,14]], label: "40%"},
-      {data: [[4,14]], label: "60%"},
-      {data: [[5,14]], label: "80%"},
-      {data: [[6,38]], label: "100%"}
+      {data: [[0,14]], label: "10%"},
+      {data: [[1,14]], label: "50%"},
+      {data: [[2,14]], label: "75%"},
+      {data: [[3,14]], label: "90%"},
+      {data: [[4,38]], label: "100%"}
   ];
 
   res.setHeader('content-type', 'application/json');
