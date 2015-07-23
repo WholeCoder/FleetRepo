@@ -39,7 +39,7 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
           view.on("form:submit", function(data){
               //VapeBookManager.trigger("show:createnewprofile");
           });
-
+alert('Edit Trailer is not working for the moment.');
           FleetRepManager.regions.table.show(view);
 
         },
