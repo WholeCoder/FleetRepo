@@ -138,11 +138,11 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
           }          
 
         } // end function
-
+        // "#status1" is the master status box
         makeOtherStatusInputBoxesUseOnlyThisPercentOption("#status1");
-        makeOtherStatusInputBoxesUseOnlyThisPercentOption("#status2");
+/*        makeOtherStatusInputBoxesUseOnlyThisPercentOption("#status2");
         makeOtherStatusInputBoxesUseOnlyThisPercentOption("#status3");
-
+*/
     },
 
     cancelClicked: function(e) {
