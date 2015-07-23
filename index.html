@@ -305,6 +305,7 @@
                         <td><b>Status 2:</b></td>
                         <td>
                           <select name="status2" id="status2" style="width:300px;">
+                            <option value="" selected></option>
                           </select>
                         </td>
                      </tr>
@@ -312,6 +313,7 @@
                         <td><b>Status 3:</b></td>
                         <td>
                           <select name="status3" id="status3" style="width:300px;">
+                            <option value="" selected></option>
                           </select>
                         </td>
                      </tr>
@@ -803,7 +805,7 @@
             contentType: 'text/json',
             success: function(dta) {
               FleetRepManager.loadbarchartdata(dta);
-              //alert('credit card successfully processed.');
+              //alert('successfully got data for chart.');
             },
             error  : function() { if ( callback ) callback(false); }
           });
@@ -920,6 +922,7 @@
           return "./"+FleetRepManager.statuses[i][1];
         }
       }
+      alert('could not find status '+status);
       return imagename; // name not found - use none
     };
     </script>

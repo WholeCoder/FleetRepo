@@ -17,6 +17,9 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
         success: function(data2) { 
             FleetRepManager.trigger("trailers:list");
             FleetRepManager.trigger("user:new");
+            // refresh the charts in case there is new data
+            FleetRepManager.loadCharts()
+
         },
         error  : function() { alert('Error - could not load dummy trailer data');}
       }); // end $.post
@@ -34,7 +37,9 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
 
     listContacts: function(criterion){
       //alert('listContacts called.');
-      TrailersApp.List.Controller.listContacts(criterion);
+        // refresh the charts in case there is new data
+        FleetRepManager.loadCharts()
+        TrailersApp.List.Controller.listContacts(criterion);
 /*      FleetRepManager.execute("set:active:header", "contacts");
 */    },
 

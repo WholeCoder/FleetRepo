@@ -10,7 +10,6 @@ FleetRepManager.module("UserApp.Login", function(Login, FleetRepManager, Backbon
       view.on("form:submit", function(data){
           //VapeBookManager.trigger("show:createnewprofile");
       });
-
       FleetRepManager.regions.table.show(view);
 
     }
