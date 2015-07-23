@@ -132,9 +132,6 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
           for (var i = 0; i < data.length; i++)
           { 
             that.$('#status1').append('<option value="'+data[i][0]+'" '+'>  '+data[i][0]+'</option>');
-            that.$('#status2').append('<option value="'+data[i][0]+'" '+'>  '+data[i][0]+'</option>');
-            that.$('#status3').append('<option value="'+data[i][0]+'" '+'>  '+data[i][0]+'</option>');
-              // .val('whatever');
           }          
 
         } // end function
