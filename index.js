@@ -311,16 +311,61 @@ app.post("/barchartdata", function(req, res) {
 
 app.post("/piechartdata", function(req, res) {
   var piechartdata = [
-      {data: [[0,14]], label: "10%"},
+/*      {data: [[0,14]], label: "10%"},
       {data: [[1,14]], label: "50%"},
       {data: [[2,14]], label: "75%"},
       {data: [[3,14]], label: "90%"},
       {data: [[4,38]], label: "100%"}
+*/
   ];
+    var statuses = [
+      ["","blanklight.png"],
+      ["10% - A/Authorization","redlight.png"],
+      ["10% - A/Parts","redlight.png"],
+      ["10% - A/Estimate","redlight.png"],
+      ["10% - A/Repairs","redlight.png"],
+      ["10% - A/Arrival of Unit","redlight.png"],
+      ["50% - Work In Progress","yellowlight.png"],
+      ["75% - Work In Progress","yellowlight.png"],
+      ["90% - A/W Final Quality Check","yellowlight.png"],
+      ["100% - Complete - Ready for P/U","greenlight.png"],
+      ["100% - Complete - Released to Customer","greenlight.png"],
+      ["100% - Complete - Reserved for Driver","greenlight.png"]
+    ];
 
-  res.setHeader('content-type', 'application/json');
-  res.writeHead(200);
-  res.end(JSON.stringify(piechartdata));
+    var tempChartData = [];  
+    Trailer.find({status1: new RegExp('^10%', "i")}, function( err, trailers10){
+      console.log( "Number of 10% Trailers:", trailers10.length );
+      piechartdata.push({data: [[0,trailers10.length]], label: "10% Done"});
+
+      Trailer.find({status1: new RegExp('^50%', "i")}, function( err, trailers50){
+        console.log( "Number of 50% Trailers:", trailers50.length );
+        piechartdata.push({data: [[1,trailers50.length]], label: "50%,75%,90% Done"});
+
+        Trailer.find({status1: new RegExp('^75%', "i")}, function( err, trailers75){
+          console.log( "Number of 75% Trailers:", trailers50.length );
+          piechartdata[1].data[0][1] += trailers75.length
+
+          Trailer.find({status1: new RegExp('^90%', "i")}, function( err, trailers90){
+            console.log( "Number of 90% Trailers:", trailers90.length );
+            piechartdata[1].data[0][1] += trailers90.length
+
+            Trailer.find({status1: new RegExp('^100%', "i")}, function( err, trailers100){
+              console.log( "Number of 100% Trailers:", trailers100.length );
+              piechartdata.push({data: [[2,trailers100.length]], label: "100% Done"});
+
+              res.setHeader('content-type', 'application/json');
+              res.writeHead(200);
+              res.end(JSON.stringify(piechartdata));
+
+
+            });
+
+          });
+        });
+      });
+
+    });
 
 });
 
