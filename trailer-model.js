@@ -12,8 +12,7 @@ var TrailerSchema = new Schema({
     estimatedtimeofcompletion: { type: String },
     status1: { type: String },
     status2: { type: String },
-    status3: { type: String },
-    percentcomplete: { type: String }
+    status3: { type: String }
 });
 
 

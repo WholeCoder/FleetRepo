@@ -75,7 +75,6 @@
       <img src="./<%- FleetRepManager.getLightImage(status2) %>" /><%- status2 %><br />
       <img src="./<%- FleetRepManager.getLightImage(status3) %>" /><%- status3 %><br />
     </td>
-    <td><%- percentcomplete %></td>
     <td></td>
     <td>
       <a href="#trailers/<%- _id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
@@ -291,10 +290,6 @@
                         <td><input placeholder="Estimated Time of Completion" class="js-estimatedtimeofcompletion" name="estimatedtimeofcompletion" type="text" value="<%- estimatedtimeofcompletion %>"></td>
                      </tr>
                      <tr>
-                        <td><b>Percent Complete:</b></td>
-                        <td><input placeholder="Percent Complete" name="percentcomplete" type="text" value="<%- percentcomplete %>"></td>
-                     </tr>
-                     <tr>
                         <td><b>Status 1 (Master):</b></td>
                         <td>
                           <select name="status1" id="status1" style="width:300px;">
@@ -458,19 +453,6 @@
                 <img src="./littlefleetreplogo.png">
                 <span class="tooltip-text">
                     Sort By Status!
-                </span>
-              </span>
-            </span>
-        </th>
-        <th>
-            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
-              <span style="color:black;width:80px;" class="tooltip-item">
-                  <a href="#">% Complete<span class="glyphicon glyphicon-sort pull-right"></span></a>
-              </span>
-              <span class="tooltip-content clearfix">
-                <img src="./littlefleetreplogo.png">
-                <span class="tooltip-text">
-                    Sort By % Complete!
                 </span>
               </span>
             </span>
