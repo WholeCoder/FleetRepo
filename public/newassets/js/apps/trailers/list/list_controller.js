@@ -16,7 +16,8 @@ $.when(fetchingTrailers).done(function(trailers){
       trailersListLayout.on("show", function(){
         trailersListLayout.trailersRegion.show(contactsListView);
 
-        $("#myTable").tablesorter();
+        // sort by status
+        $("#myTable").tablesorter({sortList: [[8,1]]});
         $("#searchInput").keyup(function () {
             var rows = $("#fbody").find("tr").hide();
             if (this.value.length) {
