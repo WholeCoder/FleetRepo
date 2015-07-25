@@ -11,7 +11,6 @@ var UserSchema = new Schema({
     username: { type: String, required: true, index: { unique: true } },
     password: { type: String, required: true },
     customer: { type: String, required: true },
-    account: { type: String },
     activated: Boolean,
     activationtoken: { type: String, required: true},
     loginAttempts: { type: Number, required: true, default: 0 },
