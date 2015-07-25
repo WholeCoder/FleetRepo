@@ -344,6 +344,10 @@ app.post("/piechartdata", function(req, res) {
       {data: [[4,38]], label: "100%"}
 */
   ];
+
+if(req.session.currentuser.customer == "ADMIN")
+{
+
 /*    var statuses = [
       ["","blanklight.png"],
       ["10% - A/Authorization","redlight.png"],
@@ -392,7 +396,49 @@ app.post("/piechartdata", function(req, res) {
       });
 
     });
+} else
+{
+    var tempChartData = [];  
+    var andclause =  {$and: [{status1: new RegExp('^10%', "i")}, {customer: req.session.currentuser.customer}]}
+    // {status1: new RegExp('^10%', "i")}
+    Trailer.find(andclause, function( err, trailers10){
+      console.log( "Number of 10% Trailers:", trailers10.length );
+      piechartdata.push({data: [[0,trailers10.length]], label: "10% Compelete"});
 
+      andclause =  {$and: [{status1: new RegExp('^50%', "i")}, {customer: req.session.currentuser.customer}]}
+      Trailer.find(andclause, function( err, trailers50){
+        console.log( "Number of 50% Trailers:", trailers50.length );
+        piechartdata.push({data: [[1,trailers50.length]], label: "50%,75%,90% Complete"});
+
+        andclause =  {$and: [{status1: new RegExp('^75%', "i")}, {customer: req.session.currentuser.customer}]}
+        Trailer.find(andclause, function( err, trailers75){
+          console.log( "Number of 75% Trailers:", trailers50.length );
+          piechartdata[1].data[0][1] += trailers75.length
+
+          andclause =  {$and: [{status1: new RegExp('^90%', "i")}, {customer: req.session.currentuser.customer}]}
+
+          Trailer.find(andclause, function( err, trailers90){
+            console.log( "Number of 90% Trailers:", trailers90.length );
+            piechartdata[1].data[0][1] += trailers90.length
+
+            andclause =  {$and: [{status1: new RegExp('^100%', "i")}, {customer: req.session.currentuser.customer}]}
+            Trailer.find(andclause, function( err, trailers100){
+              console.log( "Number of 100% Trailers:", trailers100.length );
+              piechartdata.push({data: [[2,trailers100.length]], label: "100% Complete"});
+
+              res.setHeader('content-type', 'application/json');
+              res.writeHead(200);
+              res.end(JSON.stringify(piechartdata));
+
+
+            });
+
+          });
+        });
+      });
+
+    });
+} // end else clause
 });
 
 app.post("/savenewaccount", function(req, res) {
