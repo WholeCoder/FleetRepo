@@ -62,7 +62,6 @@ var testUser = new User({
     username: 'test',
     password: 'test',
     customer: 'ADMIN',
-    account: '',
     activated: true,
     activationtoken: token
 });

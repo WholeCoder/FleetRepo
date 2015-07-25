@@ -75,7 +75,6 @@ function saveUserToDatabase(u, req, res)
       username: u.email,
       password: u.password,
       customer: u.customer,
-      account: u.account,
       activated: true,
       activationtoken: token
   });
