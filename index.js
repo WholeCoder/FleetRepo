@@ -16,17 +16,27 @@ var express = require('express'),
     MongoStore = require('connect-mongo')(session);
  
 // ** MUST set this as a config variable on the heroku.com website **
-var DISABLE_SSL = process.env.DISABLE_SSL == 'true';
+var DISABLE_SSL = process.env.ENVIRONMENT == 'local_development';
+var ENVIRONMENT = process.env.ENVIRONMENT;
 
-var mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds047802.mongolab.com:47802/heroku_dswxx1s9";
+var mongodbconnectionstring = "mongodb://localhost/test";
 
-if (DISABLE_SSL)
+console.log("ENVIRONMENT == "+ENVIRONMENT);
+console.log("DISABLE_SSL == "+DISABLE_SSL);
+
+
+if (DISABLE_SSL && ENVIRONMENT == 'local_development') // on development
 {
   console.log("!!!!!!!DISABLE_SSL was set - admin app won't be encrypted!!!!!!")
   console.log("setting connection to local mongodb!!!!!!!!!!!!");
   mongodbconnectionstring = "mongodb://localhost/test";
+} else if (ENVIRONMENT == 'remote_developmeent') // on testing site
+{
+  mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds047802.mongolab.com:47802/heroku_dswxx1s9";
+} else // we are in production!
+{
+  mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds061621.mongolab.com:61621/heroku_pxjw3c9s";
 }
-
 
 
 
