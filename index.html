@@ -356,10 +356,10 @@
   <script type="text/template" id="trailer-list">
     <thead>
       <tr>
-         <th>
+         <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:60px;" class="tooltip-item">
-                  <a href="#">Unit #<span class="glyphicon glyphicon-sort pull-right"></span></a>
+                  <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
               </span>
               <span class="tooltip-content clearfix">
                 <img src="./littlefleetreplogo.png">
@@ -369,7 +369,7 @@
               </span>
             </span>            
          </th>
-         <th>
+         <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -382,7 +382,7 @@
               </span>
             </span>
         </th>
-         <th>
+         <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -395,7 +395,7 @@
               </span>
             </span>
         </th>
-        <th>
+        <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -408,7 +408,7 @@
               </span>
             </span>
         </th>
-        <th>
+        <th align="center">
           
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
@@ -422,7 +422,7 @@
               </span>
             </span>
         </th>
-        <th>
+        <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -435,7 +435,7 @@
               </span>
             </span>
         </th>
-        <th>
+        <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -448,7 +448,7 @@
               </span>
             </span>
         </th>
-        <th>
+        <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -461,7 +461,7 @@
               </span>
             </span>
         </th>
-        <th colspan="2">
+        <th colspan="2" align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -474,7 +474,7 @@
               </span>
             </span>
         </th>
-        <th>
+        <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#" >Supporting Documents<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -618,7 +618,7 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div id="toolbar" style="display:none;" class="pull-right"><a href="/" id="logout" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal:  </b>&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div id="toolbar" style="display:none;" class="pull-right"><a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -765,7 +765,8 @@
           // $('#loaddummydata').show();
           // $('#newtrailer').show();
           $('#searchInput').show();
-
+          $('#customername').show();
+          $('#logout').show();
           $('#toolbar').show();
 
 
@@ -778,6 +779,28 @@
 
           $("#barchart").css("width", "600px");
           $("#barchart").css("height", "400px");
+
+
+          $.ajax('/getAUsersCustomer' + "?dummyforie="+new Date().getTime().toString(), {
+            type: 'GET',
+            data: JSON.stringify({}),
+            contentType: 'text/json',
+            success: function(dta) {
+              $('#customername').html('<b>'+dta.customer+'</b>&nbsp;&nbsp;&nbsp;');
+/*              var spacerforusername = ''
+              var widthofspacestojustify = 170;// 120
+              var numberofspaces = widthofspacestojustify-dta.customer.length;
+              console.log("dta.customer.length == "+dta.customer.length);
+              console.log("numberofspaces == "+numberofspaces);
+              for (var i = 0; i < numberofspaces; i++)
+              {
+                spacerforusername += '&nbsp;';
+              }
+              console.log("spacerforusername == "+spacerforusername);
+              $('#spacerforusername').html(spacerforusername);
+*/            },
+            error  : function() { if ( callback ) callback(false); }
+          });
 
 /*          $.ajax('/barchartdata' + "?dummyforie="+new Date().getTime().toString(), {
             type: 'POST',

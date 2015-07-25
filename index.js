@@ -335,6 +335,12 @@ app.post("/barchartdata", function(req, res) {
 
 });
 
+app.get("/getAUsersCustomer", function(req, res) {
+  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end(JSON.stringify({customer: req.session.currentuser.customer}));
+});
+
 app.post("/piechartdata", function(req, res) {
   var piechartdata = [
 /*      {data: [[0,14]], label: "10%"},
