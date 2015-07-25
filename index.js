@@ -131,6 +131,11 @@ app.get("/activate", function(req, res) {
   });  
 });
 
+app.get("/logout", function(req, res) {
+  req.session.currentuser = {};
+  req.session.save();
+});
+
 app.post("/login", function(req, res) {
   var str = "";
   for (var prop in req.headers)

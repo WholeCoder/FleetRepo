@@ -757,7 +757,23 @@
               event.preventDefault();
               FleetRepManager.trigger("trailers:list");
               FleetRepManager.loadCharts();
-            });              
+            });      
+
+            $('#logout').on("click", function(event) {
+              //event.preventDefault();
+                $.ajax('/logout' + "?dummyforie="+new Date().getTime().toString(), {
+                  type: 'GET',
+                  data: JSON.stringify({}),
+                  contentType: 'text/json',
+                  success: function(dta) {
+                    /*FleetRepManager.loadpiechart(dta);*/
+                    //alert('credit card successfully processed.');
+                    alert('logging out!');
+                  },
+                  error  : function() { if ( callback ) callback(false); }
+                });
+                
+            });        
            } // if (!FleetRepManager.clickHandlersSet)
 
           // $('#logout').show();
