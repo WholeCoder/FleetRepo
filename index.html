@@ -71,9 +71,14 @@
     <td><%- dateapproved %></td>
     <td><%- estimatedtimeofcompletion %></td>
     <td>
-      <img src="./<%- FleetRepManager.getLightImage(status1) %>" /><%- status1 %><br />
-      <img src="./<%- FleetRepManager.getLightImage(status2) %>" /><%- status2 %><br />
-      <img src="./<%- FleetRepManager.getLightImage(status3) %>" /><%- status3 %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status1) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status2) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status3) %><br />
+    </td>
+    <td>
+      <%- FleetRepManager.getStatusTitle(status1) %><br />
+      <%- FleetRepManager.getStatusTitle(status2) %><br />
+      <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
     <td>Coming Soon!</td>
     <td>
@@ -101,22 +106,22 @@
              <div class="panel-body" style="height: 358px;">
                 <fieldset>
                    <div>
-                      <input placeholder="E-mail" name="email" type="text">
+                      <input placeholder="E-mail" name="email" type="text" style="width:400px;">
                    </div>
                    <div>
-                      <input placeholder="E-mail (Confirmation)" name="emailconfirmation" type="text">
+                      <input placeholder="E-mail (Confirmation)" name="emailconfirmation" type="text" style="width:400px;">
                    </div>
                    <div>
-                      <input placeholder="Password" name="password" type="text" value="">
+                      <input placeholder="Password" name="password" type="text" value="" style="width:400px;">
                    </div>
                    <div>
-                      <input placeholder="Password (Confirmation)" name="passwordconfirmation" type="text" value="">
+                      <input placeholder="Password (Confirmation)" name="passwordconfirmation" type="text" value="" style="width:400px;">
                    </div>
                    <div>
-                      <input placeholder="Customer" name="customer" class="js-customer" type="text" value="">
+                      <input placeholder="Customer" name="customer" class="js-customer" type="text" value="" style="width:400px;">
                    </div>
                    <div>
-                      <input placeholder="Account" class="js-account" name="account" class="js-account" type="text" value="">
+                      <input placeholder="Account" class="js-account" name="account" class="js-account" type="text" value="" style="width:400px;">
                    </div>
                 </fieldset>
                 <p>Use the value of <b>ADMIN</b> in the <b>Customer form field</b> to give this user Administration rights (add, edit, view, delete, users and trailers).</p>
@@ -187,7 +192,7 @@
                 <p><b><a href="http://www.fleetrep.net/contact/">Contact Us</a></b> if you would like access to the <br /><b><a href="http://www.fleetrep.net/"><img src="./betalogo.png" /></a> Customer Portal</b>.</p><br />
                 <img src="./call-us.png" alt="Call us">
                 (717) 469-4524
-                <p>6068 Firehouse Rd.<br/>
+                <p>550 Firehouse Rd.<br/>
                   PO Box 459<br/>
                   Grantville, PA 17028<br/>
                   <a href="mailto:service@fleetrep.net">service@fleetrep.net</a></p/>
@@ -250,7 +255,7 @@
              <div class="row">
                 <div  class="col-sm-6">
                   <div class="panel panel-danger">
-                     <div class="panel-heading"><b>New Trailer Record</b></div>
+                     <div class="panel-heading"><b>New Unit Record</b></div>
                      <div class="panel-body" style="height: 400px;">
 
 <form>             
@@ -259,47 +264,58 @@
                    <tbody>
                      <tr>
                         <td><b>Unit #:<br /></b></td>
-                        <td><input placeholder="Unit #" name="unitnumber" type="text" value="<%- unitnumber %>"></td>
+                        <td><input style="width:400px;" placeholder="Unit #" name="unitnumber" type="text" value="<%- unitnumber %>"></td>
                      </tr>
                      <tr>
                         <td><b>Customer:</b></td>
-                        <td><input placeholder="Customer" name="customer" class="js-customer" type="text" value="<%- customer %>"></td>
+                        <td><input style="width:400px;" placeholder="Customer" name="customer" class="js-customer" type="text" value="<%- customer %>" style="width:500px;"></td>
                      </tr>
                      <tr>
                         <td><b>Account:</b></td>
-                        <td><input placeholder="Account" name="account" type="text" value="<%- account %>" class="js-account"></td>
+                        <td><input style="width:400px;" placeholder="Account" name="account" type="text" value="<%- account %>" class="js-account" style="width:500px;"></td>
                      </tr>
                      <tr>
                         <td><b>Vehicle Type:</b></td>
-                        <td><input placeholder="Vehicle Type" name="vehicletype" class="js-vehicletype" type="text" value="<%- vehicletype %>"></td>
+                        <td>
+                        <select name="vehicletype" style="width:400px;">
+                          <option value=""></option>
+                          <option value="REEFER: REEFER UNIT">REEFER: REEFER UNIT</option>
+                          <option value="TRAILER:  DRY VAN">TRAILER:  DRY VAN</option>
+                          <option value="TRAILER:  REEFER VAN">TRAILER:  REEFER VAN</option>
+                          <option value="TRAILER:  FLAT BED">TRAILER:  FLAT BED</option>
+                          <option value="TRAILER:  CONTAINER / CHASSIS">TRAILER:  CONTAINER / CHASSIS</option>
+                          <option value="TRACTOR:  CONDO">TRACTOR:  CONDO</option>
+                          <option value="TRACTOR:  DAY CAB">TRACTOR:  DAY CAB</option>
+                        </select>
+                        </td>
                      </tr>
                      <tr>
                         <td><b>Location:</b></td>
-                        <td><input placeholder="Location" name="location" type="text" value="<%- location %>"></td>
+                        <td><input style="width:400px;" placeholder="Location" name="location" id="location" class="js-location" type="text" value="<%- location %>"></td>
                      </tr>
                      <tr>
                         <td><b>Date RS Notified:</b></td>
-                        <td><input placeholder="Date RS Notified" name="datersnotified" class="js-datersnotified" type="text" value="<%- datersnotified %>"></td>
+                        <td><input style="width:400px;" placeholder="Date RS Notified" name="datersnotified" class="js-datersnotified" type="text" value="<%- datersnotified %>"></td>
                      </tr>
                      <tr>
                         <td><b>Date Approved:</b></td>
-                        <td><input placeholder="Date Approved" class="js-dateapproved" name="dateapproved" type="text" value="<%- dateapproved %>"></td>
+                        <td><input style="width:400px;" placeholder="Date Approved" class="js-dateapproved" name="dateapproved" type="text" value="<%- dateapproved %>"></td>
                      </tr>
                      <tr>
                         <td><b>Estimated Time of Completion:</b></td>
-                        <td><input placeholder="Estimated Time of Completion" class="js-estimatedtimeofcompletion" name="estimatedtimeofcompletion" type="text" value="<%- estimatedtimeofcompletion %>"></td>
+                        <td><input style="width:400px;" placeholder="Estimated Time of Completion" class="js-estimatedtimeofcompletion" name="estimatedtimeofcompletion" type="text" value="<%- estimatedtimeofcompletion %>"></td>
                      </tr>
                      <tr>
                         <td><b>Status 1 (Master):</b></td>
                         <td>
-                          <select name="status1" id="status1" style="width:300px;">
+                          <select style="width:400px;" name="status1" id="status1" style="width:300px;">
                           </select>
                         </td>
                      </tr>
                      <tr>
                         <td><b>Status 2:</b></td>
                         <td>
-                          <select name="status2" id="status2" style="width:300px;">
+                          <select style="width:400px;" name="status2" id="status2" style="width:300px;">
                             <option value="" selected></option>
                           </select>
                         </td>
@@ -307,7 +323,7 @@
                      <tr>
                         <td><b>Status 3:</b></td>
                         <td>
-                          <select name="status3" id="status3" style="width:300px;">
+                          <select style="width:400px;" name="status3" id="status3" style="width:300px;">
                             <option value="" selected></option>
                           </select>
                         </td>
@@ -318,7 +334,7 @@
       </form>
 
                      </div>
-                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-savetrailer" type="submit" value="Save Trailer" /></div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-savetrailer" type="submit" value="Save Unit" /></div>
                   </div>
 
                 </div>
@@ -329,7 +345,7 @@
                         <p><b>Setting</b> the <b>"Status 1 (Master)"</b> status input box <b>changes</b> the options in <b>"Status 2"</b> and <b>"Status 3"</b> boxes.</p>
                         <p>If <b>all statuses</b> are <b>blank</b> then they <b>will not</b> be <b>counted</b> in the <b>charts</b>.</p>
                      </div>
-                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-cancelsavetrailer" type="submit" value="Cancel Save Trailer" /></div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-cancelsavetrailer" type="submit" value="Cancel Save Unit" /></div>
                   </div>
 
                 </div>
@@ -445,7 +461,7 @@
               </span>
             </span>
         </th>
-        <th>
+        <th colspan="2">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -466,7 +482,7 @@
               <span class="tooltip-content clearfix">
                 <img src="./littlefleetreplogo.png">
                 <span class="tooltip-text">
-                    Sort By Supporting Documents!
+                    Click Below For Supporting Documents.
                 </span>
               </span>
             </span>
@@ -594,15 +610,15 @@
   .corner-ribbon.orange{background: #e82;}
   .corner-ribbon.yellow{background: #ec0;}
 </style>
-<div class="corner-ribbon top-right sticky blue">
+<!-- <div class="corner-ribbon top-right sticky blue">
   <a href="http://www.fleetrep.net/contact/" style="color: white;">Beta! - Share!</a>
 </div>
-
+ -->
   <!-- Jumbotron -->
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div id="toolbar" style="display:none;" class="pull-right"><a href="/" id="logout" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="loaddummydata" class="js-loaddummydata"><b>Load Dummy Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="deletealldata" class="js-deletealldata"><b>Delete all Data</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Trailer</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal</b>&nbsp;&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div id="toolbar" style="display:none;" class="pull-right"><a href="/" id="logout" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -735,36 +751,13 @@
             $( "#newtrailer" ).on( "click", function(event) {
               event.preventDefault();
               FleetRepManager.trigger("trailers:new");
-            });
-            $( "#loaddummydata" ).on( "click", function(event) {
-              event.preventDefault();
-              console.log("loading dummy data!!!!!!!!!!");
-              if(confirm("Are you sure you want to add DUMMY data into the database?"))
-              {
-                FleetRepManager.trigger("trailers:loaddummydata");
-              }
-            });
-            
-            $( "#deletealldata" ).on( "click", function(event) {
-              event.preventDefault();
-              if(confirm("WARNING!!! Are you sure you want to delete ALL DATA in the database?"))
-              {
-                if(confirm("WARNING!!! Are you sure? Data deleted is LOST FOREVER!"))
-                {
+            });              
 
-                  $.ajax('/deletealltrailers' + "?dummyforie="+new Date().getTime().toString(), {
-                    type: 'GET',
-                    data: "",
-                    contentType: 'text/json',
-                    success: function(data2) { 
-                        FleetRepManager.trigger("trailers:list");
-                    },
-                    error  : function() { alert('Error - could not save the trailer');}
-                  }); // end $.post
-                }
-              } // end if
-              });
-              
+            $( "#manualrefresh" ).on( "click", function(event) {
+              event.preventDefault();
+              FleetRepManager.trigger("trailers:list");
+              FleetRepManager.loadCharts();
+            });              
            } // if (!FleetRepManager.clickHandlersSet)
 
           // $('#logout').show();
@@ -786,7 +779,7 @@
           $("#barchart").css("width", "600px");
           $("#barchart").css("height", "400px");
 
-          $.ajax('/barchartdata' + "?dummyforie="+new Date().getTime().toString(), {
+/*          $.ajax('/barchartdata' + "?dummyforie="+new Date().getTime().toString(), {
             type: 'POST',
             data: JSON.stringify({}),
             contentType: 'text/json',
@@ -796,7 +789,7 @@
             },
             error  : function() { if ( callback ) callback(false); }
           });
-
+*/
           $.ajax('/piechartdata' + "?dummyforie="+new Date().getTime().toString(), {
             type: 'POST',
             data: JSON.stringify({}),
@@ -886,18 +879,20 @@
     </script>
     <script type="text/javascript">
     FleetRepManager.statuses = [
-      ["","blanklight.png"],
-      ["10% - A/Authorization","redlight.png"],
-      ["10% - A/Parts","redlight.png"],
-      ["10% - A/Estimate","redlight.png"],
-      ["10% - A/Repairs","redlight.png"],
-      ["10% - A/Arrival of Unit","redlight.png"],
-      ["50% - Work In Progress","yellowlight.png"],
-      ["75% - Work In Progress","yellowlight.png"],
-      ["90% - A/W Final Quality Check","yellowlight.png"],
-      ["100% - Complete - Ready for P/U","greenlight.png"],
-      ["100% - Complete - Released to Customer","greenlight.png"],
-      ["100% - Complete - Reserved for Driver","greenlight.png"]
+      ["", "blanklight.png","", ""],
+      ["10%  A/W AUTHORIZATION",            "redlight.png","A/W AUTHORIZATION", "10%"],
+      ["10%  A/W PARTS",                    "redlight.png","A/W PARTS", "10%"],
+      ["10%  A/W ESTIMATE",                 "redlight.png","A/W ESTIMATE", "10%"],
+      ["10%  A/W ARRIVAL OF UNIT",          "redlight.png","A/W ARRIVAL OF UNIT", "10%"],
+      ["10%  A/W REPAIRS", "redlight.png",  "A/W REPAIRS", "10%"],
+      ["50%  WORK IN PROGRESS", "yellowlight.png",        "WORK IN PROGRESS", "50%"],
+      ["75%  WORK IN PROGRESS", "yellowlight.png",        "WORK IN PROGRESS", "75%"],
+      ["90%  A/W FINAL QUALITY CHECK", "yellowlight.png", "A/W FINAL QUALITY CHECK", "90%"],
+      ["100% COMPLETE:  IN TRANSIT TO CUSTOMER", "greenlight.png",  "COMPLETE:  IN TRANSIT TO CUSTOMER", "100%"],
+      ["100% COMPLETE:  READY FOR P/U", "greenlight.png",           "COMPLETE:  READY FOR P/U", "100%"],
+      ["100% COMPLETE:  RELEASED TO CUSTOMER", "greenlight.png",    "COMPLETE:  RELEASED TO CUSTOMER", "100%"],
+      ["100% COMPLETE:  DELIVERED TO CUSTOMER", "greenlight.png",   "DELIVERED TO CUSTOMER", "100%"],
+      ["100% COMPLETE:  RESERVED", "greenlight.png", "COMPLETE:  RESERVED", "100%"]
     ];
 
     FleetRepManager.getLightImage = function(status) {
@@ -910,6 +905,32 @@
         }
       }
       console.log('could not find status when FleetRepManager.getLightImage() in index.html status == '+status);
+      return imagename; // name not found - use none
+    };
+
+    FleetRepManager.getPercentage = function(status) {
+      var imagename = "ERROR %";
+      for(var i = 0; i < FleetRepManager.statuses.length; i++)
+      {
+        if (FleetRepManager.statuses[i][0] == status)
+        {
+          return FleetRepManager.statuses[i][3];
+        }
+      }
+      console.log('could not find status when FleetRepManager.getPercentage() in index.html status == '+status);
+      return imagename; // name not found - use none
+    };
+
+    FleetRepManager.getStatusTitle = function(status) {
+      var imagename = "ERROR - STATUS NOT VALID!";
+      for(var i = 0; i < FleetRepManager.statuses.length; i++)
+      {
+        if (FleetRepManager.statuses[i][0] == status)
+        {
+          return FleetRepManager.statuses[i][2];
+        }
+      }
+      console.log('could not find status when FleetRepManager.getStatusTitle() in index.html status == '+status);
       return imagename; // name not found - use none
     };
     </script>

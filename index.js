@@ -285,66 +285,15 @@ if(req.session.currentuser.customer == "ADMIN")
 } // END IF
 
 });
-
-app.get("/loaddummytrailerdata", function(req, res) {
-if(req.session.currentuser.customer == "ADMIN")
-{
-
-  var trailerRay = [
-      { unitnumber: "1245",  customer: "CHAMBERSBURG WASTE PAPER", account: "Dedicated Hershey",  vehicletype: "Flat Bed", location: "EDC III",  assignedto: "Mary",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/27/2015",  status1: "10% - A/Estimate", status2: "10% - A/Parts", status3: "10% - A/Authorization",  dateapproved: "11/3/2015"},
-      { unitnumber: "1238",  customer: "CONTRACT LEASING CORP.", account: "Intermodal", vehicletype: "Reefer Trailer",  location: "GRANTVILLE CRENGLAND",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/20/2015",  status1: "50% - Work In Progress", status2: "50% - Work In Progress", status3: "",  dateapproved: "11/18/2015"},
-      { unitnumber: "1294",  customer: "CR ENGLAND", account: "OTR",  vehicletype: "Container Chassis", location: "GRANTVILLE CRENGLAND",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/26/2015",  status1: "100% - Complete - Reserved for Driver", status2: "100% - Complete - Released to Customer", status3: "100% - Complete - Ready for P/U",  dateapproved: "11/1/2015"},
-      { unitnumber: "1134",  customer: "WHITE ARROW", account: "Intermodal",  vehicletype: "Tractor/Condo", location: "GRANTVILLE CRENGLAND",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/25/2015",  status1: "100% - Complete - Reserved for Driver", status2: "100% - Complete - Ready for P/U", status3: "",  dateapproved: "11/19/2015"}
-  ];
-
-  for (var i = 0; i < trailerRay.length; i++)
-  {
-    var trailer = new Trailer(trailerRay[i]);
-    trailer.save(function (err) {
-      if (err) 
-      {
-        console.log('ERROR saving trailer!!');
-      } else 
-      {
-        console.log("Trailer saved successfully!");
-      }
-      
-    });
-  }
-
-  res.setHeader('content-type', 'application/json');
-  res.writeHead(200);
-  res.end("{}");
-} // end if
-});
- 
-app.get("/deletealltrailers", function(req, res) {
-
-if(req.session.currentuser.customer == "ADMIN")
-{
-  Trailer.remove({}, function(err){
-    if(err)
-    {
-      console.log("ERROR - getting deleting all Trailers.");
-      res.writeHead(200);
-      res.end("");
-    } else
-    {
-      res.writeHead(200);
-      res.end("");
-    }
-  });
-} // end if
-});
  
 app.post("/barchartdata", function(req, res) {
   var wins2 = [
   // [0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]
   ];
   var percents2 = [
-      [0, "10% Done"],
-      [1, "50%, 75%, 90% Done"],
-      [2, "100% Done"]];
+      [0, "10% Complete"],
+      [1, "50%, 75%, 90% Complete"],
+      [2, "100% Complete"]];
 
   var barchartdata = {"wins": wins2, "percents": percents2};
 
@@ -413,11 +362,11 @@ app.post("/piechartdata", function(req, res) {
     var tempChartData = [];  
     Trailer.find({status1: new RegExp('^10%', "i")}, function( err, trailers10){
       console.log( "Number of 10% Trailers:", trailers10.length );
-      piechartdata.push({data: [[0,trailers10.length]], label: "10% Done"});
+      piechartdata.push({data: [[0,trailers10.length]], label: "10% Compelete"});
 
       Trailer.find({status1: new RegExp('^50%', "i")}, function( err, trailers50){
         console.log( "Number of 50% Trailers:", trailers50.length );
-        piechartdata.push({data: [[1,trailers50.length]], label: "50%,75%,90% Done"});
+        piechartdata.push({data: [[1,trailers50.length]], label: "50%,75%,90% Complete"});
 
         Trailer.find({status1: new RegExp('^75%', "i")}, function( err, trailers75){
           console.log( "Number of 75% Trailers:", trailers50.length );
@@ -429,7 +378,7 @@ app.post("/piechartdata", function(req, res) {
 
             Trailer.find({status1: new RegExp('^100%', "i")}, function( err, trailers100){
               console.log( "Number of 100% Trailers:", trailers100.length );
-              piechartdata.push({data: [[2,trailers100.length]], label: "100% Done"});
+              piechartdata.push({data: [[2,trailers100.length]], label: "100% Complete"});
 
               res.setHeader('content-type', 'application/json');
               res.writeHead(200);
@@ -693,7 +642,7 @@ app.post("/deleteuseraccount", function(req, res)
                       }
                     }); // end User.findOneAndRemove
               } // end useradmins.length != 1
-            }); // end Trailer.find
+            }); // end User.find
           } // if newDeleteUserObject.customer == 'ADMIN'
           else
           {
