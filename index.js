@@ -33,9 +33,12 @@ if (DISABLE_SSL && ENVIRONMENT == 'local_development') // on development
 } else if (ENVIRONMENT == 'remote_developmeent') // on testing site
 {
   mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds047802.mongolab.com:47802/heroku_dswxx1s9";
-} else // we are in production!
+} else if (ENVIRONEMNT == 'production')
 {
   mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds061621.mongolab.com:61621/heroku_pxjw3c9s";
+} else
+{
+  console.log("!!CONFIG ERROR - ENVIRONMENT system variable not found.  Can not set mongodb variable!!!!")
 }
 
 
