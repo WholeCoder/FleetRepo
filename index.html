@@ -661,7 +661,7 @@
      <script src="./flotr2.min.js"></script>
      <!-- Site footer -->
      <footer class="footer">
-        <p>© <b>Fleet Repair Solutions 2015</b></p>
+        <p>© <b>Fleet Repair Solutions 2015</b><div id="currentenvironment"></div></p>
      </footer>
   </div>
 
@@ -776,6 +776,17 @@
             });        
            } // if (!FleetRepManager.clickHandlersSet)
 
+          $.ajax('/getenvironment' + "?dummyforie="+new Date().getTime().toString(), {
+            type: 'GET',
+            data: JSON.stringify({}),
+            contentType: 'text/json',
+            success: function(dta) {
+              /*FleetRepManager.loadpiechart(dta);*/
+              //alert('credit card successfully processed.');
+              $('#currentenvironment').text(dta.environment);
+            },
+            error  : function() { alert('could not get ENVIRONMENT');if ( callback ) callback(false); }
+          });
           // $('#logout').show();
           // $('#deletealldata').show();
           // $('#loaddummydata').show();

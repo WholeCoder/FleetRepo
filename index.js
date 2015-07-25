@@ -136,6 +136,33 @@ app.get("/logout", function(req, res) {
   req.session.save();
 });
 
+app.get("/getenvironment", function(req, res) {
+  console.log("----------current user in session == "+JSON.stringify(req.session.currentuser));
+  if(req.session.currentuser != undefined)
+  {
+
+    var prettyEnvironment = "WTF?";
+    if (ENVIRONMENT == 'local_development') // on development
+    {
+      prettyEnvironment = "Local Development Environment";
+    } else if (ENVIRONMENT == 'remote_developmeent') // on testing site
+    {
+      prettyEnvironment = "Remote Development Environment";
+    } else if (ENVIRONMENT == 'production')
+    {
+      prettyEnvironment = "Production";
+    } else
+    {
+      prettyEnvironment = "WTF?";
+    }
+
+    res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
+
+    res.end('{"environment": "'+prettyEnvironment+'"}');
+  }
+});
+
 app.post("/login", function(req, res) {
   var str = "";
   for (var prop in req.headers)
