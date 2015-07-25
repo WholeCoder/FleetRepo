@@ -141,27 +141,33 @@ app.post("/login", function(req, res) {
   // *** note!!! *** headers always come through lowercase!!!!
   console.log("authorization == "+req.headers['authorization']);//Authorization
   if (req.method == 'POST') {
+    console.log('1.  POST found');
       var jsonString = '';
       req.on('data', function (data) {
           jsonString += data;
       });
       req.on('end', function () {
            var loginInfoJson = JSON.parse(jsonString)
-
+console.log('2.  jsonString == '+jsonString);
             User.getAuthenticated(loginInfoJson.email, loginInfoJson.password, function(err, user, reason) {
                 if (err) throw err;
-
+console.log('3.  found a user');
                 // login was successful if we have a user
                 if (user && user.activated) {
+console.log('4.  user is valid and activated');                  
                     // handle login success
                     res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
                     var token = randtoken.generate(16);
                     var expIn = expiresIn(3);
-saveTokenToDatabase({email:user.username , token: token}, req, res);
-                    res.end("{\"email\":\""+user.username+"\",\"token\":\""+token+"\",\"expiresIn\":"+expIn+"}");
-
-                    console.log('login success');
+//saveTokenToDatabase({email:user.username , token: token}, req, res);
+                    res.end('{"email":"'+user.username+'","token":"'+token+'","expiresIn":'+expIn+',"customer":"'+user.customer+'"}');
+                    req.session.currentuser = {};
+                    req.session.currentuser.username = user.username;
+                    req.session.currentuser.customer = user.customer;
+                    req.session.save();
+console.log("req.session.currentuser.username == "+req.session.currentuser.username);                    
+                    console.log('login success user looks like:  '+'{"email":"'+user.username+'","token":"'+token+'","expiresIn":'+expIn+',"customer":"'+user.customer+'"}');
                     return;
                 }
 
@@ -181,7 +187,7 @@ saveTokenToDatabase({email:user.username , token: token}, req, res);
                         reasonCouldNotLogIn = "Max Attempts"
                         break;
                 }
-
+console.log('5. could not log in reasonCouldNotLogIn == '+reasonCouldNotLogIn);
                 res.setHeader('content-type', 'application/json');
                 res.writeHead(200);
 
@@ -239,6 +245,9 @@ function sendIfNoSSLRequired(page_path, req, res)
 app.get("/trailers", function(req, res) {
   var trailerRay = [];
 
+console.log("\n\n/trailers req.session == "+JSON.stringify(req.session))
+if(req.session.currentuser.customer == "ADMIN")
+{
   Trailer.find({}, function(err, docs){
     if(err)
     {
@@ -255,10 +264,32 @@ app.get("/trailers", function(req, res) {
     res.end(JSON.stringify(trailerRay));
     }
   });
+} else 
+{
+  Trailer.find({customer: req.session.currentuser.customer}, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all Trailers.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+    res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
+    res.end(JSON.stringify(trailerRay));
+    }
+  });
+} // END IF
 
 });
 
 app.get("/loaddummytrailerdata", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+
   var trailerRay = [
       { unitnumber: "1245",  customer: "CHAMBERSBURG WASTE PAPER", account: "Dedicated Hershey",  vehicletype: "Flat Bed", location: "EDC III",  assignedto: "Mary",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/27/2015",  status1: "10% - A/Estimate", status2: "10% - A/Parts", status3: "10% - A/Authorization",  dateapproved: "11/3/2015"},
       { unitnumber: "1238",  customer: "CONTRACT LEASING CORP.", account: "Intermodal", vehicletype: "Reefer Trailer",  location: "GRANTVILLE CRENGLAND",  datersnotified: "11/19/2015",  estimatedtimeofcompletion: "11/20/2015",  status1: "50% - Work In Progress", status2: "50% - Work In Progress", status3: "",  dateapproved: "11/18/2015"},
@@ -284,11 +315,13 @@ app.get("/loaddummytrailerdata", function(req, res) {
   res.setHeader('content-type', 'application/json');
   res.writeHead(200);
   res.end("{}");
-
+} // end if
 });
  
 app.get("/deletealltrailers", function(req, res) {
 
+if(req.session.currentuser.customer == "ADMIN")
+{
   Trailer.remove({}, function(err){
     if(err)
     {
@@ -301,6 +334,7 @@ app.get("/deletealltrailers", function(req, res) {
       res.end("");
     }
   });
+} // end if
 });
  
 app.post("/barchartdata", function(req, res) {
@@ -413,6 +447,8 @@ app.post("/piechartdata", function(req, res) {
 });
 
 app.post("/savenewaccount", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
   if (req.method == 'POST') {
       var jsonString = '';
       req.on('data', function (data) {
@@ -426,9 +462,12 @@ app.post("/savenewaccount", function(req, res) {
   res.setHeader('content-type', 'application/json');
   res.writeHead(200);
   res.end("{}");
+}//end if
 });
 
 app.post("/resetuserspassword", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
   if (req.method == 'POST') {
       var jsonString = '';
       req.on('data', function (data) {
@@ -449,10 +488,12 @@ app.post("/resetuserspassword", function(req, res) {
           });
       });
   }
-
+} // end if
 });
 
 app.post("/savetrailer", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
   if (req.method == 'POST') {
       var jsonString = '';
       req.on('data', function (data) {
@@ -477,9 +518,12 @@ app.post("/savetrailer", function(req, res) {
   res.setHeader('content-type', 'application/json');
   res.writeHead(200);
   res.end("{}");
+}//end if
 });
 
 app.post("/updatetrailer", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
   if (req.method == 'POST') {
       var jsonString = '';
       req.on('data', function (data) {
@@ -513,10 +557,12 @@ app.post("/updatetrailer", function(req, res) {
 */
       });
   }
-
+} // end if
 });
 
 app.get("/getusers", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
   User.find({},function(err, obj) {
     if (err)
     {
@@ -538,9 +584,12 @@ app.get("/getusers", function(req, res) {
       res.end(JSON.stringify(usersWithJustEmailAndCustomer));
     }
   });
+} // end if
 });
  
 app.post("/gettrailer", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
   if (req.method == 'POST') {
       var jsonString = '';
       req.on('data', function (data) {
@@ -562,11 +611,13 @@ app.post("/gettrailer", function(req, res) {
             });
       });
   }
-
+} // end if
 });
  
 
 app.post("/deletetrailer", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
   if (req.method == 'POST') {
       var jsonString = '';
       req.on('data', function (data) {
@@ -595,37 +646,85 @@ app.post("/deletetrailer", function(req, res) {
             });
 */      });
   }
-
+} // end if
 });
 
-app.post("/deleteuseraccount", function(req, res) {
-  if (req.method == 'POST') {
+app.post("/deleteuseraccount", function(req, res)
+{
+  if (req.session.currentuser.customer == "ADMIN") 
+  {
+    if (req.method == 'POST') 
+    {
       var jsonString = '';
-      req.on('data', function (data) {
-          jsonString += data;
+      req.on('data', function(data) 
+      {
+        jsonString += data;
       });
-      req.on('end', function () {
-          var newDeleteUserObject = JSON.parse(jsonString);
+      req.on('end', function() 
+      {
 
-          User.findOneAndRemove({'username' : newDeleteUserObject.email}, function (err,user){
-              if (err)
+        var newDeleteUserObject = JSON.parse(jsonString);
+
+
+        User.findOne({ username: newDeleteUserObject.email }, function(err, user) {
+
+
+
+          if(user.customer == "ADMIN")
+          {
+            User.find({customer: new RegExp('ADMIN', "i")}, function(err, userAdmins) 
+            {
+              if (userAdmins.length > 1) 
               {
-                console.log("ERROR in /deleteuseraccount")
-              } else
-              {
-                console.log("COMPLETED /deleteuseraccount successfully")
 
-                res.setHeader('content-type', 'application/json');
-                res.writeHead(200);
-                res.end("{}");
-              }
-          });
-      });
-  }
+                User.findOneAndRemove({'username': newDeleteUserObject.email}, 
+                    function(err, user) 
+                    {
+                      if (err) 
+                      {
+                          console.log("ERROR in /deleteuseraccount")
+                      } else 
+                      {
+                          console.log("COMPLETED /deleteuseraccount successfully")
 
-});
+                          res.setHeader('content-type', 'application/json');
+                          res.writeHead(200);
+                          res.end("{}");
+                      }
+                    }); // end User.findOneAndRemove
+              } // end useradmins.length != 1
+            }); // end Trailer.find
+          } // if newDeleteUserObject.customer == 'ADMIN'
+          else
+          {
+            // User we are deleting isn't and ADMIN
+            User.findOneAndRemove({'username': newDeleteUserObject.email}, 
+                function(err, user) 
+                {
+                  if (err) 
+                  {
+                      console.log("ERROR in /deleteuseraccount")
+                  } else 
+                  {
+                      console.log("COMPLETED /deleteuseraccount successfully")
+
+                      res.setHeader('content-type', 'application/json');
+                      res.writeHead(200);
+                      res.end("{}");
+                  }
+                }); // end User.findOneAndRemove
+          }
 
 
+        });  // end User.findOne
+
+
+      }); // end req.on('end')
+    } // end req.method == 'POST'
+  }//req.session.currentuser.customer == "ADMIN"
+
+
+}); // end app.post("/deleteuseraccount"
 
 function getAllObjectsProperties(obj)
 {
