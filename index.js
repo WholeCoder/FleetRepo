@@ -440,12 +440,12 @@ if(req.session.currentuser.customer == "ADMIN")
     // {status1: new RegExp('^10%', "i")}
     Trailer.find(andclause, function( err, trailers10){
       console.log( "Number of 10% Trailers:", trailers10.length );
-      piechartdata.push({data: [[0,trailers10.length]], label: "10% Compelete"});
+      piechartdata.push({data: [[0,trailers10.length]], label: "10% Compelete", color:"#ff3f0b"});
 
       andclause =  {$and: [{status1: new RegExp('^50%', "i")}, {customer: req.session.currentuser.customer}]}
       Trailer.find(andclause, function( err, trailers50){
         console.log( "Number of 50% Trailers:", trailers50.length );
-        piechartdata.push({data: [[1,trailers50.length]], label: "50%,75%,90% Complete"});
+        piechartdata.push({data: [[1,trailers50.length]], label: "50%,75%,90% Complete", color: "#fffc0b"});
 
         andclause =  {$and: [{status1: new RegExp('^75%', "i")}, {customer: req.session.currentuser.customer}]}
         Trailer.find(andclause, function( err, trailers75){
@@ -461,7 +461,7 @@ if(req.session.currentuser.customer == "ADMIN")
             andclause =  {$and: [{status1: new RegExp('^100%', "i")}, {customer: req.session.currentuser.customer}]}
             Trailer.find(andclause, function( err, trailers100){
               console.log( "Number of 100% Trailers:", trailers100.length );
-              piechartdata.push({data: [[2,trailers100.length]], label: "100% Complete"});
+              piechartdata.push({data: [[2,trailers100.length]], label: "100% Complete", color: "#00b800"});
 
               res.setHeader('content-type', 'application/json');
               res.writeHead(200);
