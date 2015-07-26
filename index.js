@@ -17,7 +17,7 @@ var express = require('express'),
  
 // ** MUST set this as a config variable on the heroku.com website **
 var DISABLE_SSL = process.env.ENVIRONMENT == 'local_development';
-var ENVIRONMENT = process.env.ENVIRONMENT;
+var ENVIRONMENT = "production";//process.env.ENVIRONMENT;
 
 var mongodbconnectionstring = "mongodb://localhost/test";
 
