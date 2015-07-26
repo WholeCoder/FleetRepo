@@ -876,6 +876,7 @@
         FleetRepManager.clickHandlersSet = false;
         FleetRepManager.doAutoUpdateTable = false;
         FleetRepManager.showAlertForEnvironmentWarn = true;
+        FleetRepManager.admin = true;
 
         FleetRepManager.hideAdminLinks = function() {
           $('#newtrailer').hide();
@@ -899,8 +900,16 @@
                     FleetRepManager.doAutoUpdateTable = false;
                     FleetRepManager.autoUpdateTimerID = setInterval(function()
                         {
+                          if(FleetRepManager.admin)
+                          {
                             FleetRepManager.trigger("trailers:list");
                             FleetRepManager.loadCharts();
+                          } else
+                          {
+                            FleetRepManager.trigger("trailerscustomer:list");
+                            FleetRepManager.loadCharts();
+                            FleetRepManager.hideAdminLinks();
+                          }
                         }, 30000);
                     //return confirm("Are you sure?");
                   } else
@@ -921,8 +930,17 @@
 
             $( "#manualrefresh" ).on( "click", function(event) {
               event.preventDefault();
-              FleetRepManager.trigger("trailers:list");
-              FleetRepManager.loadCharts();
+
+              if(FleetRepManager.admin)
+              {
+                FleetRepManager.trigger("trailers:list");
+                FleetRepManager.loadCharts();
+              } else
+              {
+                FleetRepManager.trigger("trailerscustomer:list");
+                FleetRepManager.loadCharts();
+                FleetRepManager.hideAdminLinks();
+              }
             });      
 
             $('#logout').on("click", function(event) {

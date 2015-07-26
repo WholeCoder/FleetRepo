@@ -38,11 +38,13 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
           {
             if (data2.customer == "ADMIN")
             {
+              FleetRepManager.admin = true;
               FleetRepManager.loadCharts();
               FleetRepManager.trigger("trailers:list");
               FleetRepManager.trigger("user:new");
             } else
             {
+              FleetRepManager.admin = false;
               FleetRepManager.loadCharts();
               FleetRepManager.hideAdminLinks();
               FleetRepManager.trigger("trailerscustomer:list");
