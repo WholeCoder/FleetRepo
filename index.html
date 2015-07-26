@@ -875,6 +875,7 @@
      <script>
         FleetRepManager.clickHandlersSet = false;
         FleetRepManager.doAutoUpdateTable = false;
+        FleetRepManager.showAlertForEnvironmentWarn = true;
 
         FleetRepManager.hideAdminLinks = function() {
           $('#newtrailer').hide();
@@ -949,19 +950,23 @@
               /*FleetRepManager.loadpiechart(dta);*/
               //alert('credit card successfully processed.');
               $('#currentenvironment').text(dta.environment);
-                  if (dta.environment == 'Local Development Environment') // on development
+                  if(FleetRepManager.showAlertForEnvironmentWarn)
                   {
-                    //alert("In local developemnt!");
-                  } else if (dta.environment == 'Remote Development Environment') // on testing site
-                  {
-                    alert("This is site is only used for Development of new features!  Do not use it for real data!");
-                  } else if (dta.environment == 'Production')
-                  {
-                    //alert("This is Production.  Enter real data!");
-                  } else
-                  {
-                    alert("Something is wrong with the sites configuration.  - Tell the website administrater - WTF! Environment var == "+dta.environment);
-                  }
+                    FleetRepManager.showAlertForEnvironmentWarn = false;
+                    if (dta.environment == 'Local Development Environment') // on development
+                    {
+                      //alert("In local developemnt!");
+                    } else if (dta.environment == 'Remote Development Environment') // on testing site
+                    {
+                      alert("This is site is only used for Development of new features!  Do not use it for real data!");
+                    } else if (dta.environment == 'Production')
+                    {
+                      //alert("This is Production.  Enter real data!");
+                    } else
+                    {
+                      alert("Something is wrong with the sites configuration.  - Tell the website administrater - WTF! Environment var == "+dta.environment);
+                    }
+                } // end FleetRepManager.showAlertForEnvironmentWarn if
             },
             error  : function() { alert('could not get ENVIRONMENT');if ( callback ) callback(false); }
           });
