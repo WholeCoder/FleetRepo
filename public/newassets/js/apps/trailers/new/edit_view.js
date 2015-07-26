@@ -121,11 +121,7 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
               } // end if
             } // end for         
 
-            that.$(slaveStatus1).val(that.model.get(slaveStatus1.substring(1)));
-            that.$(slaveStatus2).val(that.model.get(slaveStatus2.substring(1)));
           }); // end change
-
-
 
 
 /*
@@ -143,7 +139,13 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
 
           //that.$("select#status1 option") .each(function() { this.selected = (this.text == that.model.get('status1')); });
           that.$('#status1').val(that.model.get('status1'));
+
           that.$('#status1').trigger('change');
+          // initially set the other status to their current values
+          that.$("#status2").val(that.model.get("#status2".substring(1)));
+          that.$("#status3").val(that.model.get("#status3".substring(1)));
+
+
         } // end function
         // "#status1" is the master status box
         makeOtherStatusInputBoxesUseOnlyThisPercentOption("#status1");
