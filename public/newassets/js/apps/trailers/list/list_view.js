@@ -99,6 +99,21 @@ if(confirm("Are you sure you want to delete this record? This row will be lost f
     }
   });
 
+  List.CustomerTrailer = Marionette.ItemView.extend({
+    tagName: "tr",
+    template: "#trailer-customer-list-item",
+
+    triggers: {
+/*      "click td a.js-edit": "trailer:edit",
+      "click button.js-delete": "trailer:delete"
+*/    },
+
+    events: {
+      /*"click": "highlightName"*/
+    }
+  });
+
+
   var NoTrailersView = Marionette.ItemView.extend({
     template: "#trailer-list-none",
     tagName: "tr",
@@ -140,4 +155,41 @@ if(confirm("Are you sure you want to delete this record? This row will be lost f
       }
     }
   });
+
+  List.CustomerTrailers = Marionette.CompositeView.extend({
+    tagName: "table",
+    className: "tablesorter table table-striped table-bordered table-hover",
+    template: "#trailer-customer-list",
+    emptyView: NoTrailersView,
+    childView: List.CustomerTrailer,
+    childViewContainer: "tbody",
+    id: "myTable",
+
+    disableLink: function(e){
+      e.preventDefault();
+      //alert('link clicked!');
+    },
+
+    events: {
+      "click a": "disableLink"
+    },
+
+    initialize: function(){
+/*      this.listenTo(this.collection, "reset", function(){
+        this.attachHtml = function(collectionView, childView, index){
+          collectionView.$el.append(childView.el);
+        }
+      });
+*/
+    },
+
+    onRenderCollection: function(){
+      this.attachHtml = function(collectionView, childView, index){
+        collectionView.$el.prepend(childView.el);
+      }
+    }
+  });
+
+
+
 });

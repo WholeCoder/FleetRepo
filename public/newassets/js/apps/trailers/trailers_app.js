@@ -43,6 +43,12 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
 /*      FleetRepManager.execute("set:active:header", "contacts");
 */    },
 
+    listCustomersContacts: function() {
+        FleetRepManager.loadCharts()
+        FleetRepManager.hideAdminLinks();
+        TrailersApp.List.Controller.listCustomerContacts();
+    },
+
     showContact: function(id){
       alert('showContact called.');
 /*      TrailersApp.Show.Controller.showContact(id);
@@ -57,11 +63,6 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   };
 
 
-  FleetRepManager.on("trailers:loaddummydata", function(){
-    //FleetRepManager.navigate("contacts");
-    API.loadDummyTrailerData();
-  });
-
   FleetRepManager.on("trailers:new", function(){
     //FleetRepManager.navigate("contacts");
     API.showNewTrailer();
@@ -75,6 +76,11 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   FleetRepManager.on("trailers:list", function(){
     //FleetRepManager.navigate("contacts");
     API.listContacts();
+  });
+
+  FleetRepManager.on("trailerscustomer:list", function(){
+    //FleetRepManager.navigate("contacts");
+    API.listCustomersContacts();
   });
 
   FleetRepManager.on("trailers:filter", function(criterion){

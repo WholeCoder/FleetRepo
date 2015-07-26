@@ -36,10 +36,18 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
         success: function(data2) { 
           if (data2.email == data.email)
           {
-            FleetRepManager.loadCharts();
-            FleetRepManager.trigger("trailers:list");
-            //FleetRepManager.trigger("trailers:new");
-            FleetRepManager.trigger("user:new");
+            if (data2.customer == "ADMIN")
+            {
+              FleetRepManager.loadCharts();
+              FleetRepManager.trigger("trailers:list");
+              //FleetRepManager.trigger("trailers:new");
+              FleetRepManager.trigger("user:new");
+            } else
+            {
+              FleetRepManager.loadCharts();
+              FleetRepManager.hideAdminLinks();
+              FleetRepManager.trigger("trailerscustomer:list");
+            }
           } else
           {
             alert("Could not authenticate user - "+data2.email);
