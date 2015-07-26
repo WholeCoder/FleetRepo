@@ -163,6 +163,9 @@ app.get("/getenvironment", function(req, res) {
 });
 
 app.post("/login", function(req, res) {
+  req.session.currentuser = {};
+  req.session.save();
+
   var str = "";
   for (var prop in req.headers)
   {
