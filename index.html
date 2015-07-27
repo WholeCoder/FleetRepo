@@ -974,9 +974,43 @@
                     if (dta.environment == 'Local Development Environment') // on development
                     {
                       //alert("In local developemnt!");
+                      if (confirm("This is site is only used for Development of new features!  Click OK to be sent to Production!"))
+                      {
+                        $.ajax('/logout' + "?dummyforie="+new Date().getTime().toString(), {
+                          type: 'GET',
+                          data: JSON.stringify({}),
+                          contentType: 'text/json',
+                          success: function(dta) {
+                            /*FleetRepManager.loadpiechart(dta);*/
+                            //alert('credit card successfully processed.');
+                            //alert('logging out!');
+                          },
+                          error  : function() { if ( callback ) callback(false); }
+                        });
+                        var url = "https://immense-savannah-6140.herokuapp.com/";    
+                        $(location).attr('href',url);
+                      }
+
                     } else if (dta.environment == 'Remote Development Environment') // on testing site
                     {
-                      alert("This is site is only used for Development of new features!  Do not use it for real data!");
+                      //alert("This is site is only used for Development of new features!  Do not use it for real data!");
+                      if (confirm("This is site is only used for Development of new features!  Click OK to be sent to Production!"));
+                      {
+                        $.ajax('/logout' + "?dummyforie="+new Date().getTime().toString(), {
+                          type: 'GET',
+                          data: JSON.stringify({}),
+                          contentType: 'text/json',
+                          success: function(dta) {
+                            /*FleetRepManager.loadpiechart(dta);*/
+                            //alert('credit card successfully processed.');
+                            var url = "https://immense-savannah-6140.herokuapp.com/";    
+                            $(location).attr('href',url);
+                            alert('logging out!');
+                          },
+                          error  : function() { if ( callback ) callback(false); }
+                        });
+
+                      }
                     } else if (dta.environment == 'Production')
                     {
                       //alert("This is Production.  Enter real data!");
