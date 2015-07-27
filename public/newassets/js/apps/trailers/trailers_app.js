@@ -38,8 +38,8 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
     listContacts: function(criterion){
       //alert('listContacts called.');
         // refresh the charts in case there is new data
-        FleetRepManager.loadCharts()
         TrailersApp.List.Controller.listContacts(criterion);
+        FleetRepManager.loadCharts()
 /*      FleetRepManager.execute("set:active:header", "contacts");
 */    },
 

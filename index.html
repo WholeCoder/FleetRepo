@@ -777,7 +777,7 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal:  </b>&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div id="toolbar" style="display:none;" class="pull-right"><a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal:  </b>&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div id="toolbar" style="display:none;" class="pull-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="sortbylocationthencustomer"><b>Sort by Location Then Customer</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -882,6 +882,7 @@
           $('#newtrailer').hide();
           console.log("hide #userfunctions called!!!!!!!!!!!!");
           $('#userfunctions').hide();
+          $('#sortbylocationthencustomer').hide();
         }
 
         FleetRepManager.loadCharts = function () {
@@ -891,6 +892,15 @@
           if (!FleetRepManager.clickHandlersSet)
           {    
             FleetRepManager.clickHandlersSet = true;
+
+            $( "#sortbylocationthencustomer" ).on( "click", function(event) {
+              event.preventDefault();
+              $("#myTable").trigger("sorton",[[[4,0],[1,0]]]);
+              //alert('clicked sortbylocationthencustomer')
+              //sortbylocationthencustomer
+            });              
+
+
             // autoupdate
             // $('#checkMeOut').prop('checked') // returns true or false
             $('#autoupdate').click(function() {
@@ -1011,7 +1021,7 @@
           $('#customername').show();
           $('#logout').show();
           $('#toolbar').show();
-
+          $('#sortbylocationthencustomer').show();
 
           console.log("show #userfunctions called!!!!!!!!!!!!");
           $('#userfunctions').show();
