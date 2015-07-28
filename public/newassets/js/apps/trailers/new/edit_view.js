@@ -146,9 +146,13 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
           that.$("#status3").val(that.model.get("#status3".substring(1)));
 
 
-        } // end function
+        } // end function makeOtherStatusInputBoxesUseOnlyThisPercentOption
         // "#status1" is the master status box
         makeOtherStatusInputBoxesUseOnlyThisPercentOption("#status1");
+
+        // set the vehicletype
+        //js-vehicletype
+        this.$(".js-vehicletype").val(that.model.get("vehicletype"));
 
       var locationsTags = [
             "HERSHEY-EDC3 (PALMYRA PA)",
