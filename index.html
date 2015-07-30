@@ -375,7 +375,7 @@
   <script type="text/template" id="trailer-list">
     <thead>
       <tr>
-         <th align="center">
+         <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:60px;" class="tooltip-item">
                   <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -388,7 +388,7 @@
               </span>
             </span>            
          </th>
-         <th align="center">
+         <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -401,7 +401,7 @@
               </span>
             </span>
         </th>
-         <th align="center">
+         <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -414,7 +414,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -427,7 +427,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
           
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
@@ -441,7 +441,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -454,7 +454,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -467,7 +467,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -480,7 +480,7 @@
               </span>
             </span>
         </th>
-        <th colspan="2" align="center" style="width:500px;">
+        <th colspan="2" align="center" style="width:500px;" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:400px;" class="tooltip-item">
                   <a href="#">Status<div style="width:500px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -506,8 +506,70 @@
               </span>
             </span>
         </th>
-        <th><div style="width:60px;">&nbsp;</div></th>
+        <th>
+          <div style="width:60px;">
+          </div>
+        </th>
         <th><div style="width:60px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></th>
+      </tr>
+      <tr>
+        <th>
+          <select style="width:60px;" class="js-unitnumbersortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-customersort">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-accountsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-vehicletypesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-locationsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-datersnotifiedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-dateapprovedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-estimatedtimeofcompletesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th colspan="2">
+          <select style="width:60px;" class="js-statussortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
       </tr>
    </thead>
    <tbody id="fbody">
@@ -518,7 +580,7 @@
   <script type="text/template" id="trailer-customer-list">
     <thead>
       <tr>
-         <th align="center">
+         <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:60px;" class="tooltip-item">
                   <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -531,7 +593,7 @@
               </span>
             </span>            
          </th>
-         <th align="center">
+         <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -544,7 +606,7 @@
               </span>
             </span>
         </th>
-         <th align="center">
+         <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -557,7 +619,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -570,7 +632,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
           
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
@@ -584,7 +646,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -597,7 +659,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -610,7 +672,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -623,7 +685,7 @@
               </span>
             </span>
         </th>
-        <th colspan="2" align="center">
+        <th colspan="2" align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -648,6 +710,62 @@
                 </span>
               </span>
             </span>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <select style="width:60px;" class="js-unitnumbersortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-customersort">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-accountsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-vehicletypesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-locationsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-datersnotifiedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-dateapprovedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-estimatedtimeofcompletesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th colspan="2">
+          <select style="width:60px;" class="js-statussortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
         </th>
       </tr>
    </thead>

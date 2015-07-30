@@ -137,7 +137,86 @@ if(confirm("Are you sure you want to delete this record? This row will be lost f
     },
 
     events: {
-      "click a": "disableLink"
+      "click a": "disableLink",
+      
+      "change .js-unitnumbersortbox": "clickedSortBox",
+      "change .js-customersort": "clickedSortBox",
+      "change .js-accountsortbox": "clickedSortBox",
+      "change .js-vehicletypesortbox": "clickedSortBox",
+      "change .js-locationsortbox": "clickedSortBox",
+      "change .js-datersnotifiedsortbox": "clickedSortBox",
+      "change .js-dateapprovedsortbox": "clickedSortBox",
+      "change .js-estimatedtimeofcompletesortbox": "clickedSortBox",
+      "change .js-statussortbox": "clickedSortBox",
+
+      "click th.js-resetsort" : "clickedSortLinkSoReset"
+    },
+
+    clickedSortLinkSoReset: function(event) {
+
+      for (var pr in this.sortClassObject) // contains all class names
+      {
+          this.sortRay = [[]];
+          this.nextSortColumn = 1;
+          this.colsAlreadySorted = [];
+
+          this.$("."+pr).find('option')
+                        .remove()
+                        .end();
+          //alert("appending sel with class == ."+pr+" equal to "+this.nextSortColumn);
+          this.$("."+pr).append('<option value="" selected></option>');
+          this.$("."+pr).append('<option value="'+1+'">'+1+'</option>');
+      }
+    },
+
+    clickedSortBox: function(event) {
+      event.preventDefault();
+
+      
+
+      var currentSelectedClass = $(event.target).attr('class');
+
+      $(event.target).find('option')
+                    .remove()
+                    .end();
+
+      $(event.target).append('<option value="'+this.nextSortColumn+'">'+this.nextSortColumn+'</option>');
+      this.nextSortColumn++;
+
+
+      this.sortRay[0].push([this.sortClassObject[currentSelectedClass],0]);
+      this.colsAlreadySorted.push(currentSelectedClass);
+//alert("class found == "+currentSelectedClass);
+      console.log("\n\n --- found list -----");
+      for (var pr in this.sortClassObject) // contains all class names
+      {
+        var found = false;
+        for (var i = 0;i < this.colsAlreadySorted.length; i++) // ones that were already sorted
+        {
+          var curr = this.colsAlreadySorted[i];
+          console.log("       seeing if "+pr +"  ==  "+curr);
+          if (pr == curr)
+          {
+            found = true;
+            break;
+          }
+        }
+
+        if (!found)
+        {
+          console.log("   did not find - "+pr);
+          this.$("."+pr).find('option')
+                        .remove()
+                        .end();
+          //alert("appending sel with class == ."+pr+" equal to "+this.nextSortColumn);
+          this.$("."+pr).append('<option value="" selected></option>');
+          this.$("."+pr).append('<option value="'+this.nextSortColumn+'">'+this.nextSortColumn+'</option>');
+        }
+      }
+
+
+      $("#myTable").trigger("sorton",this.sortRay);
+      //alert("js-unitnumbersortbox changed! sort array == "+this.sortRay);
     },
 
     initialize: function(){
@@ -147,6 +226,20 @@ if(confirm("Are you sure you want to delete this record? This row will be lost f
         }
       });
 */
+      this.sortRay = [[]];
+      this.nextSortColumn = 1;
+      this.colsAlreadySorted = [];
+
+      this.sortClassObject = {};
+        this.sortClassObject["js-unitnumbersortbox"] = 0;
+        this.sortClassObject["js-customersort"] = 1;
+        this.sortClassObject["js-accountsortbox"] = 2;
+        this.sortClassObject["js-vehicletypesortbox"] = 3;
+        this.sortClassObject["js-locationsortbox"] = 4;
+        this.sortClassObject["js-datersnotifiedsortbox"] = 5;
+        this.sortClassObject["js-dateapprovedsortbox"] = 6;
+        this.sortClassObject["js-estimatedtimeofcompletesortbox"] = 7;
+        this.sortClassObject["js-statussortbox"] = 8;
     },
 
     onRenderCollection: function(){
@@ -171,7 +264,85 @@ if(confirm("Are you sure you want to delete this record? This row will be lost f
     },
 
     events: {
-      "click a": "disableLink"
+      "click a": "disableLink",
+      "change .js-unitnumbersortbox": "clickedSortBox",
+      "change .js-customersort": "clickedSortBox",
+      "change .js-accountsortbox": "clickedSortBox",
+      "change .js-vehicletypesortbox": "clickedSortBox",
+      "change .js-locationsortbox": "clickedSortBox",
+      "change .js-datersnotifiedsortbox": "clickedSortBox",
+      "change .js-dateapprovedsortbox": "clickedSortBox",
+      "change .js-estimatedtimeofcompletesortbox": "clickedSortBox",
+      "change .js-statussortbox": "clickedSortBox",
+
+      "click th.js-resetsort" : "clickedSortLinkSoReset"
+    },
+
+    clickedSortLinkSoReset: function(event) {
+
+      for (var pr in this.sortClassObject) // contains all class names
+      {
+          this.sortRay = [[]];
+          this.nextSortColumn = 1;
+          this.colsAlreadySorted = [];
+
+          this.$("."+pr).find('option')
+                        .remove()
+                        .end();
+          //alert("appending sel with class == ."+pr+" equal to "+this.nextSortColumn);
+          this.$("."+pr).append('<option value="" selected></option>');
+          this.$("."+pr).append('<option value="'+1+'">'+1+'</option>');
+      }
+    },
+
+    clickedSortBox: function(event) {
+      event.preventDefault();
+
+      
+
+      var currentSelectedClass = $(event.target).attr('class');
+
+      $(event.target).find('option')
+                    .remove()
+                    .end();
+
+      $(event.target).append('<option value="'+this.nextSortColumn+'">'+this.nextSortColumn+'</option>');
+      this.nextSortColumn++;
+
+
+      this.sortRay[0].push([this.sortClassObject[currentSelectedClass],0]);
+      this.colsAlreadySorted.push(currentSelectedClass);
+//alert("class found == "+currentSelectedClass);
+      console.log("\n\n --- found list -----");
+      for (var pr in this.sortClassObject) // contains all class names
+      {
+        var found = false;
+        for (var i = 0;i < this.colsAlreadySorted.length; i++) // ones that were already sorted
+        {
+          var curr = this.colsAlreadySorted[i];
+          console.log("       seeing if "+pr +"  ==  "+curr);
+          if (pr == curr)
+          {
+            found = true;
+            break;
+          }
+        }
+
+        if (!found)
+        {
+          console.log("   did not find - "+pr);
+          this.$("."+pr).find('option')
+                        .remove()
+                        .end();
+          //alert("appending sel with class == ."+pr+" equal to "+this.nextSortColumn);
+          this.$("."+pr).append('<option value="" selected></option>');
+          this.$("."+pr).append('<option value="'+this.nextSortColumn+'">'+this.nextSortColumn+'</option>');
+        }
+      }
+
+
+      $("#myTable").trigger("sorton",this.sortRay);
+      //alert("js-unitnumbersortbox changed! sort array == "+this.sortRay);
     },
 
     initialize: function(){
@@ -181,6 +352,20 @@ if(confirm("Are you sure you want to delete this record? This row will be lost f
         }
       });
 */
+      this.sortRay = [[]];
+      this.nextSortColumn = 1;
+      this.colsAlreadySorted = [];
+
+      this.sortClassObject = {};
+        this.sortClassObject["js-unitnumbersortbox"] = 0;
+        this.sortClassObject["js-customersort"] = 1;
+        this.sortClassObject["js-accountsortbox"] = 2;
+        this.sortClassObject["js-vehicletypesortbox"] = 3;
+        this.sortClassObject["js-locationsortbox"] = 4;
+        this.sortClassObject["js-datersnotifiedsortbox"] = 5;
+        this.sortClassObject["js-dateapprovedsortbox"] = 6;
+        this.sortClassObject["js-estimatedtimeofcompletesortbox"] = 7;
+        this.sortClassObject["js-statussortbox"] = 8;
     },
 
     onRenderCollection: function(){
