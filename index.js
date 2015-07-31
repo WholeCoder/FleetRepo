@@ -72,7 +72,7 @@ function saveUserToDatabase(u, req, res)
 
   // create a user a new user
   var testUser = new User({
-      username: u.email,
+      username: u.email.toLowerCase(),
       password: u.password,
       customer: u.customer,
       activated: true,
@@ -183,7 +183,7 @@ app.post("/login", function(req, res) {
       req.on('end', function () {
            var loginInfoJson = JSON.parse(jsonString)
 console.log('2.  jsonString == '+jsonString);
-            User.getAuthenticated(loginInfoJson.email, loginInfoJson.password, function(err, user, reason) {
+            User.getAuthenticated(loginInfoJson.email.toLowerCase(), loginInfoJson.password, function(err, user, reason) {
                 if (err) throw err;
 console.log('3.  found a user');
                 // login was successful if we have a user
@@ -195,13 +195,13 @@ console.log('4.  user is valid and activated');
                     var token = randtoken.generate(16);
                     var expIn = expiresIn(3);
 //saveTokenToDatabase({email:user.username , token: token}, req, res);
-                    res.end('{"email":"'+user.username+'","token":"'+token+'","expiresIn":'+expIn+',"customer":"'+user.customer+'"}');
+                    res.end('{"email":"'+user.username.toLowerCase()+'","token":"'+token+'","expiresIn":'+expIn+',"customer":"'+user.customer+'"}');
                     req.session.currentuser = {};
-                    req.session.currentuser.username = user.username;
+                    req.session.currentuser.username = user.username.toLowerCase();
                     req.session.currentuser.customer = user.customer;
                     req.session.save();
-console.log("req.session.currentuser.username == "+req.session.currentuser.username);                    
-                    console.log('login success user looks like:  '+'{"email":"'+user.username+'","token":"'+token+'","expiresIn":'+expIn+',"customer":"'+user.customer+'"}');
+console.log("req.session.currentuser.username == "+req.session.currentuser.username.toLowerCase());
+                    console.log('login success user looks like:  '+'{"email":"'+user.username.toLowerCase()+'","token":"'+token+'","expiresIn":'+expIn+',"customer":"'+user.customer+'"}');
                     return;
                 }
 

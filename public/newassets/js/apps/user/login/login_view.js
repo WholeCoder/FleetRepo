@@ -34,7 +34,7 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
         data: JSON.stringify({ email: data.email, password: data.password}),
         contentType: 'text/json',
         success: function(data2) { 
-          if (data2.email == data.email)
+          if (data2.email.toLowerCase() == data.email.toLowerCase())
           {
             if (data2.customer == "ADMIN")
             {
