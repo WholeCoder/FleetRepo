@@ -410,7 +410,12 @@ if(req.session.currentuser.customer == "ADMIN")
 
       Trailer.find({status1: new RegExp('^50%', "i")}, function( err, trailers50){
         console.log( "Number of 50% Trailers:", trailers50.length );
-        piechartdata.push({data: [[1,trailers50.length]], label: "50%,75%,90% Complete", color: "#fffc0b"});
+        piechartdata.push({data: [[1,trailers50.length]], label: "25%, 50%,75%,90% Complete", color: "#fffc0b"});
+
+
+Trailer.find({status1: new RegExp('^25%', "i")}, function( err, trailers25){
+  piechartdata[1].data[0][1] += trailers25.length
+
 
         Trailer.find({status1: new RegExp('^75%', "i")}, function( err, trailers75){
           console.log( "Number of 75% Trailers:", trailers75.length );
@@ -429,13 +434,20 @@ if(req.session.currentuser.customer == "ADMIN")
               res.end(JSON.stringify(piechartdata));
 
 
-            });
+            }); // end 100%
 
-          });
-        });
-      });
+          }); // end 90%
+        }); // end 75%
 
-    });
+
+
+});  // end 25%
+
+
+
+      }); // end 50%
+
+    }); // end 10%
 } else
 {
     var tempChartData = [];  
@@ -445,10 +457,20 @@ if(req.session.currentuser.customer == "ADMIN")
       console.log( "Number of 10% Trailers:", trailers10.length );
       piechartdata.push({data: [[0,trailers10.length]], label: "10% Compelete", color:"#ff3f0b"});
 
+
+
+andclause =  {$and: [{status1: new RegExp('^25%', "i")}, {customer: req.session.currentuser.customer}]}
+Trailer.find(andclause, function( err, trailers25){
+  console.log( "Number of 25% Trailers:", trailers25.length );
+  piechartdata.push({data: [[1,trailers25.length]], label: "25%,50%,75%,90% Complete", color: "#fffc0b"});
+
+
+
+
       andclause =  {$and: [{status1: new RegExp('^50%', "i")}, {customer: req.session.currentuser.customer}]}
       Trailer.find(andclause, function( err, trailers50){
         console.log( "Number of 50% Trailers:", trailers50.length );
-        piechartdata.push({data: [[1,trailers50.length]], label: "50%,75%,90% Complete", color: "#fffc0b"});
+        piechartdata[1].data[0][1] += trailers50.length
 
         andclause =  {$and: [{status1: new RegExp('^75%', "i")}, {customer: req.session.currentuser.customer}]}
         Trailer.find(andclause, function( err, trailers75){
@@ -471,13 +493,18 @@ if(req.session.currentuser.customer == "ADMIN")
               res.end(JSON.stringify(piechartdata));
 
 
-            });
+            }); // end 100%
 
-          });
-        });
-      });
+          }); // end 90%
+        }); // end 75%
+      }); // end 50%
 
-    });
+
+}); // end 25%
+
+
+
+    }); // end 10%
 } // end else clause
 });
 
