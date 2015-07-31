@@ -48,6 +48,7 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
               FleetRepManager.loadCharts();
               FleetRepManager.hideAdminLinks();
               FleetRepManager.trigger("trailerscustomer:list");
+              FleetRepManager.trigger("show:letuserresetpassword");
             }
           } else
           {

@@ -527,6 +527,7 @@ if(req.session.currentuser.customer == "ADMIN")
 }//end if
 });
 
+// for administrators to change the password of a user
 app.post("/resetuserspassword", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
 {
@@ -551,6 +552,84 @@ if(req.session.currentuser.customer == "ADMIN")
       });
   }
 } // end if
+});
+
+// for the user to change their own password
+app.post("/doletuserresetpassword", function(req, res) {
+  console.log("\n\n/doletuserresetpassword---------------customer == "+ req.session.currentuser.customer+"\n\n");
+
+  if(req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+  {
+    if (req.method == 'POST') {
+        var jsonString = '';
+        req.on('data', function (data) {
+            jsonString += data;
+        });
+        req.on('end', function () {
+             var userdata = JSON.parse(jsonString);
+
+
+
+
+User.getAuthenticated(req.session.currentuser.username.toLowerCase(), userdata.currentpassword, function(err, user, reason) {
+
+
+
+                if (err) throw err;
+console.log('3.  found a user');
+                // login was successful if we have a user
+                if (user && user.activated) {
+console.log('4.  user is valid and activated');                  
+                    // handle login success
+
+
+                     User.findOne({ username: req.session.currentuser.username }, function (err, user){
+                      if (err)
+                      {
+                        res.setHeader('content-type', 'application/json');
+                        res.writeHead(200);
+                        res.end('{"status": "Could not find user in database!"}');
+                      }
+
+                      // save new password
+                      user.password = userdata.password;
+                      user.save();
+
+                      res.setHeader('content-type', 'application/json');
+                      res.writeHead(200);
+                      res.end('{"status": "successful"}');
+                    }); // end User.findOne
+
+                    return;
+                }
+
+                var reasonCouldNotLogIn = "User not activated";
+                // otherwise we can determine why we failed
+                var reasons = User.failedLogin;
+                switch (reason) {
+                    case reasons.NOT_FOUND:
+                    case reasons.PASSWORD_INCORRECT:
+                        // note: these cases are usually treated the same - don't tell
+                        // the user *why* the login failed, only that it did
+                        reasonCouldNotLogIn = "Not Found OR Incorrect Password";
+                        break;
+                    case reasons.MAX_ATTEMPTS:
+                        // send email or otherwise notify user that account is
+                        // temporarily locked
+                        reasonCouldNotLogIn = "Max Attempts"
+                        break;
+                }
+console.log('5. could not log in reasonCouldNotLogIn == '+reasonCouldNotLogIn);
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+
+                res.end("{\"status\":\""+reasonCouldNotLogIn+"\"}");
+
+            });  // User.getAuthenticated
+  
+        });
+    }
+  } // end if
 });
 
 app.post("/savetrailer", function(req, res) {

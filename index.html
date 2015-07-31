@@ -269,6 +269,53 @@
    </div>
 </script>
 
+
+<script type="text/template" id="let-user-reset-password-form">
+   <div class="container">
+    <div class="row">
+      <form accept-charset="UTF-8" role="form">
+       <div  class="col-sm-6">
+   
+          <div class="panel panel-danger">
+             <div class="panel-heading">Reset Your Password</div>
+             <div class="panel-body" style="height: 300px;">
+                <fieldset>
+                   <div>
+                      <input placeholder="Current Password" type="text" name="currentpassword" id="currentpassword" />
+                   </div>
+                   <div>
+                      <input placeholder="New Password" name="password" type="text" value="" />
+                   </div>
+                   <div>
+                      <input placeholder="New Password (Confirmation)" name="passwordconfirmation" type="text" value="" />
+                   </div>
+                </fieldset>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-resetuserpassword" type="submit" value="Reset Your Password"></div>
+          </div>
+
+       </div>
+       <div  class="col-sm-6">
+   
+
+          <div class="panel panel-danger">
+             <div class="panel-heading"><b>Note</b></div>
+             <div class="panel-body" style="height: 350px;">
+
+             </div>
+             <div class="panel-footer">
+
+             </div>
+          </div>
+
+
+
+       </div>
+     </form>
+    </div>
+   </div>
+</script>
+
   <script type="text/template" id="trailer-form">
           <div class="container">
              <div class="row">
@@ -981,6 +1028,9 @@
   <script src="./newassets/js/apps/user/new/resetpassword_view.js"></script>
   <script src="./newassets/js/apps/user/new/resetpassword_controller.js"></script>
 
+  <script src="./newassets/js/apps/user/new/letuserresetpassword_view.js"></script>
+  <script src="./newassets/js/apps/user/new/letuserresetpassword_controller.js"></script>
+
   <script src="./newassets/js/apps/user/login/login_view.js"></script>
   <script src="./newassets/js/apps/user/login/login_controller.js"></script>
 
@@ -999,7 +1049,7 @@
         FleetRepManager.hideAdminLinks = function() {
           $('#newtrailer').hide();
           console.log("hide #userfunctions called!!!!!!!!!!!!");
-          $('#userfunctions').hide();
+          //$('#userfunctions').hide();
           $('#sortbylocationthencustomer').hide();
         }
 
