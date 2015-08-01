@@ -285,7 +285,7 @@ function createExceldocument(trailer_data, callbackfunction)
   var workbook = excelbuilder.createWorkbook('./', 'sample.xlsx')
   
   // Create a new worksheet with 10 columns and 12 rows 
-  var sheet1 = workbook.createSheet('Exported Customer Portal Units', 10, 12);
+  var sheet1 = workbook.createSheet('Exported Customer Portal Units', 50, trailer_data.length+10);
   
   var columnTitles = ["Unit #",
   "Customer",
@@ -302,34 +302,34 @@ function createExceldocument(trailer_data, callbackfunction)
     sheet1.set(i+1, 1, columnTitles[i]);
   }
 
-  for (var i = 0; i < trailer_data.length; i++)
+  for (var j = 0; j < trailer_data.length; j++)
   {
-    var currentTrailer = trailer_data[i];
+    var currentTrailer = trailer_data[j];
 
     var widthOfEachColumn = 30;
 
     sheet1.width(1, widthOfEachColumn);
-    sheet1.set(1, i+3, currentTrailer.unitnumber);
+    sheet1.set(1, j+3,currentTrailer.unitnumber);
     sheet1.width(2, widthOfEachColumn);
-    sheet1.set(2, i+3, currentTrailer.customer);
+    sheet1.set(2, j+3, currentTrailer.customer);
     sheet1.width(3, widthOfEachColumn);
-    sheet1.set(3, i+3, currentTrailer.account);
+    sheet1.set(3, j+3, currentTrailer.account);
     sheet1.width(4, widthOfEachColumn);
-    sheet1.set(4, i+3, currentTrailer.vehicletype);
+    sheet1.set(4, j+3, currentTrailer.vehicletype);
     sheet1.width(5, widthOfEachColumn);
-    sheet1.set(5, i+3, currentTrailer.location);
+    sheet1.set(5, j+3, currentTrailer.location);
     sheet1.width(6, widthOfEachColumn);
-    sheet1.set(6, i+3, currentTrailer.datersnotified);
+    sheet1.set(6, j+3, currentTrailer.datersnotified);
     sheet1.width(7, widthOfEachColumn);
-    sheet1.set(7, i+3, currentTrailer.dateapproved);
+    sheet1.set(7, j+3, currentTrailer.dateapproved);
     sheet1.width(8, widthOfEachColumn);
-    sheet1.set(8, i+3, currentTrailer.estimatedtimeofcompletion);
+    sheet1.set(8, j+3, currentTrailer.estimatedtimeofcompletion);
     sheet1.width(9, widthOfEachColumn);
-    sheet1.set(9, i+3, currentTrailer.status1);
+    sheet1.set(9, j+3, currentTrailer.status1);
     sheet1.width(10, widthOfEachColumn);
-    sheet1.set(10, i+3, currentTrailer.status2);
+    sheet1.set(10, j+3, currentTrailer.status2);
     sheet1.width(11, widthOfEachColumn);
-    sheet1.set(11, i+3, currentTrailer.status3);
+    sheet1.set(11, j+3, currentTrailer.status3);
   }
 
   // Fill some data 
