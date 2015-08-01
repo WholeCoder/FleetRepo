@@ -5,6 +5,8 @@ var express = require('express'),
     http = require('http').Server(app),
     io = require('socket.io')(http),
 
+    excelbuilder = require('msexcel-builder'),
+
     path = require('path'),    
     User = require('./user-model'),
     Token = require('./token-model'),
@@ -276,6 +278,148 @@ function sendIfNoSSLRequired(page_path, req, res)
     sendIfNoSSLRequired(__dirname + '/chat.html',req, res)
  });
  
+
+function createExceldocument(trailer_data, callbackfunction)
+{
+  // Create a new workbook file in current working-path 
+  var workbook = excelbuilder.createWorkbook('./', 'sample.xlsx')
+  
+  // Create a new worksheet with 10 columns and 12 rows 
+  var sheet1 = workbook.createSheet('Exported Customer Portal Units', 10, 12);
+  
+  var columnTitles = ["Unit #",
+  "Customer",
+  "Account",
+  "Vehicle Type",
+  "Location",
+  "Date RS Notified",
+  "Date Approved",
+  "Estimated Time of Completion",
+  "Status"]
+
+  for (var i = 0; i < columnTitles.length; i++)
+  {
+    sheet1.set(i+1, 1, columnTitles[i]);
+  }
+
+  for (var i = 0; i < trailer_data.length; i++)
+  {
+    var currentTrailer = trailer_data[i];
+
+    var widthOfEachColumn = 30;
+
+    sheet1.width(1, widthOfEachColumn);
+    sheet1.set(1, i+3, currentTrailer.unitnumber);
+    sheet1.width(2, widthOfEachColumn);
+    sheet1.set(2, i+3, currentTrailer.customer);
+    sheet1.width(3, widthOfEachColumn);
+    sheet1.set(3, i+3, currentTrailer.account);
+    sheet1.width(4, widthOfEachColumn);
+    sheet1.set(4, i+3, currentTrailer.vehicletype);
+    sheet1.width(5, widthOfEachColumn);
+    sheet1.set(5, i+3, currentTrailer.location);
+    sheet1.width(6, widthOfEachColumn);
+    sheet1.set(6, i+3, currentTrailer.datersnotified);
+    sheet1.width(7, widthOfEachColumn);
+    sheet1.set(7, i+3, currentTrailer.dateapproved);
+    sheet1.width(8, widthOfEachColumn);
+    sheet1.set(8, i+3, currentTrailer.estimatedtimeofcompletion);
+    sheet1.width(9, widthOfEachColumn);
+    sheet1.set(9, i+3, currentTrailer.status1);
+    sheet1.width(10, widthOfEachColumn);
+    sheet1.set(10, i+3, currentTrailer.status2);
+    sheet1.width(11, widthOfEachColumn);
+    sheet1.set(11, i+3, currentTrailer.status3);
+  }
+
+  // Fill some data 
+/*  sheet1.set(1, 1, 'I am title');
+  for (var i = 2; i < 5; i++)
+    sheet1.set(i, 1, 'test'+i);
+*/  
+  // Save it 
+  workbook.save(function(ok){
+/*    if (!ok) {
+      console.log('           workbook canceling ok == '+ok);
+      workbook.cancel();
+    }
+    else {
+*/      console.log('------------congratulations, your workbook created');
+      callbackfunction();
+      
+/*    }*/
+  });
+
+} // end createExceldocument
+
+
+
+app.get("/FleetRepairSolutionsPortalData.xlsx", function(req, res) {
+  
+
+  var trailerRay = [];
+
+//console.log("\n\n/trailers req.session == "+JSON.stringify(req.session))
+if(req.session.currentuser.customer == "ADMIN")
+{
+  console.log ('               found ADMIN');
+  Trailer.find({}, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all Trailers.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      console.log('            got all Trailer documents length = '+trailerRay.length);
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+      createExceldocument(trailerRay, function() {
+        console.log("           in createExelDocument callback -----sending xsl file");
+/*        res.setHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.writeHead(200);
+*/        //res.end(JSON.stringify(trailerRay));
+        console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/sample.xlsx'));
+        sendIfNoSSLRequired(path.join(__dirname, '/sample.xlsx'),req, res)  
+      });
+
+    }
+  });
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+{
+  Trailer.find({customer: req.session.currentuser.customer}, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all Trailers.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+      createExceldocument(trailerRay, function() {
+/*        res.setHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.writeHead(200);
+*/        //res.end(JSON.stringify(trailerRay));
+        sendIfNoSSLRequired(path.join(__dirname, '/sample.xlsx'),req, res)  
+      });
+    }
+  });
+} // END IF
+
+
+
+
+
+
+
+
+
+
+ });
+ 
 app.get("/trailers", function(req, res) {
   var trailerRay = [];
 
@@ -298,7 +442,7 @@ if(req.session.currentuser.customer == "ADMIN")
     res.end(JSON.stringify(trailerRay));
     }
   });
-} else 
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
 {
   Trailer.find({customer: req.session.currentuser.customer}, function(err, docs){
     if(err)
