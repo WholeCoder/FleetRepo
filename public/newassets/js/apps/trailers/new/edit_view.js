@@ -157,7 +157,7 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
       var locationsTags = [
             "HERSHEY-EDC3 (PALMYRA PA)",
             "WEST HERSHEY - (HERSHEY PA)",
-            "HERSHEY-R & S CANDIES (Lancaster PA)",
+            "HERSHEY-Y & S CANDIES (Lancaster PA)",
             "HERSHEY-REESE'S (HERSHEY PA)",
             "AMERICOLD-MANCHESTER (MANCHESTER PA)",
             "CRESCENT (MECHANICSBURG PA)",
