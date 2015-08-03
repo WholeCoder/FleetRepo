@@ -38,6 +38,22 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
           {
             if (data2.customer == "ADMIN")
             {
+
+              // /archive100
+              $.ajax('/archive100' + "?dummyforie="+new Date().getTime().toString(), {
+                type: 'GET',
+                data: "{}",
+                contentType: 'text/json',
+                success: function(data2) { 
+/*                    FleetRepManager.trigger("trailers:list");
+                    FleetRepManager.trigger("user:new");
+                    // refresh the charts in case there is new data
+                    FleetRepManager.loadCharts()
+*/
+                },
+                error  : function() { alert('Error - could not archive 100% complete records.');}
+              }); // end $.ajax GET
+
               FleetRepManager.admin = true;
               FleetRepManager.loadCharts();
               FleetRepManager.trigger("trailers:list");
