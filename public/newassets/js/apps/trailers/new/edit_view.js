@@ -214,6 +214,16 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
         data.status3 = '';
       }
 
+     if (data.status1.startsWith("100%"))
+     {
+        var currentDateInMillisectonds = new Date().getTime()
+        var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days
+
+        var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
+
+        data.whentobearchived = dateWithAddedOffset;
+     }
+
 console.log('update trailer data == '+JSON.stringify(this.model));
 data._id = this.model.get('_id');
       $.ajax('/updatetrailer' + "?dummyforie="+new Date().getTime().toString(), {

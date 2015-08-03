@@ -189,7 +189,15 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
       this.trigger("form:submit", data);
 
 console.log('new trailer data == '+JSON.stringify(data));
+      if (data.status1.startsWith("100%"))
+     {
+        var currentDateInMillisectonds = new Date().getTime()
+        var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days
 
+        var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
+
+        data.whentobearchived = dateWithAddedOffset;
+     }
       $.ajax('/savetrailer' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'POST',
         data: JSON.stringify(data),

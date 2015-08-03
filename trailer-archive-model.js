@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var TrailerSchema = new Schema({
+var TrailerArchiveSchema = new Schema({
     unitnumber: { type: String},
     customer: { type: String},
     account: { type: String},
@@ -13,8 +13,8 @@ var TrailerSchema = new Schema({
     status1: { type: String },
     status2: { type: String },
     status3: { type: String },
-    whentobearchived: { type: Date }
+    whenitwasarchived: { type: Date }
 });
 
 
-module.exports = mongoose.model('Trailer', TrailerSchema);
+module.exports = mongoose.model('TrailerArchive', TrailerArchiveSchema);
