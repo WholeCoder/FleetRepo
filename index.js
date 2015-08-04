@@ -401,8 +401,11 @@ function sendIfNoSSLRequired(page_path, req, res)
 
 function createExceldocument(trailer_data, callbackfunction)
 {
+  // Create a random string of nonsense so users can't overwrite their excel files
+  var token = randtoken.generate(16);
+  var excelFilename = 'sample'+token+'.xlsx';
   // Create a new workbook file in current working-path 
-  var workbook = excelbuilder.createWorkbook('./', 'sample.xlsx')
+  var workbook = excelbuilder.createWorkbook('./', excelFilename)
   
   // Create a new worksheet with 10 columns and 12 rows 
   var sheet1 = workbook.createSheet('Exported Customer Portal Units', 50, trailer_data.length+10);
@@ -465,7 +468,7 @@ function createExceldocument(trailer_data, callbackfunction)
     }
     else {
 */      console.log('------------congratulations, your workbook created');
-      callbackfunction();
+      callbackfunction(excelFilename);
       
 /*    }*/
   });
@@ -495,13 +498,13 @@ if(req.session.currentuser.customer == "ADMIN")
       trailerRay = docs;
       console.log('            got all Trailer documents length = '+trailerRay.length);
       // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
-      createExceldocument(trailerRay, function() {
+      createExceldocument(trailerRay, function(excelFilename) {
         console.log("           in createExelDocument callback -----sending xsl file");
 /*        res.setHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.writeHead(200);
 */        //res.end(JSON.stringify(trailerRay));
-        console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/sample.xlsx'));
-        sendIfNoSSLRequired(path.join(__dirname, '/sample.xlsx'),req, res)  
+        console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
+        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)  
       });
 
     }
