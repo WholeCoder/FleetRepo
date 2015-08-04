@@ -906,7 +906,23 @@ if(req.session.currentuser.customer == "ADMIN")
       });
       req.on('end', function () {
            var newTrailerObject = JSON.parse(jsonString);
-            var trailer = new Trailer(newTrailerObject);
+
+           if (newTrailerObject.status1.indexOf("100%") > -1)
+           {
+              var currentDateInMillisectonds = new Date().getTime()
+              var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days
+
+              var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
+
+              newTrailerObject.whentobearchived = dateWithAddedOffset;
+           } else
+           {
+            delete newTrailerObject.whentobearchived;
+           }
+
+           var trailer = new Trailer(newTrailerObject);
+
+
             trailer.save(function (err) {
               if (err) 
               {
@@ -946,7 +962,11 @@ if(req.session.currentuser.customer == "ADMIN")
               var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
 
               newTrailerObject.whentobearchived = dateWithAddedOffset;
+           } else
+           {
+            newTrailerObject.whentobearchived = undefined;
            }
+
             Trailer.findOneAndUpdate({_id: newTrailerObject._id}, newTrailerObject, {}, function(err, doc){
                 if (err)
                 {
