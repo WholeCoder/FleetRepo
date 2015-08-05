@@ -481,12 +481,32 @@ app.get("/FleetRepairSolutionsPortalData.xlsx", function(req, res) {
   
 
   var trailerRay = [];
-
+console.log("------------------ req.query.searchTerm == "+req.query.searchTerm);
 //console.log("\n\n/trailers req.session == "+JSON.stringify(req.session))
 if(req.session.currentuser.customer == "ADMIN")
 {
+  var searchStringArray = req.query.searchTerm.split(" ");
+
+  var orclausearray = [];
+  for (var i = 0; i < searchStringArray.length; i++)
+  {
+    orclausearray.push({unitnumber: new RegExp(searchStringArray[i])})
+    orclausearray.push({customer: new RegExp(searchStringArray[i])})
+    orclausearray.push({account: new RegExp(searchStringArray[i])})
+    orclausearray.push({vehicletype: new RegExp(searchStringArray[i])})
+    orclausearray.push({location: new RegExp(searchStringArray[i])})
+    orclausearray.push({datersnotified: new RegExp(searchStringArray[i])})
+    orclausearray.push({dateapproved: new RegExp(req.query.searchTerm)})
+    orclausearray.push({estimatedtimeofcompletion: new RegExp(searchStringArray[i])})
+    orclausearray.push({status1: new RegExp(searchStringArray[i])})
+    orclausearray.push({status2: new RegExp(searchStringArray[i])})
+    orclausearray.push({status3: new RegExp(searchStringArray[i])})  
+  }
+  var orclause =  {$or: orclausearray}
+  // var orclause =  {$or: [{status1: new RegExp('^10%', "i")}]}
+
   console.log ('               found ADMIN');
-  Trailer.find({}, function(err, docs){
+  Trailer.find(orclause, function(err, docs){
     if(err)
     {
        console.log("ERROR - getting all Trailers.");
@@ -511,7 +531,29 @@ if(req.session.currentuser.customer == "ADMIN")
   });
 } else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
 {
-  Trailer.find({customer: req.session.currentuser.customer}, function(err, docs){
+  var searchStringArray = req.query.searchTerm.split(" ");
+
+  var orclausearray = [];
+  for (var i = 0; i < searchStringArray.length; i++)
+  {
+    orclausearray.push({unitnumber: new RegExp(searchStringArray[i])})
+    orclausearray.push({customer: new RegExp(searchStringArray[i])})
+    orclausearray.push({account: new RegExp(searchStringArray[i])})
+    orclausearray.push({vehicletype: new RegExp(searchStringArray[i])})
+    orclausearray.push({location: new RegExp(searchStringArray[i])})
+    orclausearray.push({datersnotified: new RegExp(searchStringArray[i])})
+    orclausearray.push({dateapproved: new RegExp(req.query.searchTerm)})
+    orclausearray.push({estimatedtimeofcompletion: new RegExp(searchStringArray[i])})
+    orclausearray.push({status1: new RegExp(searchStringArray[i])})
+    orclausearray.push({status2: new RegExp(searchStringArray[i])})
+    orclausearray.push({status3: new RegExp(searchStringArray[i])})  
+  }
+
+  var orclause =  {$or: orclausearray}
+
+  var andclause =  {$and: [orclause, {customer: req.session.currentuser.customer}]}
+
+  Trailer.find(andclause, function(err, docs){
     if(err)
     {
        console.log("ERROR - getting all Trailers.");
@@ -522,11 +564,13 @@ if(req.session.currentuser.customer == "ADMIN")
     {
       trailerRay = docs;
       // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
-      createExceldocument(trailerRay, function() {
+      createExceldocument(trailerRay, function(excelFilename) {
+        console.log("           in createExelDocument callback -----sending xsl file");
 /*        res.setHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.writeHead(200);
 */        //res.end(JSON.stringify(trailerRay));
-        sendIfNoSSLRequired(path.join(__dirname, '/sample.xlsx'),req, res)  
+        console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
+        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)  
       });
     }
   });
