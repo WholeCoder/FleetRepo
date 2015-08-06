@@ -1385,7 +1385,7 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal:  </b>&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="sortbylocationthencustomer"><b>Sort by Location Then Customer</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal  </b>:&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><span style="display:none;color: red;" id="archivestext"><b>&nbsp;ARCHIVES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><a href="#" style="display:none;" class="js-backtotrailerlist"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back to Trailer List</b></a><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-viewarchives"><b>View Archives</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="sortbylocationthencustomer"><b>Sort by Location Then Customer</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -1493,10 +1493,73 @@
         FleetRepManager.showAlertForEnvironmentWarn = true;
         FleetRepManager.admin = true;
 
-        FleetRepManager.hideAdminLinks = function() {
+        FleetRepManager.showAdminLinks = function() {
+          $('.js-backtotrailerlist').hide();
+          $('#archivestext').hide();
+
+          $('#searchInput').show();
+          $('#customername').show();
+          $('#logout').show();
+          $('#toolbar').show();
+          $('#sortbylocationthencustomer').show();
+
+          console.log("show #userfunctions called!!!!!!!!!!!!");
+          $('#userfunctions').show();
+          $('#portalgraphs').show();
+
+          //style="width:600px;height:400px;"
+          $("#piechart").css("width", "600px");
+          $("#piechart").css("height", "400px");
+
+          $("#barchart").css("width", "600px");
+          $("#barchart").css("height", "400px");
+        }
+
+        FleetRepManager.showArchiveLinks = function() {
+          $('.js-backtotrailerlist').show();
+          $('#archivestext').show();
+
+          $('#searchInput').show();
+          $('#customername').show();
+          $('#logout').show();
+          $('#toolbar').hide();
+          $('#sortbylocationthencustomer').show();
+
+          console.log("show #userfunctions called!!!!!!!!!!!!");
+          $('#userfunctions').show();
+          $('#portalgraphs').hide();
+
+          //style="width:600px;height:400px;"
+/*          $("#piechart").css("width", "0px");
+          $("#piechart").css("height", "0px");
+
+          $("#barchart").css("width", "0px");
+          $("#barchart").css("height", "0px");
+*/
+        }
+
+        FleetRepManager.showCustomerTrailerLinks = function() {
+          $('.js-backtotrailerlist').hide();
+          $('#archivestext').hide();
+
+          $('#searchInput').show();
+          $('#customername').show();
+          $('#logout').show();
+          $('#toolbar').show();
+          $('#sortbylocationthencustomer').show();
+
+          console.log("show #userfunctions called!!!!!!!!!!!!");
+          $('#userfunctions').show();
+          $('#portalgraphs').show();
+
+          //style="width:600px;height:400px;"
+          $("#piechart").css("width", "600px");
+          $("#piechart").css("height", "400px");
+
+          $("#barchart").css("width", "600px");
+          $("#barchart").css("height", "400px");
+
           $('#newtrailer').hide();
-          console.log("hide #userfunctions called!!!!!!!!!!!!");
-          //$('#userfunctions').hide();
           $('#sortbylocationthencustomer').hide();
         }
 
@@ -1524,7 +1587,7 @@
 
 
             // autoupdate
-            // $('#checkMeOut').prop('checked') // returns true or false
+            // $('#autoupdate').prop('checked') // returns true or false
             $('#autoupdate').click(function() {
                 if ($(this).is(':checked')) {
                   if(confirm("Allow table and charts to auto refresh every 30 seconds?"))
@@ -1573,7 +1636,38 @@
                 FleetRepManager.loadCharts();
                 FleetRepManager.hideAdminLinks();
               }
-            });      
+            });   
+
+            $('.js-viewarchives').on("click", function(event) {
+              if ($('#autoupdate').prop('checked'))
+              {
+                  $('#autoupdate').prop('checked', false)
+                  FleetRepManager.doAutoUpdateTable = false;
+                  clearInterval(FleetRepManager.autoUpdateTimerID);
+              }
+
+              if (FleetRepManager.admin)
+              {
+                FleetRepManager.showArchiveLinks();
+                FleetRepManager.trigger("trailerarchives:list");
+              } else {
+                FleetRepManager.showArchiveLinks();
+                FleetRepManager.trigger("trailercustomerarchives:list");
+              }
+            });   
+
+            $('.js-backtotrailerlist').on("click", function(event) {
+              if (FleetRepManager.admin)
+              {
+                FleetRepManager.showAdminLinks();
+                FleetRepManager.loadCharts();
+                FleetRepManager.trigger("trailers:list");
+              } else {
+                FleetRepManager.showCustomerTrailerLinks();
+                FleetRepManager.loadCharts();
+                FleetRepManager.trigger("trailerscustomer:list");
+              }
+            });   
 
             $('#logout').on("click", function(event) {
               //event.preventDefault();
@@ -1639,23 +1733,6 @@
           // $('#deletealldata').show();
           // $('#loaddummydata').show();
           // $('#newtrailer').show();
-          $('#searchInput').show();
-          $('#customername').show();
-          $('#logout').show();
-          $('#toolbar').show();
-          $('#sortbylocationthencustomer').show();
-
-          console.log("show #userfunctions called!!!!!!!!!!!!");
-          $('#userfunctions').show();
-          $('#portalgraphs').show();
-
-          //style="width:600px;height:400px;"
-          $("#piechart").css("width", "600px");
-          $("#piechart").css("height", "400px");
-
-          $("#barchart").css("width", "600px");
-          $("#barchart").css("height", "400px");
-
 
           $.ajax('/getAUsersCustomer' + "?dummyforie="+new Date().getTime().toString(), {
             type: 'GET',

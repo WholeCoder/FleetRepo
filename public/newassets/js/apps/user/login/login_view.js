@@ -46,6 +46,7 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
                 contentType: 'text/json',
                 success: function(data2) { 
                   FleetRepManager.admin = true;
+                  FleetRepManager.showAdminLinks();
                   FleetRepManager.loadCharts();
                   FleetRepManager.trigger("trailers:list");
                   FleetRepManager.trigger("user:new");
@@ -56,8 +57,8 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
             } else
             {
               FleetRepManager.admin = false;
+              FleetRepManager.showCustomerTrailerLinks();
               FleetRepManager.loadCharts();
-              FleetRepManager.hideAdminLinks();
               FleetRepManager.trigger("trailerscustomer:list");
               FleetRepManager.trigger("show:letuserresetpassword");
             }
