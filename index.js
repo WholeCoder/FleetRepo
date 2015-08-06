@@ -631,6 +631,50 @@ if(req.session.currentuser.customer == "ADMIN")
 
 });
  
+app.get("/trailerarchives", function(req, res) {
+  var trailerRay = [];
+
+console.log("\n\n/trailers req.session == "+JSON.stringify(req.session))
+if(req.session.currentuser.customer == "ADMIN")
+{
+  TrailerArchive.find({}, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all Trailers.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+    res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
+    res.end(JSON.stringify(trailerRay));
+    }
+  });
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+{
+  TrailerArchive.find({customer: req.session.currentuser.customer}, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all Trailers.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+    res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
+    res.end(JSON.stringify(trailerRay));
+    }
+  });
+} // END IF
+
+});
+ 
 app.post("/barchartdata", function(req, res) {
   var wins2 = [
   // [0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]

@@ -43,6 +43,14 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
 /*      FleetRepManager.execute("set:active:header", "contacts");
 */    },
 
+    listTrailerArchives: function() {
+        TrailersApp.ListArchive.Controller.listTrailerArchives();
+    },
+
+    listCustomerTrailerArchives: function() {
+        TrailersApp.ListArchive.Controller.listCustomerTrailerArchives();
+    },
+
     listCustomersContacts: function() {
         TrailersApp.List.Controller.listCustomerContacts();
         FleetRepManager.loadCharts()
@@ -76,6 +84,16 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   FleetRepManager.on("trailers:list", function(){
     //FleetRepManager.navigate("contacts");
     API.listContacts();
+  });
+
+  FleetRepManager.on("trailercustomerarchives:list", function(){
+    //FleetRepManager.navigate("contacts");
+    API.listCustomerTrailerArchives();
+  });
+
+  FleetRepManager.on("trailerarchives:list", function(){
+    //FleetRepManager.navigate("contacts");
+    API.listTrailerArchives();
   });
 
   FleetRepManager.on("trailerscustomer:list", function(){

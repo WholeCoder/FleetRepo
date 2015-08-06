@@ -47,6 +47,7 @@ FleetRepManager.on("start", function(){
 
     if(this.getCurrentRoute() === ""){
       //FleetRepManager.trigger("trailers:list");
+      //FleetRepManager.trigger("trailercustomerarchives:list");
       FleetRepManager.trigger("show:login");
       //FleetRepManager.trigger("user:new");
     }
