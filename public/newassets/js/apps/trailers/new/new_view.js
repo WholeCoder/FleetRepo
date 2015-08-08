@@ -189,7 +189,25 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
       this.trigger("form:submit", data);
 
 console.log('new trailer data == '+JSON.stringify(data));
-      if (data.status1.startsWith("100%"))
+
+          var statusesToSetToUndefined =
+            ["100% COMPLETE:  IN TRANSIT TO CUSTOMER", 
+            "100% COMPLETE:  READY FOR P/U", 
+            "100% COMPLETE:  RESERVED"
+          ];
+
+          var markForArchival = true;
+          for (var j = 0; j < statusesToSetToUndefined.length; j++)
+          {
+            if (statusesToSetToUndefined[j] == data.status1)
+            {
+              markForArchival = false;
+              break;
+            }
+          }
+
+
+      if (markForArchival && data.status1.startsWith("100%"))
      {
         var currentDateInMillisectonds = new Date().getTime()
         var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days
