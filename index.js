@@ -182,6 +182,14 @@ app.get("/mockup", function(req, res) {
 
 }); // end /loaddatatotestarchive
 */
+app.get("/servertime", function(req, res) {
+  var rightNow = new Date();
+  var rightNowObject = {now: rightNow};
+
+  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end(JSON.stringify(rightNowObject));
+});
 
 app.get("/archive100", function(req, res) {
 
