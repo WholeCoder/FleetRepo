@@ -51,6 +51,16 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
         TrailersApp.ListArchive.Controller.listCustomerTrailerArchives();
     },
 
+    listTrailersOnlot: function() {
+      alert('called listTrailersOnlot');
+      TrailersApp.OnLot.Controller.listOnLotTrailers();
+    },
+    
+    listCustomerOnLotTrailer: function() {
+      alert('called listCustomerOnLotTrailer');
+      TrailersApp.OnLot.Controller.listCustomerOnLotTrailers();
+    },
+
     listCustomersContacts: function() {
         TrailersApp.List.Controller.listCustomerContacts();
         FleetRepManager.loadCharts()
@@ -59,12 +69,14 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
 
     showContact: function(id){
       alert('showContact called.');
+      TrailersApp.OnLot.Controller.listCustomerOnLotTrailers();
 /*      TrailersApp.Show.Controller.showContact(id);
       FleetRepManager.execute("set:active:header", "contacts");
 */    },
 
     editContact: function(id){
       alert('editContact called.');
+      TrailersApp.OnLot.Controller.listOnLotTrailers();
 /*      TrailersApp.Edit.Controller.editContact(id);
       FleetRepManager.execute("set:active:header", "contacts");
 */    }
@@ -94,6 +106,16 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   FleetRepManager.on("trailerarchives:list", function(){
     //FleetRepManager.navigate("contacts");
     API.listTrailerArchives();
+  });
+
+  FleetRepManager.on("trailercustomeronlot:list", function(){
+    //FleetRepManager.navigate("contacts");
+    API.listCustomerOnLotTrailer();
+  });
+
+  FleetRepManager.on("trailersonlot:list", function(){
+    //FleetRepManager.navigate("contacts");
+    API.listTrailersOnlot();
   });
 
   FleetRepManager.on("trailerscustomer:list", function(){

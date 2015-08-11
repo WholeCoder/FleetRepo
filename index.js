@@ -689,6 +689,95 @@ if(req.session.currentuser.customer == "ADMIN")
 
 });
  
+app.get("/trailersonlot", function(req, res) {
+
+  // These are the statuses of the trailers on the lot.
+  var onLotStatuses =
+      ["10%  A/W AUTHORIZATION",
+      "10%  A/W PARTS",
+      "10%  A/W ESTIMATE",
+      "10%  A/W ARRIVAL OF UNIT",
+      "25%  A/W REPAIRS",
+      "50%  WORK IN PROGRESS",
+      "75%  WORK IN PROGRESS",
+      "90%  A/W FINAL QUALITY CHECK",
+      "100% COMPLETE:  IN TRANSIT TO CUSTOMER",
+      "100% COMPLETE:  READY FOR P/U",
+/*      "100% COMPLETE:  RELEASED TO CUSTOMER", // these are not in lot
+      "100% COMPLETE:  DELIVERED TO CUSTOMER", // these aren't in lot
+*/      "100% COMPLETE:  RESERVED"
+      ]
+
+
+
+  var trailerRay = [];
+console.log("-----------executing /trailersonlot");
+
+console.log("\n\n/trailers req.session == "+JSON.stringify(req.session))
+if(req.session.currentuser.customer == "ADMIN")
+{
+
+
+  var orclausearray = [];
+  for (var i = 0; i < onLotStatuses.length; i++)
+  {
+    orclausearray.push({location: new RegExp(onLotStatuses[i])})
+  }
+
+  var orclause =  {$or: orclausearray}
+
+  var andclause =  {$and: [orclause, {location: new RegExp("FRS - (GRANTVILLE PA)")}]}
+
+
+  Trailer.find({location: "FRS - (GRANTVILLE PA)"}, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all Trailers.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+    res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
+    res.end(JSON.stringify(trailerRay));
+    }
+  });
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+{
+
+  var orclausearray = [];
+  for (var i = 0; i < onLotStatuses.length; i++)
+  {
+    orclausearray.push({location: new RegExp(onLotStatuses[i])})
+  }
+
+  var orclause =  {$or: orclausearray}
+
+  var andclause =  {$and: [orclause, {customer: req.session.currentuser.customer}, {location: new RegExp("FRS - (GRANTVILLE PA)")}]}
+
+  Trailer.find(andclause, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all Trailers.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+    res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
+    res.end(JSON.stringify(trailerRay));
+    }
+  });
+} // END IF
+
+});
+ 
 app.get("/trailerarchives", function(req, res) {
   var trailerRay = [];
 
