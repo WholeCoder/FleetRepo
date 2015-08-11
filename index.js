@@ -721,15 +721,18 @@ if(req.session.currentuser.customer == "ADMIN")
   var orclausearray = [];
   for (var i = 0; i < onLotStatuses.length; i++)
   {
-    orclausearray.push({location: new RegExp(onLotStatuses[i])})
+    orclausearray.push({status1: new RegExp(onLotStatuses[i])})
   }
+  orclausearray.push({status1: undefined})
+  orclausearray.push({status1: ""})
+  orclausearray.push({status1: null})
 
   var orclause =  {$or: orclausearray}
 
-  var andclause =  {$and: [orclause, {location: new RegExp("FRS - (GRANTVILLE PA)")}]}
+  var andclause =  {$and: [orclause, {location: "FRS - (GRANTVILLE PA)"}]}
 
 
-  Trailer.find({location: "FRS - (GRANTVILLE PA)"}, function(err, docs){
+  Trailer.find(andclause, function(err, docs){
     if(err)
     {
        console.log("ERROR - getting all Trailers.");
@@ -751,12 +754,15 @@ if(req.session.currentuser.customer == "ADMIN")
   var orclausearray = [];
   for (var i = 0; i < onLotStatuses.length; i++)
   {
-    orclausearray.push({location: new RegExp(onLotStatuses[i])})
+    orclausearray.push({status1: new RegExp(onLotStatuses[i])})
   }
+  orclausearray.push({status1: undefined})
+  orclausearray.push({status1: ""})
+  orclausearray.push({status1: null})
 
   var orclause =  {$or: orclausearray}
 
-  var andclause =  {$and: [orclause, {customer: req.session.currentuser.customer}, {location: new RegExp("FRS - (GRANTVILLE PA)")}]}
+  var andclause =  {$and: [orclause, {customer: req.session.currentuser.customer}, {location: "FRS - (GRANTVILLE PA)"}]}
 
   Trailer.find(andclause, function(err, docs){
     if(err)
