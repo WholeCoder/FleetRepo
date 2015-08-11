@@ -52,12 +52,12 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
     },
 
     listTrailersOnlot: function() {
-      alert('called listTrailersOnlot');
+      //alert('called listTrailersOnlot');
       TrailersApp.OnLot.Controller.listOnLotTrailers();
     },
     
     listCustomerOnLotTrailer: function() {
-      alert('called listCustomerOnLotTrailer');
+      //alert('called listCustomerOnLotTrailer');
       TrailersApp.OnLot.Controller.listCustomerOnLotTrailers();
     },
 

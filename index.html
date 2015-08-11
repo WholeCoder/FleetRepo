@@ -1606,7 +1606,7 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal  </b>:&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><span style="display:none;color: red;" id="archivestext"><b>&nbsp;ARCHIVES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><a href="#" style="display:none;" class="js-backtotrailerlist"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back to Trailer List</b></a><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-viewarchives"><b>View Archives</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="sortbylocationthencustomer"><b>Sort by Location Then Customer</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal  </b>:&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><span style="display:none;color: red;" id="onlottext"><b>&nbsp;ON&nbsp;&nbsp;FRS&nbsp;&nbsp;LOT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="archivestext"><b>&nbsp;ARCHIVES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><a href="#" style="display:none;" class="js-backtotrailerlist"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back to Trailer List</b></a><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-onlotunits"><b>On Lot Units</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-viewarchives"><b>View Archives</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="sortbylocationthencustomer"><b>Sort by Location Then Customer</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -1721,6 +1721,8 @@
         FleetRepManager.showAdminLinks = function() {
           $('.js-backtotrailerlist').hide();
           $('#archivestext').hide();
+          $('#onlottext').hide();
+
 
           $('#searchInput').show();
           $('#customername').show();
@@ -1740,9 +1742,16 @@
           $("#barchart").css("height", "400px");
         }
 
-        FleetRepManager.showArchiveLinks = function() {
+        FleetRepManager.showArchiveLinks = function(isOnlot) {
           $('.js-backtotrailerlist').show();
-          $('#archivestext').show();
+
+          if (isOnlot)
+          {
+            $('#onlottext').show();
+          } else
+          {
+            $('#archivestext').show();
+          }
 
           $('#searchInput').show();
           $('#customername').show();
@@ -1766,6 +1775,7 @@
         FleetRepManager.showCustomerTrailerLinks = function() {
           $('.js-backtotrailerlist').hide();
           $('#archivestext').hide();
+          $('#onlottext').hide();
 
           $('#searchInput').show();
           $('#customername').show();
@@ -1863,6 +1873,24 @@
               }
             });   
 
+            $('.js-onlotunits').on("click", function(event) {
+              if ($('#autoupdate').prop('checked'))
+              {
+                  $('#autoupdate').prop('checked', false)
+                  FleetRepManager.doAutoUpdateTable = false;
+                  clearInterval(FleetRepManager.autoUpdateTimerID);
+              }
+
+              if (FleetRepManager.admin)
+              {
+                FleetRepManager.showArchiveLinks(true); // true means show on lot text
+                FleetRepManager.trigger("trailersonlot:list");
+              } else {
+                FleetRepManager.showArchiveLinks(true); // true means show on lot text
+                FleetRepManager.trigger("trailercustomeronlot:list");
+              }
+            });   
+
             $('.js-viewarchives').on("click", function(event) {
               if ($('#autoupdate').prop('checked'))
               {
@@ -1873,10 +1901,10 @@
 
               if (FleetRepManager.admin)
               {
-                FleetRepManager.showArchiveLinks();
+                FleetRepManager.showArchiveLinks(false); // false means show archive text
                 FleetRepManager.trigger("trailerarchives:list");
               } else {
-                FleetRepManager.showArchiveLinks();
+                FleetRepManager.showArchiveLinks(false); // false means show archive text
                 FleetRepManager.trigger("trailercustomerarchives:list");
               }
             });   

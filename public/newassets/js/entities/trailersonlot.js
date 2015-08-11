@@ -93,7 +93,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
   };
 
   FleetRepManager.reqres.setHandler("trailersonlot:entities", function(){
-    alert("getting trailersonlot")
+    //alert("getting trailersonlot")
     return API.getContactEntities();
   });
 
