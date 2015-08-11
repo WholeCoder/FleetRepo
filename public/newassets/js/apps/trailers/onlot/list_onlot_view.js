@@ -39,7 +39,7 @@ FleetRepManager.module("TrailersApp.OnLot", function(OnLot, FleetRepManager, Bac
     className: "tablesorter table table-striped table-bordered table-hover",
     template: "#trailer-onlot-list",
     emptyView: NoTrailersView,
-    childView: OnLot.OnLotTrailer,
+    childView: OnLot.CustomerOnLotTrailer,
     childViewContainer: "tbody",
     id: "myTable",
 

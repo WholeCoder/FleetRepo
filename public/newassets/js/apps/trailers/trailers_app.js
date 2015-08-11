@@ -64,7 +64,7 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
     listCustomersContacts: function() {
         TrailersApp.List.Controller.listCustomerContacts();
         FleetRepManager.loadCharts()
-        FleetRepManager.hideAdminLinks();
+        //FleetRepManager.hideAdminLinks();
     },
 
     showContact: function(id){
