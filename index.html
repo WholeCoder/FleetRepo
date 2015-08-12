@@ -1606,7 +1606,7 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal  </b>:&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><span style="display:none;color: red;" id="onlottext"><b>&nbsp;ON&nbsp;&nbsp;FRS&nbsp;&nbsp;LOT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="archivestext"><b>&nbsp;ARCHIVES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><a href="#" style="display:none;" class="js-backtotrailerlist"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Back to Trailer List</b></a><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-onlotunits"><b>On Lot Units</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-viewarchives"><b>View Archives</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="sortbylocationthencustomer"><b>Sort by Location Then Customer</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal  </b>:&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><span style="display:none;color: red;" id="onlottext"><b>&nbsp;ON&nbsp;&nbsp;FRS&nbsp;&nbsp;LOT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="archivestext"><b>&nbsp;ARCHIVES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><a href="#" style="display:none;" class="js-exportonlotunits"><b>Export Current View&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></a><a href="#" style="display:none;" class="js-backtotrailerlist"><b>Back to Trailer List</b></a><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-onlotunits"><b>On Lot Units</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-viewarchives"><b>View Archives</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="sortbylocationthencustomer"><b>Sort by Location Then Customer</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -1722,7 +1722,7 @@
           $('.js-backtotrailerlist').hide();
           $('#archivestext').hide();
           $('#onlottext').hide();
-
+          $('.js-exportonlotunits').hide();
 
           $('#searchInput').show();
           $('#customername').show();
@@ -1748,9 +1748,11 @@
           if (isOnlot)
           {
             $('#onlottext').show();
+            $('.js-exportonlotunits').show();
           } else
           {
             $('#archivestext').show();
+            $('.js-exportonlotunits').hide();
           }
 
           $('#searchInput').show();
@@ -1776,6 +1778,7 @@
           $('.js-backtotrailerlist').hide();
           $('#archivestext').hide();
           $('#onlottext').hide();
+          $('.js-exportonlotunits').hide();
 
           $('#searchInput').show();
           $('#customername').show();
@@ -1805,6 +1808,13 @@
           if (!FleetRepManager.clickHandlersSet)
           {    
             FleetRepManager.clickHandlersSet = true;
+
+            $(".js-exportonlotunits").on( "click", function(event) {
+              //alert("searchInput == "+encodeURIComponent($("#searchInput").val()));
+              event.preventDefault();
+              $(location).attr('href','/FleetRepairSolutionsOnLotPortalData.xlsx' + "?dummyforie="+new Date().getTime().toString()+"&searchTerm="+encodeURIComponent($("#searchInput").val()));
+              //alert("exported to exel!");
+            }); // end js-exporttoexcel handler
 
             $(".js-exporttoexcel").on( "click", function(event) {
               //alert("searchInput == "+encodeURIComponent($("#searchInput").val()));
@@ -1931,7 +1941,7 @@
                   success: function(dta) {
                     /*FleetRepManager.loadpiechart(dta);*/
                     //alert('credit card successfully processed.');
-                    alert('logging out!');
+                    //alert('logging out!');
                   },
                   error  : function() { if ( callback ) callback(false); }
                 });

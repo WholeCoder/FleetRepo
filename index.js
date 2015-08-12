@@ -689,6 +689,172 @@ if(req.session.currentuser.customer == "ADMIN")
 
 });
  
+
+
+
+
+
+app.get("/FleetRepairSolutionsOnLotPortalData.xlsx", function(req, res) {
+  
+
+ // These are the statuses of the trailers on the lot.
+  var onLotStatuses =
+      ["10%  A/W AUTHORIZATION",
+      "10%  A/W PARTS",
+      "10%  A/W ESTIMATE",
+      "10%  A/W ARRIVAL OF UNIT",
+      "25%  A/W REPAIRS",
+      "50%  WORK IN PROGRESS",
+      "75%  WORK IN PROGRESS",
+      "90%  A/W FINAL QUALITY CHECK",
+      "100% COMPLETE:  IN TRANSIT TO CUSTOMER",
+      "100% COMPLETE:  READY FOR P/U",
+/*      "100% COMPLETE:  RELEASED TO CUSTOMER", // these are not in lot
+      "100% COMPLETE:  DELIVERED TO CUSTOMER", // these aren't in lot
+*/      "100% COMPLETE:  RESERVED"
+      ];
+
+
+  var trailerRay = [];
+console.log("------------------ req.query.searchTerm == "+req.query.searchTerm);
+//console.log("\n\n/trailers req.session == "+JSON.stringify(req.session))
+if(req.session.currentuser.customer == "ADMIN")
+{
+  var searchStringArray = req.query.searchTerm.split(" ");
+
+  var orclausearray = [];
+  for (var i = 0; i < searchStringArray.length; i++)
+  {
+    orclausearray.push({unitnumber: new RegExp(searchStringArray[i])})
+    orclausearray.push({customer: new RegExp(searchStringArray[i])})
+    orclausearray.push({account: new RegExp(searchStringArray[i])})
+    orclausearray.push({vehicletype: new RegExp(searchStringArray[i])})
+    orclausearray.push({location: new RegExp(searchStringArray[i])})
+    orclausearray.push({datersnotified: new RegExp(searchStringArray[i])})
+    orclausearray.push({dateapproved: new RegExp(req.query.searchTerm)})
+    orclausearray.push({estimatedtimeofcompletion: new RegExp(searchStringArray[i])})
+    orclausearray.push({status1: new RegExp(searchStringArray[i])})
+    orclausearray.push({status2: new RegExp(searchStringArray[i])})
+    orclausearray.push({status3: new RegExp(searchStringArray[i])})  
+  }
+  var orclause =  {$or: orclausearray}
+
+  var orclausearray2 = [];
+  for (var i = 0; i < onLotStatuses.length; i++)
+  {
+    orclausearray2.push({status1: new RegExp(onLotStatuses[i])})
+  }
+  orclausearray2.push({status1: undefined})
+  orclausearray2.push({status1: ""})
+  orclausearray2.push({status1: null})
+
+  var orclause2 =  {$or: orclausearray2}
+
+  var andclause =  {$and: [orclause, orclause2, {location: "FRS - (GRANTVILLE PA)"}]}
+  // var orclause =  {$or: [{status1: new RegExp('^10%', "i")}]}
+
+  console.log ('               found ADMIN');
+  Trailer.find(andclause, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all Trailers.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      console.log('            got all Trailer documents length = '+trailerRay.length);
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+      createExceldocument(trailerRay, function(excelFilename) {
+        console.log("           in createExelDocument callback -----sending xsl file");
+/*        res.setHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.writeHead(200);
+*/        //res.end(JSON.stringify(trailerRay));
+        console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
+        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)  
+      });
+
+    }
+  });
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+{
+  var searchStringArray = req.query.searchTerm.split(" ");
+
+  var orclausearray = [];
+  for (var i = 0; i < searchStringArray.length; i++)
+  {
+    orclausearray.push({unitnumber: new RegExp(searchStringArray[i])})
+    orclausearray.push({customer: new RegExp(searchStringArray[i])})
+    orclausearray.push({account: new RegExp(searchStringArray[i])})
+    orclausearray.push({vehicletype: new RegExp(searchStringArray[i])})
+    orclausearray.push({location: new RegExp(searchStringArray[i])})
+    orclausearray.push({datersnotified: new RegExp(searchStringArray[i])})
+    orclausearray.push({dateapproved: new RegExp(req.query.searchTerm)})
+    orclausearray.push({estimatedtimeofcompletion: new RegExp(searchStringArray[i])})
+    orclausearray.push({status1: new RegExp(searchStringArray[i])})
+    orclausearray.push({status2: new RegExp(searchStringArray[i])})
+    orclausearray.push({status3: new RegExp(searchStringArray[i])})  
+  }
+
+  var orclause =  {$or: orclausearray}
+
+
+  var orclausearray2 = [];
+  for (var i = 0; i < onLotStatuses.length; i++)
+  {
+    orclausearray2.push({status1: new RegExp(onLotStatuses[i])})
+  }
+  orclausearray2.push({status1: undefined})
+  orclausearray2.push({status1: ""})
+  orclausearray2.push({status1: null})
+
+  var orclause2 =  {$or: orclausearray2}
+
+  var andclause =  {$and: [orclause, orclause2, 
+                        {location: "FRS - (GRANTVILLE PA)"}
+                        , {customer: req.session.currentuser.customer}]}
+
+
+  Trailer.find(andclause, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all Trailers.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+      createExceldocument(trailerRay, function(excelFilename) {
+        console.log("           in createExelDocument callback -----sending xsl file");
+/*        res.setHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.writeHead(200);
+*/        //res.end(JSON.stringify(trailerRay));
+        console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
+        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)  
+      });
+    }
+  });
+} // END IF
+
+
+
+
+
+
+
+
+
+
+ });
+ 
+
+
+
+
+
 app.get("/trailersonlot", function(req, res) {
 
   // These are the statuses of the trailers on the lot.
