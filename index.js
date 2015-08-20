@@ -12,9 +12,14 @@ var express = require('express'),
     Token = require('./token-model'),
     Trailer = require('./trailer-model'),
     TrailerArchive = require('./trailer-archive-model'),
+    File = require('./file-model'),
 
     nodemailer = require('nodemailer'),
     randtoken = require('rand-token'),
+    fs = require('fs'),
+    multer  = require('multer'),
+    upload = multer({ dest: 'uploads/' }),
+    mime = require('mime'),
     url = require('url'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session);
@@ -232,6 +237,106 @@ for (var j = 0; j < statusesToSetToUndefined.length; j++)
 
 }); // end /loaddatatotestarchive
 */
+
+
+app.get("/get/:id", function(req, res) {
+    var id = req.params.id;
+    console.log("_id == "+id);
+    File.find({_id: id}, function( err, file){
+      if (err)
+      {
+          res.setHeader('content-type', 'application/json');
+          res.writeHead(200);
+          res.end('{"error":"'+err+'"}');
+      } else
+      {
+          console.log("FOUND FILE --- mimetype == "+file[0].mimetype);
+          console.log("FOUND FILE --- name == "+file[0].name);
+/*          res.setHeader('content-type', file[0].mimetype);
+          res.writeHead(200);
+          res.end(new Buffer(file[0].contents, 'base64').toString('binary'));// was ascii
+*/
+          res.writeHead(200, {
+            'Content-Type': file[0].mimetype,
+            'Content-Length': file[0].contents.length
+          });
+          res.end(file[0].contents); 
+      }
+    });
+});
+
+app.post('/uploaddocument', upload.single('avatar'), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+  //console.log("req.body.name == "+req.body.name);
+
+if(req.session.currentuser.customer == "ADMIN")
+{
+
+
+  console.log("req.file == "+req.file);
+
+  for (var prop in req.file)
+  {
+    console.log("   "+prop+"  ==  "+req.file[prop]);
+  }
+
+
+
+  var filePath = path.join(__dirname, 'uploads',req.file.filename);
+
+  fs.readFile(filePath, function(err,data){ // binary was utf-8
+      if (!err){
+
+
+
+        var aFile = new File({name:req.file['originalname'], 
+                              contents: data, 
+                              mimetype:  mime.lookup(req.file['originalname']),
+                              customer: req.body.customer,
+                              trailer_id: req.body._id});
+
+        aFile.save(function (err) {
+          if (err) 
+          {
+            console.log('ERROR saving a file!!');
+
+            res.setHeader('content-type', 'application/json');
+            res.writeHead(200);
+            res.end('{"error":"'+err+'"}');
+          } else 
+          {
+            console.log("File was saved successfully!");
+
+            res.setHeader('content-type', 'application/json');
+            res.writeHead(200);
+            res.end('{"filesaved":"successfully"}');
+          }
+          
+        });
+
+
+
+
+
+/*      console.log('received data: ' + data);
+      response.writeHead(200, {'Content-Type': 'text/html'});
+      response.write(data);
+      response.end();
+*/      }else{
+          console.log(err);
+
+          res.setHeader('content-type', 'application/json');
+          res.writeHead(200);
+          res.end('{"error":"'+err+'"}');
+      }
+
+  }); // end fs.readFile(...)
+
+} // end if
+});
+
+
 app.get("/servertime", function(req, res) {
   var rightNow = new Date();
   var rightNowObject = {now: rightNow};
@@ -1486,6 +1591,71 @@ if(req.session.currentuser.customer == "ADMIN")
                 res.setHeader('content-type', 'application/json');
                 res.writeHead(200);
                 res.end(JSON.stringify(obj[0]));
+              }
+            });
+      });
+  }
+} // end if
+});
+
+
+app.post("/getnameoftrailerdocument", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           File.findOne({_id:_idObj._id},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find document with _id == "+_id);
+              } else
+              {
+                var token = randtoken.generate(16);
+                var filename = path.join(__dirname, 'documentsforreading',token+obj.name);
+                fs.writeFile(filename, obj.contents, function (err) {
+                  if (err) return console.log(err);
+                  console.log('Hello World > helloworld.txt');
+  
+                  res.setHeader('content-type', 'application/json');
+                  res.writeHead(200);
+                  res.end(JSON.stringify({"filename": filename}));
+                });
+              }
+            });
+      });
+  }
+} // end if
+});
+app.post("/gettrailerdocuments", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           File.find({trailer_id:_idObj._id},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find trailer record with _id == "+_id);
+              } else
+              {
+                for (var i = 0; i < obj.length; i++)
+                {
+                  obj[i].contents = null;
+                }
+
+                console.log("called gettrailerdocuments obj == "+JSON.stringify(obj));
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end(JSON.stringify(obj));
               }
             });
       });

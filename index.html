@@ -80,7 +80,7 @@
       <%- FleetRepManager.getStatusTitle(status2) %><br />
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
-    <td>Coming Soon!</td>
+    <td><a class="js-uploaddocuments">Upload Documents</a></td>
     <td>
       <a href="#trailers/<%- _id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
         <i class="icon-pencil"></i>
@@ -380,6 +380,19 @@
      </form>
     </div>
    </div>
+</script>
+
+<script type="text/template" id="admin-upload-supporting-documents-form">
+<%- _id %>
+<%- unitnumber %>
+<div class="js-currentfiles"><b>Current Files</b></div>
+  <form method="POST" enctype="multipart/form-data"
+    action="/uploaddocument">
+    <input type="hidden" name="customer" value="<%- customer %>" />
+    <input type="hidden" name="_id" value="<%- _id %>" />
+    File to upload: <input type="file" name="avatar"><br /> <br /> <br /> <input type="submit"
+      value="Upload"> Press here to upload the file!
+  </form>
 </script>
 
   <script type="text/template" id="trailer-form">
@@ -1691,6 +1704,9 @@
 
   <script src="./newassets/js/apps/trailers/new/edit_view.js"></script>
   <script src="./newassets/js/apps/trailers/new/edit_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/new/edit_documents_view.js"></script>
+  <script src="./newassets/js/apps/trailers/new/edit_documents_controller.js"></script>
 
   <script src="./newassets/js/apps/trailers/trailers_app.js"></script>
 

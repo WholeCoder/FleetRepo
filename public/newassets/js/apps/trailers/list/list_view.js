@@ -21,7 +21,33 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
     events: {
       "click": "highlightName",
       "click td a.js-edit": "showEditTrailer",
-      "click button.js-delete": "deleteTrailer"
+      "click button.js-delete": "deleteTrailer",
+      "click td a.js-uploaddocuments": "showUploadDocuments"
+    },
+
+    showUploadDocuments: function(e)
+    {
+      e.preventDefault();
+      e.stopPropagation();
+//alert("showUploadDocuments shown");
+
+      $.ajax('/gettrailer' + "?dummyforie="+new Date().getTime().toString(), {
+        type: 'POST',
+        data: JSON.stringify({_id:this.model.get('_id')}),
+        contentType: 'text/json',
+        success: function(data2) { 
+          var trailer = new FleetRepManager.Entities.Trailer(data2);
+          var view = new FleetRepManager.TrailersApp.UploadDocuments.Trailer({model: trailer});
+
+          view.on("form:submit", function(data){
+              //VapeBookManager.trigger("show:createnewprofile");
+          });
+
+          FleetRepManager.regions.table.show(view);
+
+        },
+        error  : function() { alert('Error - could not get trailer row!');}
+      }); // end $.post
     },
 
     showEditTrailer: function(e) {
