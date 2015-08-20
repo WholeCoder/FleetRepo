@@ -41,6 +41,7 @@ FleetRepManager.module("TrailersApp.UploadDocuments", function(UploadDocuments, 
                 success: function(data2) { 
 
                   alert('name of trailer document is = '+data2.filename);
+                  $(location).attr('href','/get/'+data2.filename+ "?dummyforie="+new Date().getTime().toString());
                 },
                 error  : function() { alert('Error - could not get trailer row!');}
               }); // end $.post

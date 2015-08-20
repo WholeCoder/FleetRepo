@@ -239,30 +239,11 @@ for (var j = 0; j < statusesToSetToUndefined.length; j++)
 */
 
 
-app.get("/get/:id", function(req, res) {
-    var id = req.params.id;
-    console.log("_id == "+id);
-    File.find({_id: id}, function( err, file){
-      if (err)
-      {
-          res.setHeader('content-type', 'application/json');
-          res.writeHead(200);
-          res.end('{"error":"'+err+'"}');
-      } else
-      {
-          console.log("FOUND FILE --- mimetype == "+file[0].mimetype);
-          console.log("FOUND FILE --- name == "+file[0].name);
-/*          res.setHeader('content-type', file[0].mimetype);
-          res.writeHead(200);
-          res.end(new Buffer(file[0].contents, 'base64').toString('binary'));// was ascii
-*/
-          res.writeHead(200, {
-            'Content-Type': file[0].mimetype,
-            'Content-Length': file[0].contents.length
-          });
-          res.end(file[0].contents); 
-      }
-    });
+app.get("/get/:filename", function(req, res) {
+    var filename = req.params.filename;
+    var filenamewithpath = path.join(__dirname, 'documentsforreading',filename);
+
+    res.sendFile(filenamewithpath);
 });
 
 app.post('/uploaddocument', upload.single('avatar'), function (req, res, next) {
@@ -1616,8 +1597,9 @@ if(req.session.currentuser.customer == "ADMIN")
               } else
               {
                 var token = randtoken.generate(16);
-                var filename = path.join(__dirname, 'documentsforreading',token+obj.name);
-                fs.writeFile(filename, obj.contents, function (err) {
+                var filename = token+obj.name;
+                var filenamewithpath = path.join(__dirname, 'documentsforreading',filename);
+                fs.writeFile(filenamewithpath, obj.contents, function (err) {
                   if (err) return console.log(err);
                   console.log('Hello World > helloworld.txt');
   
