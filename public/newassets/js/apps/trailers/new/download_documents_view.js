@@ -1,8 +1,8 @@
-FleetRepManager.module("TrailersApp.UploadDocuments", function(UploadDocuments, VapeBookManager, Backbone, Marionette, $, _){
-  UploadDocuments.Trailer = Marionette.ItemView.extend({
+FleetRepManager.module("TrailersApp.DownloadDocuments", function(DownloadDocuments, VapeBookManager, Backbone, Marionette, $, _){
+  DownloadDocuments.Trailer = Marionette.ItemView.extend({
     title: "Upload Documents for Unit",
 
-    template: "#admin-upload-supporting-documents-form",
+    template: "#customer-download-supporting-documents-form",
 
     events: {
 /*      "click .js-savetrailer": "saveClicked",
@@ -12,7 +12,7 @@ FleetRepManager.module("TrailersApp.UploadDocuments", function(UploadDocuments, 
 
     onRender: function(){
       var that = this;
-
+alert("rendering download documents");
       $.ajax('/gettrailerdocuments' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'POST',
         data: JSON.stringify({_id:this.model.get('_id')}), // trailer/unit id

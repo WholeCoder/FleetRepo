@@ -180,7 +180,7 @@
       <%- FleetRepManager.getStatusTitle(status2) %><br />
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
-    <td>Coming Soon!</td>
+    <td><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %><br /><a class="js-downloaddocuments">View</a></b></td>
   </script>
 
 <script type="text/template" id="new-user-form">
@@ -383,9 +383,17 @@
 </script>
 
 <script type="text/template" id="admin-upload-supporting-documents-form">
-<%- _id %>
-<%- unitnumber %>
-<div class="js-currentfiles"><b>Current Files</b></div>
+
+
+
+<div class="container">
+             <div class="row">
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Suporting Documents Upload</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+<br />Unit Number:  <%- unitnumber %><br /><br />
   <form method="POST" enctype="multipart/form-data"
     action="/uploaddocument">
     <input type="hidden" name="customer" value="<%- customer %>" />
@@ -393,6 +401,77 @@
     File to upload: <input type="file" name="avatar"><br /> <br /> <br /> <input type="submit"
       value="Upload"> Press here to upload the file!
   </form>
+
+                     </div>
+                     <div class="panel-footer"><!--<input class="btn btn-lg btn-danger btn-block js-savetrailer" type="submit" value="Save Unit" />--></div>
+                  </div>
+
+                </div>
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Supporting Documents</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+<div class="js-currentfiles"><b>Current Files</b></div>
+
+                     </div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-doneuploadingdocuments" type="submit" value="Done" /></div>
+                  </div>
+
+                </div>
+             </div>
+          </div>
+
+
+
+
+
+
+
+
+</script>
+
+<script type="text/template" id="customer-download-supporting-documents-form">
+
+
+
+<div class="container">
+             <div class="row">
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Suporting Documents</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+<br />Unit Number:  <%- unitnumber %><br /><br />
+<div class="js-currentfiles"><b>Current Files</b></div>
+
+
+                     </div>
+                     <div class="panel-footer"><!--<input class="btn btn-lg btn-danger btn-block js-savetrailer" type="submit" value="Save Unit" />--></div>
+                  </div>
+
+                </div>
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Note</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+
+                     </div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-doneuploadingdocuments" type="submit" value="Done" /></div>
+                  </div>
+
+                </div>
+             </div>
+          </div>
+
+
+
+
+
+
+
+
 </script>
 
   <script type="text/template" id="trailer-form">
@@ -1707,6 +1786,8 @@
 
   <script src="./newassets/js/apps/trailers/new/edit_documents_view.js"></script>
   <script src="./newassets/js/apps/trailers/new/edit_documents_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/new/download_documents_view.js"></script>
 
   <script src="./newassets/js/apps/trailers/trailers_app.js"></script>
 

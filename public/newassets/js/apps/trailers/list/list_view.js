@@ -136,7 +136,33 @@ if(confirm("Are you sure you want to delete this record? This row will be lost f
 
     events: {
       /*"click": "highlightName"*/
-    }
+      "click td a.js-downloaddocuments": "showDownloadDocuments"
+    },
+
+    showDownloadDocuments: function(e) {
+      alert("clicked on download documents!");
+      e.preventDefault();
+      e.stopPropagation();
+//alert("showUploadDocuments shown");
+
+      $.ajax('/gettrailer' + "?dummyforie="+new Date().getTime().toString(), {
+        type: 'POST',
+        data: JSON.stringify({_id:this.model.get('_id')}),
+        contentType: 'text/json',
+        success: function(data2) { 
+          var trailer = new FleetRepManager.Entities.Trailer(data2);
+          var view = new FleetRepManager.TrailersApp.DownloadDocuments.Trailer({model: trailer});
+
+          view.on("form:submit", function(data){
+              //VapeBookManager.trigger("show:createnewprofile");
+          });
+console.log(" successfully got /gettrailer");
+          FleetRepManager.regions.table.show(view);
+
+        },
+        error  : function() { alert('Error - could not get trailer row!');}
+      }); // end $.post
+    } // end showDownloadDocuments
   });
 
 
