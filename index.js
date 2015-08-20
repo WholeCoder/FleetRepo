@@ -1810,9 +1810,14 @@ if(req.session.currentuser.customer == "ADMIN")
            console.log("newDeleteTrailerObject._id == "+newDeleteTrailerObject._id);
 
           Trailer.findOneAndRemove({'_id' : newDeleteTrailerObject._id}, function (err,trailer){
-              res.setHeader('content-type', 'application/json');
-              res.writeHead(200);
-              res.end("{}");
+              
+              File.find({ trailer_id:newDeleteTrailerObject._id }).remove( function(err) {
+                if (err) throw err;
+                
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end("{}");
+              });
           });
             //var trailer = new Trailer(newTrailerObject);
 /*            trailer.save(function (err) {
