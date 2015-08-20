@@ -382,6 +382,23 @@ if(req.session.currentuser.customer == "ADMIN")
                     } else 
                     {
                       console.log("Trailer Archive saved successfully!");
+                      if (trailerArchive.numberofsupportingdocuments != undefined &&
+                          trailerArchive.numberofsupportingdocuments != null &&
+                          trailerArchive.numberofsupportingdocuments != 0)
+                      {
+                          File.find({trailer_id:trailerArchive._id}, function( err, files){
+                            for (var i = 0; i < files.length; i++)
+                            {
+                              var fileArchive = new FileArchive(files[i]);
+                              fileArchive.save(function(err) {
+                                if (err)
+                                {
+                                  throw err;
+                                }
+                              });
+                            }
+                          });
+                      }
                     }
                     
                   });
@@ -1441,7 +1458,7 @@ if(req.session.currentuser.customer == "ADMIN")
            if (markForArchival && newTrailerObject.status1.indexOf("100%") > -1)
            {
               var currentDateInMillisectonds = new Date().getTime()
-              var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days
+              var timeInMillisecondsToAdd = 1000*10;//1000*60*60*24*5; // 5 days
 
               var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
 
@@ -1528,19 +1545,31 @@ console.log("----------------- 2");
 
 
 
-            File.find({trailer_id: newTrailerObject._id}, function(err, docs){
+            File.find({trailer_id: doc._id}, function(err, docs){
+              if(err) throw err;
+
+              if (docs.length == 0 )
+              {
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end("{}");
+              }
+console.log("numer of files found == "+docs.length);              
 var count = 0;
               for (var i = 0; i < docs.length; i++)
               {
                 var foundFile = docs[i];
 
                 foundFile.customer = newTrailerObject.customer;
-console.log("----------------- 3");
+console.log("----------------- 3 foundFile.name == "+foundFile.name);
                 foundFile.save(function(err) {
+console.log(" err == "+err);                  
                     if (err) throw err;
                     count++;
-                    if (count == docs.length-1)
+console.log("     count == "+count);                    
+                    if (count == docs.length)
                     {
+console.log("sending back content!!!!!!!!!!!!!!!!!!!!!");                      
                       res.setHeader('content-type', 'application/json');
                       res.writeHead(200);
                       res.end("{}");
@@ -1813,7 +1842,7 @@ if(req.session.currentuser.customer == "ADMIN")
               
               File.find({ trailer_id:newDeleteTrailerObject._id }).remove( function(err) {
                 if (err) throw err;
-                
+
                 res.setHeader('content-type', 'application/json');
                 res.writeHead(200);
                 res.end("{}");

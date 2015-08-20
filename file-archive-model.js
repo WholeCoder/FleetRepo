@@ -6,7 +6,7 @@ var FileArchiveSchema = new Schema({
     contents: { type: Buffer},
     mimetype: { type: String},
     customer: { type: String},
-    trailer_archive_id: { type: Schema.Types.ObjectId}
+    trailer_id: { type: Schema.Types.ObjectId}
 });
 
 
