@@ -13,6 +13,7 @@ var express = require('express'),
     Trailer = require('./trailer-model'),
     TrailerArchive = require('./trailer-archive-model'),
     File = require('./file-model'),
+    FileArchive = require('./file-archive-model'),
 
     nodemailer = require('nodemailer'),
     randtoken = require('rand-token'),
@@ -288,10 +289,28 @@ if(req.session.currentuser.customer == "ADMIN")
           } else 
           {
             console.log("File was saved successfully!");
+          
+            Trailer.find({_id: req.body._id}, function(err, docs){
+              var foundTrailer = docs[0];
+              if (foundTrailer.numberofsupportingdocuments == undefined ||
+                  foundTrailer.numberofsupportingdocuments == null)
+              {
+                foundTrailer.numberofsupportingdocuments = 1;
+              } else {
+                foundTrailer.numberofsupportingdocuments++;
+              }
 
-            res.setHeader('content-type', 'application/json');
-            res.writeHead(200);
-            res.end('{"filesaved":"successfully"}');
+              Trailer.findOneAndUpdate({_id: req.body._id}, foundTrailer, {}, 
+                  function(err, doc){
+                    res.setHeader('content-type', 'application/json');
+                    res.writeHead(200);
+                    res.end('{"filesaved":"successfully"}');
+                  }
+              ); // end Trailer.findOneAndUpdate
+
+
+            }); // end Trailer.find
+
           }
           
         });

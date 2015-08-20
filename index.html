@@ -80,7 +80,7 @@
       <%- FleetRepManager.getStatusTitle(status2) %><br />
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
-    <td><a class="js-uploaddocuments">Upload Documents</a></td>
+    <td><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-uploaddocuments">Upload Documents</a></td>
     <td>
       <a href="#trailers/<%- _id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
         <i class="icon-pencil"></i>
@@ -2174,6 +2174,19 @@
       }
       console.log('could not find status when FleetRepManager.getPercentage() in index.html status == '+status);
       return imagename; // name not found - use none
+    };
+
+    FleetRepManager.getCorrectVerbageForDocuments = function (numberofsupportingdocuments) {
+      if (numberofsupportingdocuments == undefined || numberofsupportingdocuments == null || numberofsupportingdocuments == 0)
+      {
+        return "";
+      } else if (numberofsupportingdocuments == 1)
+      {
+        return "1 document";
+      } else
+      {
+        return numberofsupportingdocuments + " documents";
+      }
     };
 
     FleetRepManager.getStatusTitle = function(status) {
