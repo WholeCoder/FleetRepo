@@ -114,7 +114,7 @@
       <%- FleetRepManager.getStatusTitle(status2) %><br />
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
-    <td>Coming Soon!</td>
+    <td><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-viewdocuments">View Documents</a></td>
   </script>
 
   <script type="text/template" id="trailer-archive-customer-list-item">
@@ -136,7 +136,7 @@
       <%- FleetRepManager.getStatusTitle(status2) %><br />
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
-    <td>Coming Soon!</td>
+    <td><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-viewdocuments">View Documents</a></td>
   </script>
 
   <script type="text/template" id="trailer-onlot-list-item">
@@ -403,7 +403,7 @@
   </form>
 
                      </div>
-                     <div class="panel-footer"><!--<input class="btn btn-lg btn-danger btn-block js-savetrailer" type="submit" value="Save Unit" />--></div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-doneuploadingdocuments" type="submit" value="Done" /></div>
                   </div>
 
                 </div>
@@ -415,7 +415,7 @@
 <div class="js-currentfiles"><b>Current Files</b></div>
 
                      </div>
-                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-doneuploadingdocuments" type="submit" value="Done" /></div>
+                     <div class="panel-footer"></div>
                   </div>
 
                 </div>
@@ -447,7 +447,7 @@
 
 
                      </div>
-                     <div class="panel-footer"><!--<input class="btn btn-lg btn-danger btn-block js-savetrailer" type="submit" value="Save Unit" />--></div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-doneuploadingdocuments" type="submit" value="Done" /></div>
                   </div>
 
                 </div>
@@ -458,7 +458,8 @@
 
 
                      </div>
-                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-doneuploadingdocuments" type="submit" value="Done" /></div>
+                     <div class="panel-footer">
+                     </div>
                   </div>
 
                 </div>

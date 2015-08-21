@@ -6,13 +6,17 @@ FleetRepManager.module("TrailersApp.DownloadDocuments", function(DownloadDocumen
 
     events: {
 /*      "click .js-savetrailer": "saveClicked",
-      "click .js-cancelsavetrailer": "cancelClicked"
-*/
+*/      "click .js-doneuploadingdocuments": "doneUploading"
+
+    },
+
+    doneUploading: function() {
+      FleetRepManager.trigger("trailers:list");
     },
 
     onRender: function(){
       var that = this;
-alert("rendering download documents");
+
       $.ajax('/gettrailerdocuments' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'POST',
         data: JSON.stringify({_id:this.model.get('_id')}), // trailer/unit id
@@ -30,7 +34,7 @@ alert("rendering download documents");
               event.preventDefault();
               var hrf = $(this).attr('href');
               var id = hrf.substring(5);
-              alert("clicked js-getfile   id == "+id);
+              //alert("clicked js-getfile   id == "+id);
 
 
 
@@ -40,8 +44,8 @@ alert("rendering download documents");
                 contentType: 'text/json',
                 success: function(data2) { 
 
-                  alert('name of trailer document is = '+data2.filename);
-                  $(location).attr('href','/get/'+data2.filename+ "?dummyforie="+new Date().getTime().toString());
+                  //alert('name of trailer document is = '+data2.filename);
+                  $(location).attr('href','/get/'+data2.tokenpath+'/'+data2.filename+ "?dummyforie="+new Date().getTime().toString());
                 },
                 error  : function() { alert('Error - could not get trailer row!');}
               }); // end $.post
@@ -68,4 +72,82 @@ alert("rendering download documents");
      
     }
   });
+
+
+  DownloadDocuments.TrailerArchive = Marionette.ItemView.extend({
+    title: "Download Supporting Archived Documents",
+
+    template: "#customer-download-supporting-documents-form",
+
+    events: {
+/*      "click .js-savetrailer": "saveClicked",
+      "click .js-cancelsavetrailer": "cancelClicked"
+*/
+      "click .js-doneuploadingdocuments": "doneViewingArchivedDocuments"
+    },
+
+    doneViewingArchivedDocuments: function(e) {
+      e.preventDefault();
+      FleetRepManager.trigger("trailerarchives:list");
+    },
+
+    onRender: function(){
+      var that = this;
+
+      $.ajax('/gettrailerarchivedocuments' + "?dummyforie="+new Date().getTime().toString(), {
+        type: 'POST',
+        data: JSON.stringify({_id:this.model.get('_id')}), // trailer/unit id
+        contentType: 'text/json',
+        success: function(data2) { 
+          console.log("/gettrailerarchivedocuments called");
+          for (var i = 0; i < data2.length; i++)
+          {
+            console.log("     name == "+data2[i].name);
+            console.log("     contents (should be undefined) == "+data2[i].contents);
+            console.log("\n\n");
+            that.$(".js-currentfiles").append('<br /><a href="/get/'+data2[i]._id+'" class="js-getfile">'+data2[i].name+'</a>');
+            that.$(".js-getfile").on( "click", function(event) {
+              //alert("searchInput == "+encodeURIComponent($("#searchInput").val()));
+              event.preventDefault();
+              var hrf = $(this).attr('href');
+              var id = hrf.substring(5);
+              //alert("clicked js-getfile   id == "+id);
+
+
+
+              $.ajax('/getnameoftrailerarchivedocument' + "?dummyforie="+new Date().getTime().toString(), {
+                type: 'POST',
+                data: JSON.stringify({_id:id}), // document id
+                contentType: 'text/json',
+                success: function(data2) { 
+
+                  //alert('name of trailer document is = '+data2.filename);
+                  $(location).attr('href','/get/'+data2.tokenpath+'/'+data2.filename+ "?dummyforie="+new Date().getTime().toString());
+                },
+                error  : function() { alert('Error - could not get trailer row!');}
+              }); // end $.post
+
+
+
+
+
+
+
+
+              //$(location).attr('href','/FleetRepairSolutionsOnLotPortalData.xlsx' + "?dummyforie="+new Date().getTime().toString()+"&searchTerm="+encodeURIComponent($("#searchInput").val()));
+
+              //alert("exported to exel!");
+            }); // end js-getfile handler
+
+          }
+        },
+        error  : function() { alert('Error - could not get trailer row!');}
+      }); // end $.post
+    },
+
+    saveClicked: function(e){
+     
+    }
+  });
+
 });

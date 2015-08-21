@@ -6,9 +6,14 @@ FleetRepManager.module("TrailersApp.UploadDocuments", function(UploadDocuments, 
 
     events: {
 /*      "click .js-savetrailer": "saveClicked",
-      "click .js-cancelsavetrailer": "cancelClicked"
-*/
+*/      "click .js-doneuploadingdocuments": "doneUploading"
+
+    },    
+
+    doneUploading: function() {
+      FleetRepManager.trigger("trailers:list");
     },
+
 
     onRender: function(){
       var that = this;
@@ -30,7 +35,7 @@ FleetRepManager.module("TrailersApp.UploadDocuments", function(UploadDocuments, 
               event.preventDefault();
               var hrf = $(this).attr('href');
               var id = hrf.substring(5);
-              alert("clicked js-getfile   id == "+id);
+//              alert("clicked js-getfile   id == "+id);
 
 
 
@@ -40,8 +45,8 @@ FleetRepManager.module("TrailersApp.UploadDocuments", function(UploadDocuments, 
                 contentType: 'text/json',
                 success: function(data2) { 
 
-                  alert('name of trailer document is = '+data2.filename);
-                  $(location).attr('href','/get/'+data2.filename+ "?dummyforie="+new Date().getTime().toString());
+                  // alert('name of trailer document is = '+data2.filename);
+                  $(location).attr('href','/get/'+data2.tokenpath+"/"+data2.filename+ "?dummyforie="+new Date().getTime().toString());
                 },
                 error  : function() { alert('Error - could not get trailer row!');}
               }); // end $.post

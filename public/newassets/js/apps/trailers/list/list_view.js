@@ -140,7 +140,7 @@ if(confirm("Are you sure you want to delete this record? This row will be lost f
     },
 
     showDownloadDocuments: function(e) {
-      alert("clicked on download documents!");
+      //alert("clicked on download documents!");
       e.preventDefault();
       e.stopPropagation();
 //alert("showUploadDocuments shown");

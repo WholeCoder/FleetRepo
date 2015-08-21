@@ -19,8 +19,33 @@ FleetRepManager.module("TrailersApp.ListArchive", function(ListArchive, FleetRep
       "click button.js-delete": "trailer:delete"
 */    },
 
-    events: {
-      /*"click": "highlightName"*/
+ events: {
+      /*"click": "highlightName",*/
+      "click td a.js-viewdocuments": "showDownloadDocuments"
+    },
+
+    showDownloadDocuments: function(e)
+    {
+      e.preventDefault();
+      e.stopPropagation();
+
+      $.ajax('/gettrailerarchive' + "?dummyforie="+new Date().getTime().toString(), {
+        type: 'POST',
+        data: JSON.stringify({_id:this.model.get('_id')}),
+        contentType: 'text/json',
+        success: function(data2) { 
+          var trailer = new FleetRepManager.Entities.Trailer(data2);
+          var view = new FleetRepManager.TrailersApp.DownloadDocuments.TrailerArchive({model: trailer});
+
+          view.on("form:submit", function(data){
+              //VapeBookManager.trigger("show:createnewprofile");
+          });
+
+          FleetRepManager.regions.table.show(view);
+
+        },
+        error  : function() { alert('Error - could not get trailer row!');}
+      }); // end $.post
     }
   });
 
@@ -174,7 +199,32 @@ FleetRepManager.module("TrailersApp.ListArchive", function(ListArchive, FleetRep
 */    },
 
     events: {
-      "click": "highlightName"
+      "click": "highlightName",
+      "click td a.js-viewdocuments": "showDownloadDocuments"
+    },
+
+    showDownloadDocuments: function(e)
+    {
+      e.preventDefault();
+      e.stopPropagation();
+
+      $.ajax('/gettrailerarchive' + "?dummyforie="+new Date().getTime().toString(), {
+        type: 'POST',
+        data: JSON.stringify({_id:this.model.get('_id')}),
+        contentType: 'text/json',
+        success: function(data2) { 
+          var trailer = new FleetRepManager.Entities.Trailer(data2);
+          var view = new FleetRepManager.TrailersApp.DownloadDocuments.TrailerArchive({model: trailer});
+
+          view.on("form:submit", function(data){
+              //VapeBookManager.trigger("show:createnewprofile");
+          });
+
+          FleetRepManager.regions.table.show(view);
+
+        },
+        error  : function() { alert('Error - could not get trailer row!');}
+      }); // end $.post
     },
 
     flash: function(cssClass){

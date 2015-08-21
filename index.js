@@ -4,7 +4,9 @@ var express = require('express'),
 
     http = require('http').Server(app),
     io = require('socket.io')(http),
-
+    
+    mkdirp = require('mkdirp'),
+    
     excelbuilder = require('msexcel-builder'),
 
     path = require('path'),    
@@ -119,6 +121,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
  /* serves main page */
 app.get("/", function(req, res) {
+   sendIfNoSSLRequired(path.join(__dirname, 'index.html'),req, res)
+});
+
+/* this path is so we can jump back into uploading documents */
+app.get("/uploaddocument", function(req, res) {
    sendIfNoSSLRequired(path.join(__dirname, 'index.html'),req, res)
 });
  
@@ -240,9 +247,11 @@ for (var j = 0; j < statusesToSetToUndefined.length; j++)
 */
 
 
-app.get("/get/:filename", function(req, res) {
+app.get("/get/:tokenpath/:filename", function(req, res) {
     var filename = req.params.filename;
-    var filenamewithpath = path.join(__dirname, 'documentsforreading',filename);
+    var tokenpath = req.params.tokenpath;
+
+    var filenamewithpath = path.join(__dirname, 'documentsforreading',tokenpath,filename);
 
     res.sendFile(filenamewithpath);
 });
@@ -302,9 +311,11 @@ if(req.session.currentuser.customer == "ADMIN")
 
               Trailer.findOneAndUpdate({_id: req.body._id}, foundTrailer, {}, 
                   function(err, doc){
-                    res.setHeader('content-type', 'application/json');
+                    res.redirect('#/viewdocumentupload/'+req.body._id);
+/*                    res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
                     res.end('{"filesaved":"successfully"}');
+*/
                   }
               ); // end Trailer.findOneAndUpdate
 
@@ -1526,7 +1537,7 @@ if(req.session.currentuser.customer == "ADMIN")
            if (markForArchival && newTrailerObject.status1.indexOf("100%") > -1)
            {
               var currentDateInMillisectonds = new Date().getTime()
-              var timeInMillisecondsToAdd = 1000*10;//1000*60*60*24*5; // 5 days
+              var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days
 
               var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
 
@@ -1700,6 +1711,57 @@ if(req.session.currentuser.customer == "ADMIN")
 });
 
 
+app.post("/gettrailerarchive", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           TrailerArchive.find({_id:_idObj._id},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find trailer record with _id == "+_id);
+              } else
+              {
+                console.log("called gettrailer obj == "+JSON.stringify(obj[0]));
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end(JSON.stringify(obj[0]));
+              }
+            });
+      });
+  }
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           TrailerArchive.find({_id:_idObj._id, customer: req.session.currentuser.customer},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find trailer record with _id == "+_id);
+              } else
+              {
+                console.log("called gettrailer obj == "+JSON.stringify(obj[0]));
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end(JSON.stringify(obj[0]));
+              }
+            });
+      });
+  }
+} // end else if
+});
+
+
 app.post("/getnameoftrailerdocument", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
 {
@@ -1717,16 +1779,23 @@ if(req.session.currentuser.customer == "ADMIN")
               } else
               {
                 var token = randtoken.generate(16);
-                var filename = token+obj.name;
-                var filenamewithpath = path.join(__dirname, 'documentsforreading',filename);
-                fs.writeFile(filenamewithpath, obj.contents, function (err) {
-                  if (err) return console.log(err);
-                  console.log('Hello World > helloworld.txt');
-  
-                  res.setHeader('content-type', 'application/json');
-                  res.writeHead(200);
-                  res.end(JSON.stringify({"filename": filename}));
-                });
+                var filename = obj.name;
+                var pth = path.join(__dirname, 'documentsforreading',token);
+                var filenamewithpartialpath = path.join(token,filename);
+                var filenamewithpath = path.join(__dirname, 'documentsforreading',token,filename);
+                mkdirp(pth, function (err) {
+                  if (err) console.error(err)
+                  else console.log('pow!')
+
+                  fs.writeFile(filenamewithpath, obj.contents, function (err) {
+                    if (err) return console.log(err);
+                    console.log('Hello World > helloworld.txt');
+    
+                    res.setHeader('content-type', 'application/json');
+                    res.writeHead(200);
+                    res.end(JSON.stringify({"filename": filename, "tokenpath": token}));
+                  }); // end fs.writeFile
+                }); // end mkdirp
               }
             });
       });
@@ -1747,16 +1816,24 @@ if(req.session.currentuser.customer == "ADMIN")
               } else
               {
                 var token = randtoken.generate(16);
-                var filename = token+obj.name;
-                var filenamewithpath = path.join(__dirname, 'documentsforreading',filename);
-                fs.writeFile(filenamewithpath, obj.contents, function (err) {
-                  if (err) return console.log(err);
-                  console.log('Hello World > helloworld.txt');
-  
-                  res.setHeader('content-type', 'application/json');
-                  res.writeHead(200);
-                  res.end(JSON.stringify({"filename": filename}));
-                });
+                var filename = obj.name;
+                var pth = path.join(__dirname, 'documentsforreading',token);
+                var filenamewithpartialpath = path.join(token,filename);
+                var filenamewithpath = path.join(__dirname, 'documentsforreading',token,filename);
+
+                mkdirp(pth, function (err) {
+                  if (err) console.error(err)
+                  else console.log('pow!')
+
+                  fs.writeFile(filenamewithpath, obj.contents, function (err) {
+                    if (err) return console.log(err);
+                    console.log('Hello World > helloworld.txt');
+    
+                    res.setHeader('content-type', 'application/json');
+                    res.writeHead(200);
+                    res.end(JSON.stringify({"filename": filename, "tokenpath": token}));
+                  }); // end fs.writeFile
+                }); // end mkdirp
               }
             });
       });
@@ -1781,16 +1858,23 @@ if(req.session.currentuser.customer == "ADMIN")
               } else
               {
                 var token = randtoken.generate(16);
-                var filename = token+obj.name;
-                var filenamewithpath = path.join(__dirname, 'documentsforreading',filename);
-                fs.writeFile(filenamewithpath, obj.contents, function (err) {
-                  if (err) return console.log(err);
-                  console.log('Hello World > helloworld.txt');
-  
-                  res.setHeader('content-type', 'application/json');
-                  res.writeHead(200);
-                  res.end(JSON.stringify({"filename": filename}));
-                });
+                var filename = obj.name;
+                var pth = path.join(__dirname, 'documentsforreading',token);
+                var filenamewithpartialpath = path.join(token,filename);
+                var filenamewithpath = path.join(__dirname, 'documentsforreading',token,filename);
+                mkdirp(pth, function (err) {
+                  if (err) console.error(err)
+                  else console.log('pow!')
+
+                  fs.writeFile(filenamewithpath, obj.contents, function (err) {
+                    if (err) return console.log(err);
+                    console.log('Hello World > helloworld.txt');
+    
+                    res.setHeader('content-type', 'application/json');
+                    res.writeHead(200);
+                    res.end(JSON.stringify({"filename": filename, "tokenpath": token}));
+                  }); // end fs.writeFile
+                }); // end mkdirp
               }
             });
       });
@@ -1811,23 +1895,30 @@ if(req.session.currentuser.customer == "ADMIN")
               } else
               {
                 var token = randtoken.generate(16);
-                var filename = token+obj.name;
-                var filenamewithpath = path.join(__dirname, 'documentsforreading',filename);
-                fs.writeFile(filenamewithpath, obj.contents, function (err) {
-                  if (err) return console.log(err);
-                  console.log('Hello World > helloworld.txt');
-  
-                  res.setHeader('content-type', 'application/json');
-                  res.writeHead(200);
-                  res.end(JSON.stringify({"filename": filename}));
-                });
+                var filename = obj.name;
+                var pth = path.join(__dirname, 'documentsforreading',token);
+                var filenamewithpartialpath = path.join(token,filename);
+                var filenamewithpath = path.join(__dirname, 'documentsforreading',token,filename);
+
+                mkdirp(pth, function (err) {
+                  if (err) console.error(err)
+                  else console.log('pow!')
+
+                  fs.writeFile(filenamewithpath, obj.contents, function (err) {
+                    if (err) return console.log(err);
+                    console.log('Hello World > helloworld.txt');
+    
+                    res.setHeader('content-type', 'application/json');
+                    res.writeHead(200);
+                    res.end(JSON.stringify({"filename": filename, "tokenpath": token}));
+                  }); // end fs.writeFile
+                }); // end mkdirp
               }
             });
       });
   } // end POST if
 } // end else if
 });
-
 
 app.post("/gettrailerdocuments", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
@@ -1869,6 +1960,69 @@ if(req.session.currentuser.customer == "ADMIN")
            var _idObj = JSON.parse(jsonString);
 console.log("!!!!!!!!!!!executing File.find");
            File.find({trailer_id:_idObj._id, customer: req.session.currentuser.customer},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find trailer record with _id == "+_id);
+              } else
+              {
+                for (var i = 0; i < obj.length; i++)
+                {
+                  obj[i].contents = null;
+                }
+
+                console.log("called gettrailerdocuments obj == "+JSON.stringify(obj));
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end(JSON.stringify(obj));
+              }
+            });
+      });
+  }
+
+} // end if
+});
+ 
+
+app.post("/gettrailerarchivedocuments", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           FileArchive.find({trailer_id:_idObj._id},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find trailer record with _id == "+_id);
+              } else
+              {
+                for (var i = 0; i < obj.length; i++)
+                {
+                  obj[i].contents = null;
+                }
+
+                console.log("called gettrailerdocuments obj == "+JSON.stringify(obj));
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end(JSON.stringify(obj));
+              }
+            });
+      });
+  }
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+console.log("!!!!!!!!!!!executing File.find");
+           FileArchive.find({trailer_id:_idObj._id, customer: req.session.currentuser.customer},function(err, obj) {
               if (err)
               {
                 console.log("ERROR! - can not find trailer record with _id == "+_id);

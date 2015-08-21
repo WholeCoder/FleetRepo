@@ -3,11 +3,39 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
     appRoutes: {
       "trailers(/filter/criterion::criterion)": "listContacts",
       "trailers/:id": "showContact",
-      "trailers/:id/edit": "editContact"
+      "trailers/:id/edit": "editContact",
+      "viewdocumentupload/:id" : "viewDocumentUpload"
     }
   });
 
   var API = {
+    viewDocumentUpload: function(id) {
+      //alert("viewDocumentUpload called id == "+id);
+      $.ajax('/gettrailer' + "?dummyforie="+new Date().getTime().toString(), {
+        type: 'POST',
+        data: JSON.stringify({_id:id}),
+        contentType: 'text/json',
+        success: function(data2) { 
+          var trailer = new FleetRepManager.Entities.Trailer(data2);
+          var view = new FleetRepManager.TrailersApp.UploadDocuments.Trailer({model: trailer});
+
+          view.on("form:submit", function(data){
+              //VapeBookManager.trigger("show:createnewprofile");
+          });
+
+          FleetRepManager.regions.table.show(view);
+
+          FleetRepManager.admin = true;
+          FleetRepManager.showAdminLinks();
+          FleetRepManager.loadCharts();
+          //FleetRepManager.trigger("trailers:list");
+          FleetRepManager.trigger("user:new");
+
+        },
+        error  : function() { alert('Error - could not get trailer row!');}
+      }); // end $.post
+    },
+
     loadDummyTrailerData: function() {
 
       $.ajax('/loaddummytrailerdata' + "?dummyforie="+new Date().getTime().toString(), {
