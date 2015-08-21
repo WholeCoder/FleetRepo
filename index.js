@@ -389,6 +389,9 @@ if(req.session.currentuser.customer == "ADMIN")
                           File.find({trailer_id:trailerArchive._id}, function( err, files){
                             for (var i = 0; i < files.length; i++)
                             {
+                              files[i].remove();
+                              delete files[i]._id;
+                              files[i].trailer_id = trailerArchive._id;
                               var fileArchive = new FileArchive(files[i]);
                               fileArchive.save(function(err) {
                                 if (err)
@@ -1458,7 +1461,7 @@ if(req.session.currentuser.customer == "ADMIN")
            if (markForArchival && newTrailerObject.status1.indexOf("100%") > -1)
            {
               var currentDateInMillisectonds = new Date().getTime()
-              var timeInMillisecondsToAdd = 1000*10;//1000*60*60*24*5; // 5 days
+              var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days
 
               var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
 
@@ -1523,7 +1526,7 @@ if(req.session.currentuser.customer == "ADMIN")
            if (markForArchival && newTrailerObject.status1.indexOf("100%") > -1)
            {
               var currentDateInMillisectonds = new Date().getTime()
-              var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days
+              var timeInMillisecondsToAdd = 1000*10;//1000*60*60*24*5; // 5 days
 
               var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
 
@@ -1738,6 +1741,70 @@ if(req.session.currentuser.customer == "ADMIN")
       req.on('end', function () {
            var _idObj = JSON.parse(jsonString);
            File.findOne({_id:_idObj._id, customer: req.session.currentuser.customer},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find document with _id == "+_id);
+              } else
+              {
+                var token = randtoken.generate(16);
+                var filename = token+obj.name;
+                var filenamewithpath = path.join(__dirname, 'documentsforreading',filename);
+                fs.writeFile(filenamewithpath, obj.contents, function (err) {
+                  if (err) return console.log(err);
+                  console.log('Hello World > helloworld.txt');
+  
+                  res.setHeader('content-type', 'application/json');
+                  res.writeHead(200);
+                  res.end(JSON.stringify({"filename": filename}));
+                });
+              }
+            });
+      });
+  } // end POST if
+} // end else if
+});
+
+app.post("/getnameoftrailerarchivedocument", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           FileArchive.findOne({_id:_idObj._id},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find document with _id == "+_id);
+              } else
+              {
+                var token = randtoken.generate(16);
+                var filename = token+obj.name;
+                var filenamewithpath = path.join(__dirname, 'documentsforreading',filename);
+                fs.writeFile(filenamewithpath, obj.contents, function (err) {
+                  if (err) return console.log(err);
+                  console.log('Hello World > helloworld.txt');
+  
+                  res.setHeader('content-type', 'application/json');
+                  res.writeHead(200);
+                  res.end(JSON.stringify({"filename": filename}));
+                });
+              }
+            });
+      });
+  }
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           FileArchive.findOne({_id:_idObj._id, customer: req.session.currentuser.customer},function(err, obj) {
               if (err)
               {
                 console.log("ERROR! - can not find document with _id == "+_id);
