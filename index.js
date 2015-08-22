@@ -273,7 +273,8 @@ if(req.session.currentuser.customer == "ADMIN")
   }
 
 
-
+if (req.file['size'] <= 100000)
+{
   var filePath = path.join(__dirname, 'uploads',req.file.filename);
 
   fs.readFile(filePath, function(err,data){ // binary was utf-8
@@ -311,7 +312,7 @@ if(req.session.currentuser.customer == "ADMIN")
 
               Trailer.findOneAndUpdate({_id: req.body._id}, foundTrailer, {}, 
                   function(err, doc){
-                    res.redirect('#/viewdocumentupload/'+req.body._id);
+                    res.redirect('#/viewdocumentupload/'+req.body._id+'/filesizeok');
 /*                    res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
                     res.end('{"filesaved":"successfully"}');
@@ -344,7 +345,17 @@ if(req.session.currentuser.customer == "ADMIN")
 
   }); // end fs.readFile(...)
 
-} // end if
+
+
+
+
+} else { //if (req.file['size'] <= 64000)
+  // Reject document - not small enough.
+  res.redirect('#/viewdocumentupload/'+req.body._id+'/filetoobig');
+
+} // end else
+
+} // end if - check for ADMIN
 });
 
 

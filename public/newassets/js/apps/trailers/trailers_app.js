@@ -4,11 +4,20 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
       "trailers(/filter/criterion::criterion)": "listContacts",
       "trailers/:id": "showContact",
       "trailers/:id/edit": "editContact",
-      "viewdocumentupload/:id" : "viewDocumentUpload"
+      "viewdocumentupload/:id/filetoobig" : "alertTooBigFile",
+      "viewdocumentupload/:id/filesizeok" : "alertFileSizeOk"
     }
   });
 
   var API = {
+    alertFileSizeOk: function(id) {
+      this.viewDocumentUpload(id);
+    },
+    alertTooBigFile: function(id) {
+      this.viewDocumentUpload(id);
+      alert("The file is too big.  It must be less than 100k!  Try reducing image quality.");
+    },
+
     viewDocumentUpload: function(id) {
       //alert("viewDocumentUpload called id == "+id);
       $.ajax('/gettrailer' + "?dummyforie="+new Date().getTime().toString(), {
@@ -30,7 +39,6 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
           FleetRepManager.loadCharts();
           //FleetRepManager.trigger("trailers:list");
           FleetRepManager.trigger("user:new");
-
         },
         error  : function() { alert('Error - could not get trailer row!');}
       }); // end $.post
