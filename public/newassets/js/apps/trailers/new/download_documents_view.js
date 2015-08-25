@@ -11,7 +11,7 @@ FleetRepManager.module("TrailersApp.DownloadDocuments", function(DownloadDocumen
     },
 
     doneUploading: function() {
-      FleetRepManager.trigger("trailers:list");
+        FleetRepManager.trigger("trailercustomeronlot:list");
     },
 
     onRender: function(){

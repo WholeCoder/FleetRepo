@@ -80,7 +80,12 @@
       <%- FleetRepManager.getStatusTitle(status2) %><br />
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
-    <td><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-uploaddocuments">Upload Documents</a></td>
+    <td>
+    <b><%- note != undefined && note != "" && note != null ? "1 note" : "" %></b><br/>
+      <a href="#trailers/<%- _id %>/edit" class="js-edit">
+        Edit Note
+      </a><br />
+    <b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-uploaddocuments">Upload Docs</a></td>
     <td>
       <a href="#trailers/<%- _id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
         <i class="icon-pencil"></i>
@@ -114,7 +119,7 @@
       <%- FleetRepManager.getStatusTitle(status2) %><br />
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
-    <td><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-viewdocuments">View Documents</a></td>
+    <td><b><%- note != undefined && note != "" && note != null ? "1 note" : "" %></b><br /><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-viewdocuments">View Documents</a></td>
   </script>
 
   <script type="text/template" id="trailer-archive-customer-list-item">
@@ -136,7 +141,7 @@
       <%- FleetRepManager.getStatusTitle(status2) %><br />
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
-    <td><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-viewdocuments">View Documents</a></td>
+    <td><b><%- note != undefined && note != "" && note != null ? "1 note" : "" %><br /><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-viewdocuments">View Documents</a></td>
   </script>
 
   <script type="text/template" id="trailer-onlot-list-item">
@@ -180,7 +185,7 @@
       <%- FleetRepManager.getStatusTitle(status2) %><br />
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
-    <td><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %><br /><a class="js-downloaddocuments">View</a></b></td>
+    <td><b><%- note != undefined && note != "" && note != null ? "1 note" : "" %></b><br /><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %><br /><a class="js-downloaddocuments">View</a></b></td>
   </script>
 
 <script type="text/template" id="new-user-form">
@@ -444,6 +449,8 @@
 
 <br />Unit Number:  <%- unitnumber %><br /><br />
 <div class="js-currentfiles"><b>Current Files</b></div>
+<br /><br />
+<b>**note**</b><br /><%- note %>
 
 
                      </div>
@@ -481,7 +488,7 @@
                 <div  class="col-sm-6">
                   <div class="panel panel-danger">
                      <div class="panel-heading"><b>New Unit Record</b></div>
-                     <div class="panel-body" style="height: 400px;">
+                     <div class="panel-body" style="height: 500px;">
 
 <form>             
                 <fieldset>
@@ -553,6 +560,12 @@
                           </select>
                         </td>
                      </tr>
+                     <tr>
+                        <td><b>Note:</b></td>
+                        <td>
+                          <textarea style="width:400px; height: 150px;" name="note" id="note"><%- note %></textarea>
+                        </td>
+                     </tr>
                      </tbody>
                    </table>
                 </fieldset>
@@ -566,7 +579,7 @@
                 <div  class="col-sm-6">
                   <div class="panel panel-danger">
                      <div class="panel-heading"><b>Note</b></div>
-                     <div class="panel-body" style="height: 400px;">
+                     <div class="panel-body" style="height: 500px;">
                         <p><b>Setting</b> the <b>"Status 1 (Master)"</b> status input box <b>changes</b> the options in <b>"Status 2"</b> and <b>"Status 3"</b> boxes.</p>
                         <p>If <b>all statuses</b> are <b>blank</b> then they <b>will not</b> be <b>counted</b> in the <b>charts</b>.</p>
                      </div>
@@ -699,7 +712,7 @@
               </span>
             </span>
         </th>
-        <th align="center">
+        <th align="center" style="width:125px;">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#" >Supporting Documents<span class="glyphicon glyphicon-sort pull-right"></span></a>

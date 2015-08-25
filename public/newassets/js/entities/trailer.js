@@ -16,7 +16,8 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       status1: "",
       status2: "",
       status3: "",
-      numberofsupportingdocuments: ""
+      numberofsupportingdocuments: "",
+      note: ""
     }/*,
 
     validate: function(attrs, options) {
