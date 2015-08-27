@@ -21,8 +21,43 @@ FleetRepManager.module("UserApp.List", function(List, FleetRepManager, Backbone,
     events: {
       "click": "highlightName",
 /*      "click td a.js-edit": "showEditTrailer",
-*/      "click button.js-delete": "deleteUser"/*,
+*/      "click button.js-delete": "deleteUser",
+      "click .js-sendemailoncompleted": "setSendEmailOnCompleted",
+      "click .js-senddailyemail": "setSendDailyEmail"
+
+/*,
       "click td a.js-uploaddocuments": "showUploadDocuments"*/
+    },
+
+    setSendEmailOnCompleted: function(e) {
+      var isItChecked = this.$(".js-sendemailoncompleted").is(':checked');
+      var username = this.model.get("username");
+
+      if (username.indexOf("@")>0)
+      {
+        // username is an email
+      } else
+      {
+        // username is not an email!
+        alert("Sorry, this username is not an email so we can not send it mail!");
+        this.$(".js-sendemailoncompleted").prop('checked', false);
+      }
+      //alert("clicked on sendemailoncompled checked == "+this.$(".js-sendemailoncompleted").is(':checked'));
+    },
+
+    setSendDailyEmail: function(e) {
+      var isItChecked = this.$(".js-senddailyemail").is(':checked');
+      var username = this.model.get("username");
+
+      if (username.indexOf("@")>0)
+      {
+        // username is an email
+      } else
+      {
+        // username is not an email!
+        alert("Sorry, this username is not an email so we can not send it mail!");
+        this.$(".js-senddailyemail").prop('checked', false);
+      }
     },
 
     deleteUser: function(e) {

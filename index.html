@@ -826,8 +826,8 @@
   <script type="text/template" id="user-list-item">
     <td><%- username %></td>
     <td><%- customer %></td>
-    <td><%- sendemailoncompleted %></td>
-    <td><%- senddailyemail %></td>
+    <td><input type="checkbox" class="js-sendemailoncompleted" <%- sendemailoncompleted ? "checked" : "" %> /></td>
+    <td><input type="checkbox" class="js-senddailyemail" <%- senddailyemail ? "checked" : "" %> /></td>
   </script>
 
 
