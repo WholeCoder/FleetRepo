@@ -2202,6 +2202,91 @@ app.post("/deleteuseraccount", function(req, res)
 
 }); // end app.post("/deleteuseraccount"
 
+
+
+
+// this route is used by the table to delete a user
+app.post("/deleteuser", function(req, res)
+{
+  if (req.session.currentuser.customer == "ADMIN") 
+  {
+    if (req.method == 'POST') 
+    {
+      var jsonString = '';
+      req.on('data', function(data) 
+      {
+        jsonString += data;
+      });
+      req.on('end', function() 
+      {
+
+        var newDeleteUserObject = JSON.parse(jsonString);
+
+
+        User.findOne({ _id: newDeleteUserObject._id }, function(err, user) {
+
+
+
+          if(user.customer == "ADMIN")
+          {
+            User.find({customer: new RegExp('ADMIN', "i")}, function(err, userAdmins) 
+            {
+              if (userAdmins.length > 1) 
+              {
+
+                User.findOneAndRemove({_id: newDeleteUserObject._id}, 
+                    function(err, user) 
+                    {
+                      if (err) 
+                      {
+                          console.log("ERROR in /deleteuser")
+                      } else 
+                      {
+                          console.log("COMPLETED /deleteuser successfully")
+
+                          res.setHeader('content-type', 'application/json');
+                          res.writeHead(200);
+                          res.end("{}");
+                      }
+                    }); // end User.findOneAndRemove
+              } // end useradmins.length != 1
+            }); // end User.find
+          } // if newDeleteUserObject.customer == 'ADMIN'
+          else
+          {
+            // User we are deleting isn't and ADMIN
+            User.findOneAndRemove({ _id: newDeleteUserObject._id }, 
+                function(err, user) 
+                {
+                  if (err) 
+                  {
+                      console.log("ERROR in /deleteuser")
+                  } else 
+                  {
+                      console.log("COMPLETED /deleteuser successfully")
+
+                      res.setHeader('content-type', 'application/json');
+                      res.writeHead(200);
+                      res.end("{}");
+                  }
+                }); // end User.findOneAndRemove
+          }
+
+
+        });  // end User.findOne
+
+
+      }); // end req.on('end')
+    } // end req.method == 'POST'
+  }//req.session.currentuser.customer == "ADMIN"
+
+
+}); // end app.post("/deleteuser"
+
+
+
+
+
 function getAllObjectsProperties(obj)
 {
   var str = "";

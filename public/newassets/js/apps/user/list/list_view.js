@@ -71,9 +71,10 @@ if(confirm("Are you sure you want to delete this user? This row will be lost for
         data: JSON.stringify({_id:this.model.get('_id')}),
         contentType: 'text/json',
         success: function(data2) { 
-            FleetRepManager.trigger("users:list");
+          alert("works - /deleteuser");
+            FleetRepManager.trigger("user:listusers");
         },
-        error  : function() { alert('Error - could not delete trailer row!');}
+        error  : function() { alert('Error - could not delete user row!');}
       }); // end $.post
 } // end if      
       //alert("Delete trailer not implemented yet! - model's _id == "+this.model.get('_id'));

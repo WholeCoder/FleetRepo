@@ -816,6 +816,10 @@
         <th align="center" class="js-resetsort">
           Send Daily Email
         </th>
+        <th align="center">
+        </th>
+        <th align="center">
+        </th>
       </tr>
    </thead>
    <tbody id="ubody">
@@ -827,7 +831,21 @@
     <td><%- username %></td>
     <td><%- customer %></td>
     <td><input type="checkbox" class="js-sendemailoncompleted" <%- sendemailoncompleted ? "checked" : "" %> /></td>
-    <td><input type="checkbox" class="js-senddailyemail" <%- senddailyemail ? "checked" : "" %> /></td>
+    <td>
+      <input type="checkbox" class="js-senddailyemail" <%- senddailyemail ? "checked" : "" %> />
+    </td>
+    <td>
+      <button class="btn btn-xs btn-danger js-delete">
+        <i class="icon-remove"></i>
+        Delete
+      </button>
+    </td>
+    <td>
+     <a class="btn btn-xs js-resetpassword" style="background-color: #0205f6; color: white;">
+        <i class="icon-pencil"></i>
+        Reset Password
+      </a>
+    </td>
   </script>
 
 
