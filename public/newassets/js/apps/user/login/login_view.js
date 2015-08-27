@@ -49,7 +49,8 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
                   FleetRepManager.showAdminLinks();
                   FleetRepManager.loadCharts();
                   FleetRepManager.trigger("trailers:list");
-                  FleetRepManager.trigger("user:new");
+                  //FleetRepManager.trigger("user:new");
+                  FleetRepManager.trigger("user:listusers");
                 },
                 error  : function() { alert('Error - could not archive 100% complete records.');}
               }); // end $.ajax GET

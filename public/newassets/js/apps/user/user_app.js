@@ -9,6 +9,10 @@ FleetRepManager.module("UserApp", function(UserApp, FleetRepManager, Backbone, M
   });
 
   var API = {
+    showUserList: function() {
+      UserApp.List.Controller.listUsers();
+    },
+
     showUserLogin: function(){
       UserApp.Login.Controller.showUserLogin();
       //ContactManager.execute("set:active:header", "about");
@@ -44,6 +48,10 @@ FleetRepManager.module("UserApp", function(UserApp, FleetRepManager, Backbone, M
       //alert("user is resetting user's password");
     }
   };
+
+  FleetRepManager.on("user:listusers", function() {
+    API.showUserList();
+  });
 
   // this is so the admin can reset the user's password
   FleetRepManager.on("trailer:resetuserspassword", function(user){

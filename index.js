@@ -1671,6 +1671,35 @@ if(req.session.currentuser.customer == "ADMIN")
 } // end if
 });
  
+app.get("/users", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  User.find({},function(err, obj) {
+    if (err)
+    {
+      console.log("ERROR! - can not find any users!!!");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end("[]");
+    } else
+    {
+      var usersWithJustEmailAndCustomer = [];
+      for (var i = 0; i < obj.length; i++)
+      {
+        usersWithJustEmailAndCustomer.push({_id: obj[i]._id, username: obj[i].username, customer: obj[i].customer,
+                                              sendemailoncompleted: obj[i].sendemailoncompleted,
+                                              senddailyemail: obj[i].senddailyemail})
+      }
+
+      console.log("found these users == "+JSON.stringify(usersWithJustEmailAndCustomer));
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(usersWithJustEmailAndCustomer));
+    }
+  });
+} // end if
+});
+ 
 app.post("/gettrailer", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
 {

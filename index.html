@@ -56,6 +56,10 @@
     <td colspan="13">No units to display.</td>
   </script>
 
+  <script type="text/template" id="user-list-none">
+    <td colspan="13">No users to display.</td>
+  </script>
+
   <script type="text/template" id="trailer-list-layout">
     <div id="panel-region"></div>
     <div id="trailers-region"></div>
@@ -797,6 +801,34 @@
   </script>
 
 
+  <script type="text/template" id="user-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+            User Name/Email      
+         </th>
+         <th align="center" class="js-resetsort">
+            Customer
+        </th>
+        <th align="center" class="js-resetsort">
+          Send Email on Completed Unit
+        </th>
+        <th align="center" class="js-resetsort">
+          Send Daily Email
+        </th>
+      </tr>
+   </thead>
+   <tbody id="ubody">
+
+   </tbody>
+  </script>
+
+  <script type="text/template" id="user-list-item">
+    <td><%- username %></td>
+    <td><%- customer %></td>
+    <td><%- sendemailoncompleted %></td>
+    <td><%- senddailyemail %></td>
+  </script>
 
 
   <script type="text/template" id="trailer-archive-list">
@@ -1780,6 +1812,7 @@
   <script src="./newassets/js/app.js"></script>
 
   <script src="./newassets/js/entities/trailer.js"></script>
+  <script src="./newassets/js/entities/user.js"></script>
   <script src="./newassets/js/entities/trailerarchive.js"></script>
   <script src="./newassets/js/entities/trailersonlot.js"></script>
 
@@ -1806,6 +1839,9 @@
 
   <script src="./newassets/js/apps/user/new/new_view.js"></script>
   <script src="./newassets/js/apps/user/new/new_controller.js"></script>
+
+  <script src="./newassets/js/apps/user/list/list_view.js"></script>
+  <script src="./newassets/js/apps/user/list/list_controller.js"></script>
 
   <script src="./newassets/js/apps/user/new/resetpassword_view.js"></script>
   <script src="./newassets/js/apps/user/new/resetpassword_controller.js"></script>

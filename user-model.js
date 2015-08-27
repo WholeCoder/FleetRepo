@@ -14,7 +14,9 @@ var UserSchema = new Schema({
     activated: Boolean,
     activationtoken: { type: String, required: true},
     loginAttempts: { type: Number, required: true, default: 0 },
-    lockUntil: { type: Number }
+    lockUntil: { type: Number },
+    sendemailoncompleted: Boolean,
+    senddailyemail: Boolean
 });
 
 UserSchema.virtual('isLocked').get(function() {
