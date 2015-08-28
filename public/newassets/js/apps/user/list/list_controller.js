@@ -6,7 +6,7 @@ FleetRepManager.module("UserApp.List", function(List, FleetRepManager, Backbone,
       // var trailersListLayout = new List.Layout();
       var noUsersView = new List.NoUsersView();
 
-      FleetRepManager.regions.table.show(noUsersView);
+      FleetRepManager.regions.userRegion.show(noUsersView);
       
 $.when(fetchingUsers).done(function(users){
 

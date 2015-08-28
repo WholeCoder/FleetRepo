@@ -6,48 +6,13 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
 
     events: {
       "click .js-submit": "submitClicked",
-      "click .js-resetuserpassword": "showResetPasswordForm",
-      "click .js-deleteuser": "deleteUser"
+      "click .js-cancelusercreate": "cancelCreateNewUser"
     },
 
     onRender: function(){
 // <option value="rpierich@hotmail.com" style="background-color: red; color: white;">  ADMIN - rpierich@hotmail.com</option>
 
       var that = this;
-
-      $.ajax('/getusers' + "?dummyforie="+new Date().getTime().toString(), {
-          type: 'GET',
-          data: "",
-          contentType: 'text/json',
-          success: function(data) {
-                    //if ( callback ) callback(true); 
-
-                    //alert("successfully created user");
-                    //$().style("display:block;")
-                    that.$('#siteusers')
-                          .find('option')
-                          .remove()
-                          .end();
-
-                      for (var i = 0; i < data.length; i++)
-                      { 
-                        var stylestring = '';
-                        if (data[i].customer == 'ADMIN')
-                        {
-                          stylestring = 'style="background-color: red; color: white;"'
-                        } else
-                        {
-                          stylestring = ''
-                        }
-                        
-                        that.$('#siteusers').append('<option value="'+data[i].email+'" '+stylestring+'>  '+data[i].customer+' - '+data[i].email+'</option>');
-                          // .val('whatever');
-                      }
-                    // alert('New Got Usernames data == '+data[0].email);
-
-                   },
-          error  : function() { if ( callback ) callback(false); }
-      });
 
       var availableTags = [
           "Dedicated Hershey",
@@ -80,37 +45,9 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
 
     },
 
-    deleteUser: function(e) {
+    cancelCreateNewUser: function(e) {
       e.preventDefault();
-//      alert("Delete User Not Implemented Yet.");
-
-      var data = Backbone.Syphon.serialize(this);
-if(confirm("Are you sure you want to delete user "+data.siteusers+"?"))
-{
-      $.ajax('/deleteuseraccount' + "?dummyforie="+new Date().getTime().toString(), {
-          type: 'POST',
-          data: JSON.stringify({ email: data.siteusers}),
-          contentType: 'text/json',
-          success: function() {
-                    //if ( callback ) callback(true); 
-
-                    //alert("successfully created user");
-                    //$().style("display:block;")
-
-                    FleetRepManager.trigger("user:new");
-                    //alert('User Deleted!');
-
-                   },
-          error  : function() { if ( callback ) callback(false); }
-      }); // end $.ajax
-}
-    },
-
-    showResetPasswordForm: function(e) {
-      e.preventDefault();
-      var data = Backbone.Syphon.serialize(this);
-      FleetRepManager.siteusers = data.siteusers;
-      FleetRepManager.trigger("show:resetpassword");
+      FleetRepManager.trigger("user:listusers");
     },
 
     submitClicked: function(e){
@@ -129,7 +66,7 @@ if(confirm("Are you sure you want to delete user "+data.siteusers+"?"))
                     //$().style("display:block;")
 
                     alert('New User Created!');
-                    FleetRepManager.trigger("user:new");
+                    FleetRepManager.trigger("user:listusers");
 
                    },
           error  : function() { if ( callback ) callback(false); }

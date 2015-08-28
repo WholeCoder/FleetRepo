@@ -228,19 +228,12 @@
    
 
           <div class="panel panel-danger">
-             <div class="panel-heading">Current User Accounts</div>
+             <div class="panel-heading"><b>Note</b></div>
              <div class="panel-body" style="height: 300px;">
-                <fieldset>
-                   <div>
-                      <select size="10"  style="width:600px;" id="siteusers" name="siteusers">
-                      </select>
-                     <p>Email addresses highlighted in <div style="color: red;">Red</div> are <b>Administrators</b>.</p>
-                   </div>
-                </fieldset>
+                
              </div>
              <div class="panel-footer">
-                <input class="btn btn-lg btn-danger btn-block js-deleteuser" type="submit" value="Delete User Account" />
-                <input class="btn btn-lg btn-danger btn-block js-resetuserpassword" type="submit" value="Reset User Account Password" />
+                <input class="btn btn-lg btn-danger btn-block js-cancelusercreate" type="submit" value="Cancel Create New user" />
              </div>
           </div>
 
@@ -1769,7 +1762,7 @@
            </div>
         </div>
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b id="userfunctions" style="display:none;">Fleet Repair Solutions Customer Portal User Functions</b></div>
+           <div class="panel-heading" style="color: black;"><b id="userfunctions" style="display:none;">Fleet Repair Solutions Customer Portal User Functions</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><a id="newuser" style="display: none;">New User</a></b></div>
            <div class="panel-body" id="user-admin-region">
               <div class="container">
                  <div class="row">
@@ -1893,6 +1886,7 @@
           $('#logout').show();
           $('#toolbar').show();
           $('#sortbylocationthencustomer').show();
+          $('#newuser').show();
 
           console.log("show #userfunctions called!!!!!!!!!!!!");
           $('#userfunctions').show();
@@ -2030,6 +2024,11 @@
             $( "#newtrailer" ).on( "click", function(event) {
               event.preventDefault();
               FleetRepManager.trigger("trailers:new");
+            });              
+
+            $( "#newuser" ).on( "click", function(event) {
+              event.preventDefault();
+              FleetRepManager.trigger("user:new");
             });              
 
             $( "#manualrefresh" ).on( "click", function(event) {

@@ -23,10 +23,17 @@ FleetRepManager.module("UserApp.List", function(List, FleetRepManager, Backbone,
 /*      "click td a.js-edit": "showEditTrailer",
 */      "click button.js-delete": "deleteUser",
       "click .js-sendemailoncompleted": "setSendEmailOnCompleted",
-      "click .js-senddailyemail": "setSendDailyEmail"
+      "click .js-senddailyemail": "setSendDailyEmail",
+      "click .js-resetpassword" : "showResetPassword"
 
 /*,
       "click td a.js-uploaddocuments": "showUploadDocuments"*/
+    },
+
+    showResetPassword: function(e) {
+      FleetRepManager.siteusers = this.model.get("username");
+      e.preventDefault();
+      FleetRepManager.trigger("show:resetpassword");
     },
 
     setSendEmailOnCompleted: function(e) {
@@ -71,8 +78,7 @@ if(confirm("Are you sure you want to delete this user? This row will be lost for
         data: JSON.stringify({_id:this.model.get('_id')}),
         contentType: 'text/json',
         success: function(data2) { 
-          alert("works - /deleteuser");
-            FleetRepManager.trigger("user:listusers");
+          FleetRepManager.trigger("user:listusers");
         },
         error  : function() { alert('Error - could not delete user row!');}
       }); // end $.post

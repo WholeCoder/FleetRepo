@@ -24,7 +24,7 @@ FleetRepManager.module("UserApp.ResetPassword", function(ResetPassword, FleetRep
                 data: JSON.stringify({ email: user.siteusers, password: user.password}),
                 contentType: 'text/json',
                 success: function() {
-                          FleetRepManager.trigger("user:new");
+                          FleetRepManager.trigger("user:listusers");
                          },
                 error  : function() { if ( callback ) callback(false); }
             }); // end $.ajax

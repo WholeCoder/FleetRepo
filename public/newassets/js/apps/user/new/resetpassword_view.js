@@ -11,14 +11,14 @@ FleetRepManager.module("UserApp.ResetPassword", function(ResetPassword, VapeBook
 
     cancelRestUserPassword: function(e) {
       e.preventDefault();
-      FleetRepManager.trigger("user:new");
+      FleetRepManager.trigger("user:listusers");
     },
 
     resetUserPassword: function(e) {
       e.preventDefault();
       var data = Backbone.Syphon.serialize(this);
       //alert('submit form clicked! -resetUserPassword()');
-      this.trigger("form:submit", data);
+      //this.trigger("form:submit", data);
       //FleetRepManager.trigger("show:resetpassword");
       data.siteusers = FleetRepManager.siteusers;
       FleetRepManager.trigger("trailer:resetuserspassword", data);
