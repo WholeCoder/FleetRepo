@@ -2426,32 +2426,27 @@ http.listen(port, function(){
 
 
 
- function sendAnEmail(toEmail, req, res, activationtoken)
+ function sendAnEmail(toEmail, sub, body)
  {
   // create reusable transporter object using SMTP transport
   var transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-          user: 'vapebooknet@gmail.com',
-          pass: 'MMgm2285'
+          user: 'fleetrepinfo@gmail.com',
+          pass: 'ubuntu3rbnue4'
       }
   });
 
   // NB! No need to recreate the transporter object. You can use
   // the same transporter object for all e-mails
-    var protocol = "http://"
-    if(CHECK_FOR_SSL)
-    {
-      protocol = "https://";
-    }
 
   // setup e-mail data with unicode symbols
   var mailOptions = {
-      from: 'Vape Book ✔ <vapebooknet@gmail.com>', // sender address
+      from: 'Fleet Repair Solutions ✔ <fleetrepinfo@gmail.com>', // sender address
       to: toEmail + ', ' + toEmail, // list of receivers
-      subject: 'Activate Your VapeBook.net Account! ✔', // Subject line
-      text: 'Follow this link to activate your VapeBook account: '+protocol + req.headers['host'] + '/activate?activationtoken='+activationtoken, // plaintext body
-      html: 'Follow this link to activate your VapeBook account:<a href="'+protocol + req.headers['host'] + '/activate?activationtoken='+activationtoken+'">Activate ✔</b>' // html body
+      subject: sub, // Subject line
+      text: body, // plaintext body
+      html: body // html body
   };
 
   // send mail with defined transport object
