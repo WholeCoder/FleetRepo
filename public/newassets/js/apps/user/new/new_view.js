@@ -70,7 +70,7 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
 
                    },
           error  : function() { if ( callback ) callback(false); }
-      });
+      }); // end $.ajax
       //FleetRepManager.trigger("show:resetpassword");
     },
 

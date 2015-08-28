@@ -40,9 +40,27 @@ FleetRepManager.module("UserApp.List", function(List, FleetRepManager, Backbone,
       var isItChecked = this.$(".js-sendemailoncompleted").is(':checked');
       var username = this.model.get("username");
 
+      var that = this;
       if (username.indexOf("@")>0)
       {
         // username is an email
+        $.ajax('/setsendemailoncompleted' + "?dummyforie="+new Date().getTime().toString(), {
+            type: 'POST',
+            data: JSON.stringify({ _id: that.model.get("_id"), sendemailoncompleted: isItChecked}),
+            contentType: 'text/json',
+            success: function() {
+                      //if ( callback ) callback(true); 
+
+                      //alert("successfully created user");
+                      //$().style("display:block;")
+
+                      // alert('New User Created!');
+                      FleetRepManager.trigger("user:listusers");
+
+                     },
+            error  : function() { if ( callback ) callback(false); }
+        }); // end $.ajax
+
       } else
       {
         // username is not an email!
@@ -56,9 +74,25 @@ FleetRepManager.module("UserApp.List", function(List, FleetRepManager, Backbone,
       var isItChecked = this.$(".js-senddailyemail").is(':checked');
       var username = this.model.get("username");
 
+      var that = this;
       if (username.indexOf("@")>0)
       {
         // username is an email
+        $.ajax('/senddailyemail' + "?dummyforie="+new Date().getTime().toString(), {
+            type: 'POST',
+            data: JSON.stringify({ _id: that.model.get("_id"), senddailyemail: isItChecked}),
+            contentType: 'text/json',
+            success: function() {
+                      //if ( callback ) callback(true); 
+
+                      //alert("successfully created user");
+                      //$().style("display:block;")
+
+                      FleetRepManager.trigger("user:listusers");
+
+                     },
+            error  : function() { if ( callback ) callback(false); }
+        }); // end $.ajax
       } else
       {
         // username is not an email!

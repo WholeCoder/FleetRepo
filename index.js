@@ -323,7 +323,7 @@ if (req.file['size'] <= 100000)
 
             }); // end Trailer.find
 
-          }
+          } // end else
           
         });
 
@@ -1347,6 +1347,95 @@ if(req.session.currentuser.customer == "ADMIN")
   res.end("{}");
 }//end if
 });
+
+app.post("/setsendemailoncompleted", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+        console.log("/setsendemailoncompleted - jsonString == "+jsonString);
+           //saveUserToDatabase(JSON.parse(jsonString),req, res);
+           var userInfoJson = JSON.parse(jsonString)
+
+
+            User.find({_id: userInfoJson._id}, function(err, docs){
+              var foundUser = docs[0];
+              foundUser.sendemailoncompleted = userInfoJson.sendemailoncompleted;
+
+              User.findOneAndUpdate({_id: foundUser._id}, foundUser, {}, 
+                  function(err, doc){
+console.log("!!!!!!!!!!!!!!!!!!!!!!!! found and updated User /setsendemailoncompleted");
+                    res.setHeader('content-type', 'application/json');
+                    res.writeHead(200);
+                    res.end('{"sendemailoncompleted":"set successfully"}');
+                  }
+              ); // end Trailer.findOneAndUpdate
+
+
+            }); // end Trailer.find
+
+
+
+
+      }); // end req.on("end"...)
+  }
+
+/*  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end("{}");
+*/
+}//end if
+});
+
+app.post("/senddailyemail", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+        console.log("/senddailyemail - jsonString == "+jsonString);
+           //saveUserToDatabase(JSON.parse(jsonString),req, res);
+
+           var userInfoJson = JSON.parse(jsonString)
+
+
+            User.find({_id: userInfoJson._id}, function(err, docs){
+              var foundUser = docs[0];
+              foundUser.senddailyemail = userInfoJson.senddailyemail;
+
+              User.findOneAndUpdate({_id: foundUser._id}, foundUser, {}, 
+                  function(err, doc){
+console.log("!!!!!!!!!!!!!!!!!!!!!!!! found and updated User /senddailyemail");
+                    res.setHeader('content-type', 'application/json');
+                    res.writeHead(200);
+                    res.end('{"senddailyemail":"set successfully"}');
+                  }
+              ); // end Trailer.findOneAndUpdate
+
+
+            }); // end Trailer.find
+
+
+
+
+
+
+      });
+  }
+
+/*  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end("{}");
+*/}//end if
+});
+
 
 // for administrators to change the password of a user
 app.post("/resetuserspassword", function(req, res) {

@@ -38,7 +38,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
 
     url: function() {
       // send the url along with the serialized query params
-      console.log("accessing url function!!! in fetch TrailerColections == "+this.urlRoot + "?dummyforie="+new Date().getTime().toString());
+      console.log("accessing url function!!! in fetch UserColections == "+this.urlRoot + "?dummyforie="+new Date().getTime().toString());
       return this.urlRoot + "?dummyforie="+new Date().getMilliseconds().toString();
     },
     model: Entities.User,
