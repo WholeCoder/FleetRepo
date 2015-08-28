@@ -2425,6 +2425,76 @@ http.listen(port, function(){
 });
 
 
+function buildHTMLTrailerTable(trailers)
+{
+  var htmlString = '';
+
+  htmlString += '<table>';
+  htmlString += '<thead>';
+  htmlString += '  <tr>';
+  htmlString += '   <th>Unit #</th>';
+  htmlString += '   <th>Customer</th>';
+  htmlString += '   <th>Account</th>';
+  htmlString += '   <th>Vehicle Type</th>';
+  htmlString += '   <th>Location</th>';
+  htmlString += '   <th>Date RS Notified</th>';
+  htmlString += '   <th>Date Approved</th>';
+  htmlString += '   <th>Estimated Time of Completion</th>';
+  htmlString += '   <th>Status</th>';
+  htmlString += '   <th>Supporting Documents</th>';
+  htmlString += '  </tr>';
+  htmlString += '</thead>';
+  htmlString += '<tbody>';
+
+  for (var i = 0; i < trailers.length; i++)
+  {
+    var currentTrailer = trailers[i];
+    htmlString += ' <tr>';
+    htmlString += '   <td>'+currentTrailer.unitnumber+'</td>';
+    htmlString += '   <td>'+currentTrailer.customer+'</td>';
+    htmlString += '   <td>'+currentTrailer.account+'</td>';
+    htmlString += '   <td>'+currentTrailer.vehicletype+'</td>';
+    htmlString += '   <td>'+currentTrailer.location+'</td>';
+    htmlString += '   <td>'+currentTrailer.datersnotified+'</td>';
+    htmlString += '   <td>'+currentTrailer.dateapproved+'</td>';
+    htmlString += '   <td>'+currentTrailer.estimatedtimeofcompletion+'</td>';
+    htmlString += '   <td>'+currentTrailer.status1+'<br />'+currentTrailer.status2+'<br />'+currentTrailer.status3+'</td>';
+    htmlString += '   <td>'+getProperDocumentString(currentTrailer.numberofsupportingdocuments)+'<br />'+getNoteString(currentTrailer.note)+'</td>';
+    htmlString += ' </tr>';
+  }
+
+  htmlString += '</tbody>';
+  htmlString += '</table>';
+
+  return htmlString;
+}
+
+function getNoteString(note)
+{
+  if (note == undefined || note == null || note == "")
+  {
+    return "";
+  } else
+  {
+    return "1 Note";
+  }
+  return "";
+}
+
+function getProperDocumentString(numberofdocs)
+{
+  if (numberofdocs == undefined || numberofdocs == null)
+  {
+    return "";
+  } else if (numberofdocs == 1)
+  {
+    return "1 Document"
+  } else if (numberofdocs > 1)
+  {
+    return numberofdocs+" Documents"
+  }
+  return "";
+}
 
  function sendAnEmail(toEmail, sub, body)
  {
