@@ -45,12 +45,23 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
                 data: "{}",
                 contentType: 'text/json',
                 success: function(data2) { 
-                  FleetRepManager.admin = true;
-                  FleetRepManager.showAdminLinks();
-                  FleetRepManager.loadCharts();
-                  FleetRepManager.trigger("trailers:list");
-                  //FleetRepManager.trigger("user:new");
-                  FleetRepManager.trigger("user:listusers");
+                  // /senddailyemail
+
+                  $.ajax('/senddailyemail' + "?dummyforie="+new Date().getTime().toString(), {
+                    type: 'GET',
+                    data: "{}",
+                    contentType: 'text/json',
+                    success: function(data2) { 
+                      // /senddailyemail
+                      FleetRepManager.admin = true;
+                      FleetRepManager.showAdminLinks();
+                      FleetRepManager.loadCharts();
+                      FleetRepManager.trigger("trailers:list");
+                      //FleetRepManager.trigger("user:new");
+                      FleetRepManager.trigger("user:listusers");
+                    },
+                    error  : function() { alert('Error - could not send daily emails.');}
+                  }); // end $.ajax GET
                 },
                 error  : function() { alert('Error - could not archive 100% complete records.');}
               }); // end $.ajax GET

@@ -16,6 +16,7 @@ var express = require('express'),
     TrailerArchive = require('./trailer-archive-model'),
     File = require('./file-model'),
     FileArchive = require('./file-archive-model'),
+    Config = require('./config-model'),
 
     nodemailer = require('nodemailer'),
     randtoken = require('rand-token'),
@@ -366,6 +367,112 @@ app.get("/servertime", function(req, res) {
   res.setHeader('content-type', 'application/json');
   res.writeHead(200);
   res.end(JSON.stringify(rightNowObject));
+});
+
+
+
+function sendOutDailyEmails()
+{
+   User.find({},function(err, users) {
+    if (err)
+    {
+      console.log("ERROR! - can not find any users!!!");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end("[]");
+    } else
+    {
+      var customerHashByCustomer = {};
+      for (var i = 0; i < users.length; i++)
+      {
+        if (users[i].senddailyemail)
+        {
+          if (customerHashByCustomer[users[i].customer] == undefined)
+          {
+            customerHashByCustomer[users[i].customer] = [];
+          }
+          customerHashByCustomer[users[i].customer].push(users[i].username);
+        }
+      }
+
+      for (var cust in customerHashByCustomer)
+      {
+        var andclause =  {$and: [{customer:cust}, {status1: new RegExp('^100%', "i")}]}
+        Trailer.find(andclause, function( err, trailers100){
+          var htmlTrailerTable = buildHTMLTrailerTable(trailers100);
+          var usernames = customerHashByCustomer[cust];
+          for (var j = 0; j < usernames.length; j++)
+          {
+
+            sendAnEmail(usernames[j], "Fleet Repair Solutions Daily 100% Complete Rows.", 
+                    htmlTrailerTable);
+          } // end for var j
+        }); // end Trail.find
+      } // end var cust
+
+    } // end else
+  }); // end user.find
+
+ 
+ } // end function sendOutDailyEmails()
+
+// this snext route is called when an ADMIN logs in.
+// it will send the daily 100% email if it is time
+app.get("/senddailyemail", function(req, res) {
+  if(req.session.currentuser.customer == "ADMIN")
+  {
+    // -1 finds the newest
+    Config.findOne({}, {}, { sort: { 'nextsenddailyemail' : -1 } }, function(err, cfg) {
+      console.log( "/senddailyemail called cfg == " + cfg );
+      if (cfg == null) // no configuration row was found
+      {
+        var rightNow = new Date();
+        var timeInMillisecondsToAdd = 1000*60*60*24; // every 24 hours
+
+        var dateWithAddedOffset = new Date(rightNow.getTime() + timeInMillisecondsToAdd);
+
+        var tempObj = {nextsenddailyemail:dateWithAddedOffset};
+
+        var newConfig = new Config(tempObj);
+        newConfig.save(function(err) {
+          if (err)
+          {
+            throw err;
+          } else {
+            sendOutDailyEmails();
+          }
+        });
+      } else { // cfg was found
+        var rightNow = new Date();
+        if (cfg.nextsenddailyemail.getTime() < rightNow.getTime())
+        {
+          // add new config row and send emails
+          var rightNow = new Date();
+          var timeInMillisecondsToAdd = 1000*60*60*24; // every 24 hours
+
+          var dateWithAddedOffset = new Date(rightNow.getTime() + timeInMillisecondsToAdd);
+
+          var tempObj = {nextsenddailyemail:dateWithAddedOffset};
+
+          var newConfig = new Config(tempObj);
+          newConfig.save(function(err) {
+            if (err)
+            {
+              throw err;
+            } else {
+              sendOutDailyEmails();
+            }
+          });
+        }
+      }
+    });
+
+  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end(JSON.stringify("{}"));
+
+
+  }
 });
 
 app.get("/archive100", function(req, res) {
@@ -1376,7 +1483,7 @@ console.log("!!!!!!!!!!!!!!!!!!!!!!!! found and updated User /setsendemailoncomp
               ); // end Trailer.findOneAndUpdate
 
 
-            }); // end Trailer.find
+            }); // end User.find
 
 
 
@@ -1593,7 +1700,13 @@ if(req.session.currentuser.customer == "ADMIN")
               {
                 console.log("Trailer saved successfully!");
               }
-              
+                        // send email if marked as 100%\
+              if (newTrailerObject.status1.indexOf("100%") > -1)
+              {
+                sendOneTrailerEmailWhenComplete(newTrailerObject)
+              }
+
+
             });
       });
   }
@@ -1633,7 +1746,6 @@ if(req.session.currentuser.customer == "ADMIN")
             }
           }
 
-
            if (markForArchival && newTrailerObject.status1.indexOf("100%") > -1)
            {
               var currentDateInMillisectonds = new Date().getTime()
@@ -1656,6 +1768,12 @@ console.log("\n\n----------------- 1");
                   console.log("found in updatetrailer - _id found == "+doc._id);
                 }
 console.log("----------------- 2");
+          // send email if marked as 100%\
+          if (newTrailerObject.status1.indexOf("100%") > -1)
+          {
+            sendOneTrailerEmailWhenComplete(newTrailerObject)
+          }
+
 
 
 
@@ -2425,6 +2543,18 @@ http.listen(port, function(){
 });
 
 
+function sendOneTrailerEmailWhenComplete(trailer)
+{
+  User.find({customer: trailer.customer,sendemailoncompleted: true}, function(err, users){
+    for (var i = 0; i < users.length; i++)
+    {
+      sendAnEmail(users[i].username, "Unit "+trailer.unitnumber+" marked 100% Complete", 
+                  buildHTMLTrailerTable([trailer]));
+    }
+  }); // end User.find
+
+}
+
 function buildHTMLTrailerTable(trailers)
 {
   var htmlString = '';
@@ -2483,7 +2613,7 @@ function getNoteString(note)
 
 function getProperDocumentString(numberofdocs)
 {
-  if (numberofdocs == undefined || numberofdocs == null)
+  if (numberofdocs == undefined || numberofdocs == null || numberofdocs == 0)
   {
     return "";
   } else if (numberofdocs == 1)
