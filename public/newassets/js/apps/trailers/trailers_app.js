@@ -10,6 +10,19 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   });
 
   var API = {
+    startLotWalkthrough: function() {
+      // Sets the FleetRepmanager.lot_walkthrough_trailers
+      TrailersApp.LotWalkthrough.Controller.listStartLotWalkthroughTrailers();
+    },
+    resumeLotWalkthrough: function() {
+      // Uses the FleetRepmanager.lot_walkthrough_trailers got in call to startLotWAlkthrough
+      TrailersApp.LotWalkthrough.Controller.resumeLotWalkthrough();
+    },
+    cancelLotWalkthrough: function() {
+      // this destorys FleetRepManager.lot_walkthrough_trailers
+      TrailersApp.LotWalkthrough.Controller.resumeLotWalkthrough();
+    },
+
     alertFileSizeOk: function(id) {
       this.viewDocumentUpload(id);
     },
@@ -118,6 +131,17 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
 */    }
   };
 
+  FleetRepManager.on("lotwalkthrough:start", function() {
+    API.startLotWalkthrough();
+  });
+
+  FleetRepManager.on("lotwalkthrough:resume", function() {
+    API.resumeLotWalkthrough();
+  });
+
+  FleetRepManager.on("lotwalkthrough:cancel", function() {
+    API.cancelLotWalkthrough();
+  });
 
   FleetRepManager.on("trailers:new", function(){
     //FleetRepManager.navigate("contacts");

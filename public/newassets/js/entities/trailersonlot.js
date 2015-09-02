@@ -1,6 +1,6 @@
 FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone, Marionette, $, _){
 //alert('Backbone.Model.extend == '+Backbone.Model.extend);
-  Entities.TrailersOnlot = Backbone.Model.extend({
+  FleetRepManager.TrailersOnLot = Entities.TrailersOnlot = Backbone.Model.extend({
     urlRoot: "trailersonlot",
     idAttribute: "_id", /* If this changes then update trailer-list-item or be in for a world of trouble! */
 
@@ -15,7 +15,8 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       estimatedtimeofcompletion: "",
       status1: "",
       status2: "",
-      status3: ""
+      status3: "",
+      note: ""
     }/*,
 
     validate: function(attrs, options) {
