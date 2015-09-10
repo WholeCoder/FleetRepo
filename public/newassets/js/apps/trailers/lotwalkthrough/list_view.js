@@ -42,10 +42,26 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Fl
       "click .js-notfound" : "editUnit"
     },
 
+    onRender: function() {
+      if (this.model.get("updatedalready") == true)
+      {
+        this.$('.js-notfound').text("Found");
+
+        this.$('.js-notfound').removeClass("btn-danger");
+        this.$('.js-notfound').addClass("blue-button-style");
+      } else
+      {
+        this.$('.js-notfound').text("Not Found");
+
+        this.$('.js-notfound').removeClass("blue-button-style");
+        this.$('.js-notfound').addClass("btn-danger");
+      }
+
+    },
+
     editUnit: function(e)
     {
       e.preventDefault();
-      alert("Not Found Clicked");
 
       //var trailer = new FleetRepManager.Entities.Trailer(data2);
       // this.className = 'info';
@@ -96,6 +112,7 @@ LotWalkthrough.LotWalkthroughTrailers = Marionette.CompositeView.extend({
 
     events: {
       "click a": "disableLink",
+      "click .js-submit": "commitAndSaveAllChanges",
       
       "change .js-unitnumbersortbox": "clickedSortBox",
       "change .js-customersort": "clickedSortBox",
@@ -108,6 +125,26 @@ LotWalkthrough.LotWalkthroughTrailers = Marionette.CompositeView.extend({
       "change .js-statussortbox": "clickedSortBox",
 
       "click th.js-resetsort" : "clickedSortLinkSoReset"
+    },
+
+    commitAndSaveAllChanges: function(event) {
+      event.preventDefault();
+      alert("commiting changes!");
+      console.log('\n\n saving these trailers == '+JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models));
+
+      $.ajax('/updateonlottrailers' + "?dummyforie="+new Date().getTime().toString(), {
+        type: 'POST',
+        data: JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models),
+        contentType: 'text/json',
+        success: function(data2) { 
+console.log("successfully called /updateonlottrailers");
+           FleetRepManager.trigger("trailers:list");
+           //FleetRepManager.trigger("user:new");
+        },
+        error  : function() { alert('Error - could not save the trailer');}
+      }); // end $.post
+
+
     },
 
     clickedSortLinkSoReset: function(event) {

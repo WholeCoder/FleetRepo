@@ -187,7 +187,7 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
           });
 
 
-    },
+    }, // end onRender
 
     cancelClicked: function(e) {
       e.preventDefault();

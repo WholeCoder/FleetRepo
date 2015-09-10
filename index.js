@@ -1851,6 +1851,151 @@ console.log("----------------- 6   Write empty json response.");
 } // end if
 });
 
+
+app.post("/updateonlottrailers", function(req, res) {
+    if (req.session.currentuser.customer == "ADMIN") {
+        if (req.method == 'POST') {
+            var jsonString = '';
+            req.on('data', function(data) {
+                jsonString += data;
+            });
+            req.on('end', function() {
+
+
+
+
+                var newTrailerObjectsArray = JSON.parse(jsonString);
+                var countOfTrailerObjects = newTrailerObjectsArray.length;
+                var counterOfTrailerObjects = 0;
+
+                var counterOfFilesRay = [];
+                for (var c = 0; c < countOfTrailerObjects.length; c++) {
+                    counterOfFilesRay[c] = 0;
+                }
+                console.log("length of trailers array == " + countOfTrailerObjects);
+console.log("/updateonlottrailers - jsonString == "+jsonString);
+                for (var k = 0; k < newTrailerObjectsArray.length; k++) {
+                    var newTrailerObject = newTrailerObjectsArray[k];
+
+                    //console.log("/updateonlottrailers - jsonString == "+jsonString);
+
+
+
+                    var statusesToSetToUndefined = ["100% COMPLETE:  IN TRANSIT TO CUSTOMER",
+                        "100% COMPLETE:  READY FOR P/U",
+                        "100% COMPLETE:  RESERVED"
+                    ];
+
+                    var markForArchival = true;
+                    for (var j = 0; j < statusesToSetToUndefined.length; j++) {
+                        if (statusesToSetToUndefined[j] == newTrailerObject.status1) {
+                            markForArchival = false;
+                            break;
+                        }
+                    }
+
+                    if (markForArchival && newTrailerObject.status1.indexOf("100%") > -1) {
+                        var currentDateInMillisectonds = new Date().getTime()
+                        var timeInMillisecondsToAdd = 1000 * 60 * 60 * 24 * 5; // 5 days
+
+                        var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
+
+                        newTrailerObject.whentobearchived = dateWithAddedOffset;
+                    } else {
+                        newTrailerObject.whentobearchived = undefined;
+                    }
+                    console.log("\n\n----------------- 1");
+                    Trailer.findOneAndUpdate({
+                        _id: newTrailerObject._id
+                    }, newTrailerObject, {}, function(err, doc) {
+                        if (err) {
+                            console.log("ERROR - could not find and update the trailer with _id == " + newTrailerObject._id);
+                        } else {
+                            console.log("found in updatetrailer - _id found == " + doc._id);
+                            console.log("         counterOfTrailerObjects index == " + counterOfTrailerObjects);
+                            // counterOfTrailerObjects++;
+                        }
+                        console.log("----------------- 2");
+                        // send email if marked as 100%\
+                        if (newTrailerObject.status1.indexOf("100%") > -1) {
+                            sendOneTrailerEmailWhenComplete(newTrailerObject)
+                        }
+
+                        console.log("-----------------     doc.customer == "+doc.customer);
+
+                        var currentTrailer = doc;
+
+                        File.find({
+                            trailer_id: doc._id
+                        }, function(err, docs) {
+                            if (err) throw err;
+                            // var count = 0;
+                            counterOfTrailerObjects++;
+                            if (docs.length == 0 && countOfTrailerObjects == counterOfTrailerObjects) {
+                                console.log("sending back content!!!!!!!!!!!!!!!!!!!!! - 1");
+                                res.setHeader('content-type', 'application/json');
+                                res.writeHead(200);
+                                res.end("{}");
+                            }
+                            console.log("numer of files found == " + docs.length);
+                            for (var i = 0; i < docs.length; i++) {
+                                var foundFile = docs[i];
+
+                                foundFile.customer = currentTrailer.customer;
+                                console.log("----------------- 3 foundFile.name == " + foundFile.name+"    foundFile.customer == "+newTrailerObject.customer);
+                                foundFile.save(function(err) {
+                                    console.log(" err == " + err);
+                                    if (err) throw err;
+                                    counterOfFilesRay[counterOfTrailerObjects - 1]++;
+                                    // count++;
+                                    //console.log("     count == " + count);
+                                    if (counterOfFilesRay[counterOfTrailerObjects - 1] == docs.length && countOfTrailerObjects == counterOfTrailerObjects) {
+                                        console.log("sending back content!!!!!!!!!!!!!!!!!!!!! - 2");
+                                        res.setHeader('content-type', 'application/json');
+                                        res.writeHead(200);
+                                        res.end("{}");
+                                    } // end if
+                                });
+
+                            } // end for
+
+                        }); // end Trailer.find
+
+
+                    });
+                    /*            var trailer = new Trailer(newTrailerObject);
+                                trailer.save(function (err) {
+                                  if (err) 
+                                  {
+                                    console.log('ERROR saving trailer!!');
+                                  } else 
+                                  {
+                                    console.log("Trailer saved successfully!");
+                                  }
+                                  
+                                });
+                    */
+                    console.log("----------------- 5");
+
+
+
+                } // end for k
+
+            });
+
+            console.log("----------------- 6   Write empty json response.");
+
+            /*                res.setHeader('content-type', 'application/json');
+                            res.writeHead(200);
+                            res.end("{}");
+            */
+        }
+    } // end if
+});
+
+
+
+
 app.get("/getusers", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
 {
