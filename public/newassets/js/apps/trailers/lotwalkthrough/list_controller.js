@@ -6,9 +6,9 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Fl
       var noTrailersView = new LotWalkthrough.NoTrailersView();
 
       FleetRepManager.regions.table.show(noTrailersView);
-      alert('fetching trailers for walkthrough');
+//      alert('fetching trailers for walkthrough');
         $.when(fetchingTrailers).done(function(trailers){
-          alert('got trailers for walkthrough - length == '+trailers.length);
+          //alert('got trailers for walkthrough - length == '+trailers.length);
 FleetRepManager.lot_walkthrough_trailers = trailers;
                 var contactsListView = new LotWalkthrough.LotWalkthroughTrailers({
                   collection: trailers

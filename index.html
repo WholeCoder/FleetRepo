@@ -1970,7 +1970,7 @@
   <div class="jumbotron">
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal  </b>:&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><span style="display:none;color: red;" id="onlottext"><b>&nbsp;ON&nbsp;&nbsp;FRS&nbsp;&nbsp;LOT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="archivestext"><b>&nbsp;ARCHIVES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><a href="#" style="display:none;" class="js-exportonlotunits"><b>Export Current View&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></a><a href="#" style="display:none;" class="js-backtotrailerlist"><b>Back to Trailer List</b></a><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-onlotunits"><b>On Lot Units</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-viewarchives"><b>View Archives</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="sortbylocationthencustomer"><b>Sort by Location Then Customer</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal  </b>:&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><span style="display:none;color: red;" id="lotwalkthroughtext"><b>&nbsp;DOING&nbsp;&nbsp;WALKTHROUGH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="onlottext"><b>&nbsp;ON&nbsp;&nbsp;FRS&nbsp;&nbsp;LOT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="archivestext"><b>&nbsp;ARCHIVES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><a href="#" style="display:none;" class="js-exportonlotunits"><b>Export Current View&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></a><a href="#" style="display:none;" class="js-backtotrailerlist"><b>Back to Trailer List</b></a><a href="#" style="display:none;" class="js-backtotrailerlistfromlotwalkthrough"><b>Back to Trailer List</b></a><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-onlotunits"><b>On Lot Units</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-viewarchives"><b>View Archives</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="dolotwalkthrough"><b>Do Lot Walkthrough</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true"> Auto-Update Table and Charts</div></div>
 
            <div class="panel-body" id="table-region">
 
@@ -2098,15 +2098,17 @@
 
         FleetRepManager.showAdminLinks = function() {
           $('.js-backtotrailerlist').hide();
+          $('.js-backtotrailerlistfromlotwalkthrough').hide();          
           $('#archivestext').hide();
           $('#onlottext').hide();
+          $('#lotwalkthroughtext').hide();
           $('.js-exportonlotunits').hide();
 
           $('#searchInput').show();
           $('#customername').show();
           $('#logout').show();
           $('#toolbar').show();
-          $('#sortbylocationthencustomer').show();
+          $('#dolotwalkthrough').show();
           $('#newuser').show();
 
           console.log("show #userfunctions called!!!!!!!!!!!!");
@@ -2138,7 +2140,33 @@
           $('#customername').show();
           $('#logout').show();
           $('#toolbar').hide();
-          $('#sortbylocationthencustomer').show();
+          $('#dolotwalkthrough').show();
+
+          console.log("show #userfunctions called!!!!!!!!!!!!");
+          $('#userfunctions').show();
+          $('#portalgraphs').hide();
+
+          //style="width:600px;height:400px;"
+/*          $("#piechart").css("width", "0px");
+          $("#piechart").css("height", "0px");
+
+          $("#barchart").css("width", "0px");
+          $("#barchart").css("height", "0px");
+*/
+        }
+
+        FleetRepManager.showDoLotWalthroughLinks = function() {
+          $('.js-backtotrailerlist').hide();
+          $('.js-backtotrailerlistfromlotwalkthrough').show();          
+
+          $('#lotwalkthroughtext').show();
+          $('.js-exportonlotunits').hide();
+
+          $('#searchInput').hide();
+          $('#customername').show();
+          $('#logout').hide();
+          $('#toolbar').hide();
+          $('#dolotwalkthrough').hide();
 
           console.log("show #userfunctions called!!!!!!!!!!!!");
           $('#userfunctions').show();
@@ -2155,15 +2183,16 @@
 
         FleetRepManager.showCustomerTrailerLinks = function() {
           $('.js-backtotrailerlist').hide();
+          $('.js-backtotrailerlistfromlotwalkthrough').hide();          
           $('#archivestext').hide();
           $('#onlottext').hide();
           $('.js-exportonlotunits').hide();
+          $('#dolotwalkthrough').hide();
 
           $('#searchInput').show();
           $('#customername').show();
           $('#logout').show();
           $('#toolbar').show();
-          $('#sortbylocationthencustomer').show();
 
           console.log("show #userfunctions called!!!!!!!!!!!!");
           $('#userfunctions').show();
@@ -2177,7 +2206,6 @@
           $("#barchart").css("height", "400px");
 
           $('#newtrailer').hide();
-          $('#sortbylocationthencustomer').hide();
         }
 
         FleetRepManager.loadCharts = function () {
@@ -2202,11 +2230,10 @@
               //alert("exported to exel!");
             }); // end js-exporttoexcel handler
 
-            $( "#sortbylocationthencustomer" ).on( "click", function(event) {
+            $( "#dolotwalkthrough" ).on( "click", function(event) {
               event.preventDefault();
-              $("#myTable").trigger("sorton",[[[4,0],[1,0]]]);
-              //alert('clicked sortbylocationthencustomer')
-              //sortbylocationthencustomer
+              FleetRepManager.showDoLotWalthroughLinks();
+              FleetRepManager.trigger("lotwalkthrough:start");
             });              
 
 
@@ -2300,6 +2327,18 @@
               } else {
                 FleetRepManager.showArchiveLinks(false); // false means show archive text
                 FleetRepManager.trigger("trailercustomerarchives:list");
+              }
+            });   
+
+            $('.js-backtotrailerlistfromlotwalkthrough').on("click", function(event) {
+              if(confirm("Warning! Leaving this screen will abort the lot walkthrough process and you will lose all changes made to this table so far!"))
+              {
+                if (FleetRepManager.admin)
+                {
+                  FleetRepManager.showAdminLinks();
+                  FleetRepManager.loadCharts();
+                  FleetRepManager.trigger("trailers:list");
+                }
               }
             });   
 
