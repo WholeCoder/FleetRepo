@@ -1730,10 +1730,8 @@ if(req.session.currentuser.customer == "ADMIN")
       });
       req.on('end', function () {
         var object = {"dateoflotwalkthrough": new Date()};
-        var lotwalkthroughinstance = new LotWalkthroughInstance(object);
 
-
-        lotwalkthroughinstance.save(function (err) {
+        LotWalkthroughInstance.create(object, function (err, lotwalkthroughinstance) {
           if (err) 
           {
             console.log('ERROR saving lotwalkthroughinstance!!');
@@ -1746,9 +1744,9 @@ if(req.session.currentuser.customer == "ADMIN")
             for (var i = 0; i < newLotWalkthroughTrailers.length; i++)
             {
               delete newLotWalkthroughTrailers[i]._id;
-              newLotWalkthroughTrailers.lot_walkthrough_trailer_id = lotwalkthroughinstance._id;
+              newLotWalkthroughTrailers[i].lot_walkthrough_trailer_id = lotwalkthroughinstance._id;
 
-              var newlotwalkthroughtrailer = new LotWalkthroughTrailerInstance(newLotWalkthroughTrailers[i]);
+              var newlotwalkthroughtrailer = new LotWalkthroughTrailer(newLotWalkthroughTrailers[i]);
               newlotwalkthroughtrailer.save(function (err) {
                 if (err)
                 {
