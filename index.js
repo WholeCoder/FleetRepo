@@ -18,6 +18,9 @@ var express = require('express'),
     FileArchive = require('./file-archive-model'),
     Config = require('./config-model'),
 
+    LotWalkthroughInstance = require('./lot-walkthrough-instance-model'),
+    LotWalkthroughTrailer = require('./lot-walkthrough-trailer-model'),
+
     nodemailer = require('nodemailer'),
     randtoken = require('rand-token'),
     fs = require('fs'),
@@ -1716,6 +1719,66 @@ if(req.session.currentuser.customer == "ADMIN")
   res.end("{}");
 }//end if
 });
+
+app.post("/savelotwalkthrough", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+        var object = {"dateoflotwalkthrough": new Date()};
+        var lotwalkthroughinstance = new LotWalkthroughInstance(object);
+
+
+        lotwalkthroughinstance.save(function (err) {
+          if (err) 
+          {
+            console.log('ERROR saving lotwalkthroughinstance!!');
+          } else 
+          {
+            console.log("LotWalkthroughTrailerInstance saved successfully!");
+
+            var newLotWalkthroughTrailers = JSON.parse(jsonString);
+            var count = 0;
+            for (var i = 0; i < newLotWalkthroughTrailers.length; i++)
+            {
+              delete newLotWalkthroughTrailers[i]._id;
+              newLotWalkthroughTrailers.lot_walkthrough_trailer_id = lotwalkthroughinstance._id;
+
+              var newlotwalkthroughtrailer = new LotWalkthroughTrailerInstance(newLotWalkthroughTrailers[i]);
+              newlotwalkthroughtrailer.save(function (err) {
+                if (err)
+                {
+                  console.log('error in /savelotwalkthrough');
+                } else
+                {
+                  count++;
+                  if (count == newLotWalkthroughTrailers.length)
+                  {
+                    res.setHeader('content-type', 'application/json');
+                    res.writeHead(200);
+                    res.end("{}");
+                  }
+
+                  console.log('saved newlotwalkthroughtrailer successfully.');
+                }
+              });
+            } // end for
+
+          } // end else
+
+
+        }); // lotwalkthroughinstance.save
+
+      }); // req.on('end'
+  } // end if (req.method == 'POST')
+
+}//end if
+});
+
 
 app.post("/updatetrailer", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
