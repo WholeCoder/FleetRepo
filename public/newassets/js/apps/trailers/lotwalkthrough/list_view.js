@@ -130,36 +130,52 @@ LotWalkthrough.LotWalkthroughTrailers = Marionette.CompositeView.extend({
 
     commitAndSaveAllChanges: function(event) {
       event.preventDefault();
-      alert("commiting changes!");
       console.log('\n\n saving these trailers == '+JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models));
 
-      $.ajax('/updateonlottrailers' + "?dummyforie="+new Date().getTime().toString(), {
-        type: 'POST',
-        data: JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models),
-        contentType: 'text/json',
-        success: function(data2) { 
-alert("successfully called /updateonlottrailers");
+      var allUpdated = true;
+      for (var i = 0; i < FleetRepManager.lot_walkthrough_trailers.models.length; i++)
+      {
+        if (!FleetRepManager.lot_walkthrough_trailers.models[i].attributes.updatedalready)
+        {
+          allUpdated = false;
+          break;
+        }
+      }
 
-console.log("/updateonlottrailers      trailers == "+JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models));
+      var shouldUpdate = true;
+      if (!allUpdated)
+      {
+        shouldUpdate = confirm("Some trailers were missing and not updated.  Are you sure you would like to save this walkthrough?");
+      }
 
-          $.ajax('/savelotwalkthrough' + "?dummyforie="+new Date().getTime().toString(), {
-            type: 'POST',
-            data: JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models),
-            contentType: 'text/json',
-            success: function(data3) { 
-    console.log("successfully called /savelotwalkthrough");
-              FleetRepManager.showAdminLinks();
-              FleetRepManager.loadCharts();
-              FleetRepManager.trigger("trailers:list");
-               //FleetRepManager.trigger("user:new");
-            },
-            error  : function() { alert('Error - could not save the /savelotwalkthrough');}
-          }); // end $.post
+      if (shouldUpdate)
+      {
+        $.ajax('/updateonlottrailers' + "?dummyforie="+new Date().getTime().toString(), {
+          type: 'POST',
+          data: JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models),
+          contentType: 'text/json',
+          success: function(data2) { 
+  
+  console.log("/updateonlottrailers      trailers == "+JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models));
 
-        },
-        error  : function() { alert('Error - could not save the /updateonlottrailers');}
-      }); // end $.post
+            $.ajax('/savelotwalkthrough' + "?dummyforie="+new Date().getTime().toString(), {
+              type: 'POST',
+              data: JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models),
+              contentType: 'text/json',
+              success: function(data3) { 
+      console.log("successfully called /savelotwalkthrough");
+                FleetRepManager.showAdminLinks();
+                FleetRepManager.loadCharts();
+                FleetRepManager.trigger("trailers:list");
+                 //FleetRepManager.trigger("user:new");
+              },
+              error  : function() { alert('Error - could not save the /savelotwalkthrough');}
+            }); // end $.post
 
+          },
+          error  : function() { alert('Error - could not save the /updateonlottrailers');}
+        }); // end $.post
+      } // end shouldUpdate
 
     },
 
