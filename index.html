@@ -195,6 +195,13 @@
       <%- FleetRepManager.getStatusTitle(status3) %><br />
     </td>
     <td>
+      <b><%- note != undefined && note != "" && note != null ? "1 note" : "" %></b><br/>
+        <a href="#" class="js-notfoundeditlink">
+          Edit Note
+        </a>
+    </td>
+
+    <td>
       <button class="btn btn-xs btn-danger js-notfound">
         <i class="icon-remove"></i>
         Not Found
@@ -1788,6 +1795,8 @@
               </span>
             </span>
         </th>
+        <th>
+        </th>
         <th align="center">
         </th>
       </tr>
@@ -1846,9 +1855,11 @@
             <option value="1">1</option>
           </select>
         </th>
+        <th>
+        </th>
       </tr>
       <tr>
-        <th colspan="11">
+        <th colspan="12">
            <input class="btn btn-lg btn-danger btn-block js-submit" type="submit" value="Commit and Save All Changes">
         </th>
       </tr>

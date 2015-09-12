@@ -1994,8 +1994,8 @@ for (var prop in doc)
 console.log(str+'\n');
 */
                         // send email if marked as 100%\
-                        if (newTrailerObject.status1.indexOf("100%") > -1) {
-                          console.log('     found 100% status so sending email');                          
+                        if (doc.status1.indexOf("100%") > -1) {
+                          console.log('     found 100% status so sending email-----------------------------');
                             sendOneTrailerEmailWhenComplete(doc)
                         }
 
