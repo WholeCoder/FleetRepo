@@ -1739,6 +1739,10 @@ if(req.session.currentuser.customer == "ADMIN")
           {
             console.log("LotWalkthroughTrailerInstance saved successfully!");
 
+            console.log("-----------------start-------------------");
+            console.log("newTrailerWalkthroughTrailers string == "+jsonString);
+            console.log("-----------------start-------------------");
+            
             var newLotWalkthroughTrailers = JSON.parse(jsonString);
             var count = 0;
             for (var i = 0; i < newLotWalkthroughTrailers.length; i++)
