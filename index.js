@@ -60,7 +60,7 @@ if (DISABLE_SSL && ENVIRONMENT == 'local_development') // on development
 
 
 var mongoose = require ("mongoose");
-
+//mongoose = Promise.promisifyAll(mongoose);
 
 app.use(cookieParser());
 app.use(session({
@@ -1721,6 +1721,7 @@ if(req.session.currentuser.customer == "ADMIN")
 });
 
 app.post("/savelotwalkthrough", function(req, res) {
+  console.log("starting /savelotwalkthrough------------------------------------------");
 if(req.session.currentuser.customer == "ADMIN")
 {
   if (req.method == 'POST') {
@@ -1740,9 +1741,9 @@ if(req.session.currentuser.customer == "ADMIN")
             console.log("LotWalkthroughTrailerInstance saved successfully!");
 
             console.log("-----------------start-------------------");
-            console.log("newTrailerWalkthroughTrailers string == "+jsonString);
+           // console.log("newTrailerWalkthroughTrailers string == "+jsonString);
             console.log("-----------------start-------------------");
-            
+
             var newLotWalkthroughTrailers = JSON.parse(jsonString);
             var count = 0;
             for (var i = 0; i < newLotWalkthroughTrailers.length; i++)
@@ -1779,6 +1780,8 @@ if(req.session.currentuser.customer == "ADMIN")
   } // end if (req.method == 'POST')
 
 }//end if
+  console.log("ending /savelotwalkthrough------------------------------------------");
+
 });
 
 
@@ -1918,6 +1921,7 @@ console.log("----------------- 6   Write empty json response.");
 
 
 app.post("/updateonlottrailers", function(req, res) {
+    console.log('------------starting /updateonlottrailers');
     if (req.session.currentuser.customer == "ADMIN") {
         if (req.method == 'POST') {
             var jsonString = '';
@@ -1928,23 +1932,22 @@ app.post("/updateonlottrailers", function(req, res) {
 
 
 
-
+console.log("/updateonlottrailers - jsonString == "+jsonString);
                 var newTrailerObjectsArray = JSON.parse(jsonString);
                 var countOfTrailerObjects = newTrailerObjectsArray.length;
                 var counterOfTrailerObjects = 0;
 
+                console.log('     number of trailer objects to update == '+countOfTrailerObjects);
+
                 var counterOfFilesRay = [];
+                var processedAllFiles = [];
                 for (var c = 0; c < countOfTrailerObjects.length; c++) {
                     counterOfFilesRay[c] = 0;
+                    processedAllFiles[c] = false;
                 }
-                console.log("length of trailers array == " + countOfTrailerObjects);
-console.log("/updateonlottrailers - jsonString == "+jsonString);
+
                 for (var k = 0; k < newTrailerObjectsArray.length; k++) {
                     var newTrailerObject = newTrailerObjectsArray[k];
-
-                    //console.log("/updateonlottrailers - jsonString == "+jsonString);
-
-
 
                     var statusesToSetToUndefined = ["100% COMPLETE:  IN TRANSIT TO CUSTOMER",
                         "100% COMPLETE:  READY FOR P/U",
@@ -1953,109 +1956,81 @@ console.log("/updateonlottrailers - jsonString == "+jsonString);
 
                     var markForArchival = true;
                     for (var j = 0; j < statusesToSetToUndefined.length; j++) {
-                        if (statusesToSetToUndefined[j] == newTrailerObject.status1) {
+                        if (statusesToSetToUndefined[j] == newTrailerObjectsArray[k].status1) {
                             markForArchival = false;
                             break;
                         }
                     }
 
-                    if (markForArchival && newTrailerObject.status1.indexOf("100%") > -1) {
+                    if (markForArchival && newTrailerObjectsArray[k].status1.indexOf("100%") > -1) {
                         var currentDateInMillisectonds = new Date().getTime()
                         var timeInMillisecondsToAdd = 1000 * 60 * 60 * 24 * 5; // 5 days
 
                         var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
 
-                        newTrailerObject.whentobearchived = dateWithAddedOffset;
+                        newTrailerObjectsArray[k].whentobearchived = dateWithAddedOffset;
                     } else {
-                        newTrailerObject.whentobearchived = undefined;
+                        newTrailerObjectsArray[k].whentobearchived = undefined;
                     }
-                    console.log("\n\n----------------- 1");
+                    var trailerid = newTrailerObjectsArray[k]._id;
+                    delete newTrailerObjectsArray[k]._id;
+
+                    console.log("----------------------customer before update findOne - custuer == "+newTrailerObjectsArray[k].customer);
                     Trailer.findOneAndUpdate({
-                        _id: newTrailerObject._id
-                    }, newTrailerObject, {}, function(err, doc) {
+                        _id: trailerid
+                    }, newTrailerObjectsArray[k], { 'new': true },function(err, doc) {
                         if (err) {
                             console.log("ERROR - could not find and update the trailer with _id == " + newTrailerObject._id);
                         } else {
-                            console.log("found in updatetrailer - _id found == " + doc._id);
-                            console.log("         counterOfTrailerObjects index == " + counterOfTrailerObjects);
-                            // counterOfTrailerObjects++;
+                          console.log('     found a unit with unitnumber == '+doc.unitnumber);
+
                         }
-                        console.log("----------------- 2");
+
+/*var str = '\n\n';
+for (var prop in doc)
+{
+  str += 'doc['+prop+'] = '+doc[prop]+'\n';
+}
+console.log(str+'\n');
+*/
                         // send email if marked as 100%\
                         if (newTrailerObject.status1.indexOf("100%") > -1) {
-                            sendOneTrailerEmailWhenComplete(newTrailerObject)
+                          console.log('     found 100% status so sending email');                          
+                            sendOneTrailerEmailWhenComplete(doc)
                         }
 
-                        console.log("-----------------     doc.customer == "+doc.customer);
 
                         var currentTrailer = doc;
+console.log("\n\n-------------------------");
+console.log("         doc.customer == "+doc.customer);
+console.log("-------------------------\n\n");
+                        var query = { "trailer_id": doc._id };
+                        File.update(query, { $set: { "customer": doc.customer }}, { multi: true }, 
+                          function callback (err, numAffected) {
+                          // numAffected is the number of updated documents
+                          counterOfTrailerObjects++;
 
-                        File.find({
-                            trailer_id: doc._id
-                        }, function(err, docs) {
-                            if (err) throw err;
-                            // var count = 0;
-                            counterOfTrailerObjects++;
-                            if (docs.length == 0 && countOfTrailerObjects == counterOfTrailerObjects) {
-                                console.log("sending back content!!!!!!!!!!!!!!!!!!!!! - 1");
-                                res.setHeader('content-type', 'application/json');
-                                res.writeHead(200);
-                                res.end("{}");
-                            }
-                            console.log("numer of files found == " + docs.length);
-                            for (var i = 0; i < docs.length; i++) {
-                                var foundFile = docs[i];
+                          console.log("documents count so far == "+counterOfTrailerObjects+"         numAffected.nModified == "+numAffected.nModified+"    doc.customer == "+doc.customer);
 
-                                foundFile.customer = currentTrailer.customer;
-                                console.log("----------------- 3 foundFile.name == " + foundFile.name+"    foundFile.customer == "+newTrailerObject.customer);
-                                foundFile.save(function(err) {
-                                    console.log(" err == " + err);
-                                    if (err) throw err;
-                                    counterOfFilesRay[counterOfTrailerObjects - 1]++;
-                                    // count++;
-                                    //console.log("     count == " + count);
-                                    if (counterOfFilesRay[counterOfTrailerObjects - 1] == docs.length && countOfTrailerObjects == counterOfTrailerObjects) {
-                                        console.log("sending back content!!!!!!!!!!!!!!!!!!!!! - 2");
-                                        res.setHeader('content-type', 'application/json');
-                                        res.writeHead(200);
-                                        res.end("{}");
-                                    } // end if
-                                });
-
-                            } // end for
-
-                        }); // end Trailer.find
-
+                          if (countOfTrailerObjects == counterOfTrailerObjects)
+                          {
+                            console.log("   SENDING RESPONSE - UPDATED ALL DOCUMENTS")
+                            res.setHeader('content-type', 'application/json');
+                            res.writeHead(200);
+                            res.end("{}");
+                          }
+                        });
 
                     });
-                    /*            var trailer = new Trailer(newTrailerObject);
-                                trailer.save(function (err) {
-                                  if (err) 
-                                  {
-                                    console.log('ERROR saving trailer!!');
-                                  } else 
-                                  {
-                                    console.log("Trailer saved successfully!");
-                                  }
-                                  
-                                });
-                    */
-                    console.log("----------------- 5");
-
 
 
                 } // end for k
 
             });
 
-            console.log("----------------- 6   Write empty json response.");
-
-            /*                res.setHeader('content-type', 'application/json');
-                            res.writeHead(200);
-                            res.end("{}");
-            */
         }
     } // end if
+    console.log('------------ending /updateonlottrailers');
 });
 
 

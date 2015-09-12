@@ -132,19 +132,20 @@ LotWalkthrough.LotWalkthroughTrailers = Marionette.CompositeView.extend({
       alert("commiting changes!");
       console.log('\n\n saving these trailers == '+JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models));
 
-      $.ajax('/updateonlottrailers' + "?dummyforie="+new Date().getTime().toString(), {
+      $.ajax('/savelotwalkthrough' + "?dummyforie="+new Date().getTime().toString(), {
         type: 'POST',
         data: JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models),
         contentType: 'text/json',
         success: function(data2) { 
-console.log("successfully called /updateonlottrailers");
+alert("successfully called /updateonlottrailers");
 
+console.log("/updateonlottrailers      trailers == "+JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models));
 
-          $.ajax('/savelotwalkthrough' + "?dummyforie="+new Date().getTime().toString(), {
+          $.ajax('/updateonlottrailers' + "?dummyforie="+new Date().getTime().toString(), {
             type: 'POST',
             data: JSON.stringify(FleetRepManager.lot_walkthrough_trailers.models),
             contentType: 'text/json',
-            success: function(data2) { 
+            success: function(data3) { 
     console.log("successfully called /savelotwalkthrough");
               FleetRepManager.showAdminLinks();
               FleetRepManager.loadCharts();

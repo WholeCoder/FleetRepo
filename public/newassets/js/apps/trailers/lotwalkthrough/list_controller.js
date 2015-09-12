@@ -37,7 +37,7 @@ FleetRepManager.lot_walkthrough_trailers = trailers;
 
     }, // end listStartLotWalkthroughTrailers
     resumeLotWalkthrough: function() {
-      var fetchingTrailers = FleetRepManager.request("trailersLotWalkthrough:entities");
+      //var fetchingTrailers = FleetRepManager.request("trailersLotWalkthrough:entities");
       var trailersListLayout = new LotWalkthrough.Layout();
       var noTrailersView = new LotWalkthrough.NoTrailersView();
 

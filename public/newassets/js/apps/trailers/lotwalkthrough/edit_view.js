@@ -232,14 +232,16 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
       //console.log("------ searching for _id--------");
       for (var i = 0; i < FleetRepManager.lot_walkthrough_trailers.models.length; i++)
       {
-        console.log('   '+FleetRepManager.lot_walkthrough_trailers.models[i]._id+' == '+this.model.get('_id'));
+        console.log('   '+FleetRepManager.lot_walkthrough_trailers.models[i].attributes._id+' == '+this.model.get('_id'));
         if(FleetRepManager.lot_walkthrough_trailers.models[i].attributes._id == this.model.get('_id'))
         {
           //alert('setting unit number to test');
           // FleetRepManager.lot_walkthrough_trailers.models[i].attributes.unitnumber = "test";//new Entities.TrailersOnlot(data);
           data._id = this.model.get('_id');
           data.updatedalready = true;
+          console.log("--------FleetRepManager.lot_walkthrough_trailers.models[i].get('customer') == "+FleetRepManager.lot_walkthrough_trailers.models[i].get('customer'));
           FleetRepManager.lot_walkthrough_trailers.models[i] = new FleetRepManager.TrailersOnLot(data);
+          console.log("lot_walkthrough_trailers.model index = "+i);
         }
       }
       FleetRepManager.trigger("lotwalkthrough:resume");
