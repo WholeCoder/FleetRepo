@@ -229,13 +229,15 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
 
                     for (var i = 0; i < data2.length; i++) {
                         that.$(".js-dailywalkthroughs").append('<br /><a href="/get/' + data2[i]._id + '" class="js-gettrailerlistforawalkthrough">' + new Date(data2[i].dateoflotwalkthrough).toLocaleDateString() + '</a>');
+                        
+                        var lwalkthroughdate = new Date(data2[i].dateoflotwalkthrough);
                         that.$(".js-gettrailerlistforawalkthrough").on("click", function(event) {
                             //alert("searchInput == "+encodeURIComponent($("#searchInput").val()));
                             event.preventDefault();
                             var hrf = $(this).attr('href');
                             var id = hrf.substring(5);
                             //              alert("clicked js-getfile   id == "+id);
-
+                            FleetRepManager.setViewWalthroughDate(lwalkthroughdate);
 
 
                             $.ajax('/getdailywalkthroughtrailers' + "?dummyforie=" + new Date().getTime().toString(), {

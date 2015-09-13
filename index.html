@@ -2266,7 +2266,7 @@
            </div>
         </div>
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b id="walkthroughtitle" style="display:none;">Fleet Repair Solutions Daily Lot Walkthough</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><a id="backtowalkthroughdatelist" style="display: none;">Back To List of Dates</a></b></div>
+           <div class="panel-heading" style="color: black;"><b id="walkthroughdatestring" style="display:none;"></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b id="walkthroughtitle" style="display:none;">Fleet Repair Solutions Daily Lot Walkthough</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><a id="backtowalkthroughdatelist" style="display: none;">Back To List of Dates</a></b></div>
            <div class="panel-body" id="lot-walkthrough-region">
               <div class="container">
                  <div class="row">
@@ -2386,6 +2386,15 @@
         FleetRepManager.doAutoUpdateTable = false;
         FleetRepManager.showAlertForEnvironmentWarn = true;
         FleetRepManager.admin = true;
+
+        FleetRepManager.setViewWalthroughDate = function(dte) {
+          $('#walkthroughdatestring').show();
+          $('#walkthroughdatestring').html("Lot Walkthrough On:  <b>"+dte.toLocaleDateString()+"</b>");
+        }
+
+        FleetRepManager.hideWalkthroughDateString = function() {
+          $('#walkthroughdatestring').hide();
+        }
 
         FleetRepManager.showAdminLinks = function() {
           $('.js-backtotrailerlist').hide();
@@ -2535,6 +2544,7 @@
 
             $( "#backtowalkthroughdatelist" ).on( "click", function(event) {
               event.preventDefault();
+              FleetRepManager.hideWalkthroughDateString();
               FleetRepManager.trigger("lotwalkthroughsnapshopinstances:view");
             });              
 
