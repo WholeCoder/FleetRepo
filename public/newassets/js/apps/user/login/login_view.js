@@ -59,6 +59,7 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
                       FleetRepManager.trigger("trailers:list");
                       //FleetRepManager.trigger("user:new");
                       FleetRepManager.trigger("user:listusers");
+                      FleetRepManager.trigger("lotwalkthroughsnapshopinstances:view");
                     },
                     error  : function() { alert('Error - could not send daily emails.');}
                   }); // end $.ajax GET

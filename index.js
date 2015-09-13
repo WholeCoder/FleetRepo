@@ -947,6 +947,51 @@ if(req.session.currentuser.customer == "ADMIN")
 });
  
 
+app.get("/getlotwalkthroughinstances", function(req, res) {
+  var trailerRay = [];
+
+console.log("\n\n/trailers req.session == "+JSON.stringify(req.session))
+if(req.session.currentuser.customer == "ADMIN")
+{
+  LotWalkthroughInstance.find({}, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all LotWalkthroughInstance.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+    res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
+    res.end(JSON.stringify(trailerRay));
+    }
+  });
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+{
+  LotWalkthroughInstance.find({}, function(err, docs){
+    if(err)
+    {
+       console.log("ERROR - getting all LotWalkthroughInstance.");
+      res.setHeader('content-type', 'application/json');
+      res.writeHead(200);
+      res.end(JSON.stringify(trailerRay));
+    } else
+    {
+      trailerRay = docs;
+      // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+    res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
+    res.end(JSON.stringify(trailerRay));
+    }
+  });
+} // END IF
+
+});
+ 
+
 
 
 
@@ -2135,6 +2180,56 @@ if(req.session.currentuser.customer == "ADMIN")
                 res.setHeader('content-type', 'application/json');
                 res.writeHead(200);
                 res.end(JSON.stringify(obj[0]));
+              }
+            });
+      });
+  }
+} // end else if
+});
+
+app.post("/getdailywalkthroughtrailers", function(req, res) {
+if(req.session.currentuser.customer == "ADMIN")
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           LotWalkthroughTrailer.find({lot_walkthrough_trailer_id:_idObj._id},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find LotWalkthroughTrailer records with _id == "+_id);
+              } else
+              {
+                console.log("called LotWalkthroughTrailer obj == "+JSON.stringify(obj[0]));
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end(JSON.stringify(obj));
+              }
+            });
+      });
+  }
+} else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
+{
+  if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function (data) {
+          jsonString += data;
+      });
+      req.on('end', function () {
+           var _idObj = JSON.parse(jsonString);
+           LotWalkthroughTrailer.find({lot_walkthrough_trailer_id:_idObj._id, customer: req.session.currentuser.customer},function(err, obj) {
+              if (err)
+              {
+                console.log("ERROR! - can not find trailer record with _id == "+_id);
+              } else
+              {
+                console.log("called LotWalkthroughTrailer obj == "+JSON.stringify(obj));
+                res.setHeader('content-type', 'application/json');
+                res.writeHead(200);
+                res.end(JSON.stringify(obj));
               }
             });
       });

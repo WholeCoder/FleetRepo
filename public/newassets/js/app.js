@@ -15,7 +15,8 @@ FleetRepManager.on("before:start", function(){
 
     regions: {
       table: "#table-region",
-      userRegion: "#user-admin-region"
+      userRegion: "#user-admin-region",
+      lotWalkthroughRegion: "#lot-walkthrough-region"
     }
   });
 

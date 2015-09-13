@@ -69,6 +69,25 @@ FleetRepManager.lot_walkthrough_trailers = trailers;
       FleetRepManager.regions.table.show(trailersListLayout);
 
 
-    } // end resumeLotWAlkthrough
+    }, // end resumeLotWAlkthrough
+    displayLotWalthroughInstances: function() {
+      //var fetchingTrailers = FleetRepManager.request("trailersLotWalkthrough:entities");
+      var trailersListLayout = new LotWalkthrough.Layout();
+      var lotWalthroughInstances = new LotWalkthrough.LotWalkthroughInstance();
+/*      var noTrailersView = new LotWalkthrough.NoTrailersView();
+
+      FleetRepManager.regions.table.show(noTrailersView);
+*/      
+      // Note: We are using the same walkthrough_trailers we got when starting the walkthrough
+
+      trailersListLayout.on("show", function(){
+        trailersListLayout.trailersRegion.show(lotWalthroughInstances);
+
+      });
+
+      FleetRepManager.regions.lotWalkthroughRegion.show(trailersListLayout);
+
+
+    } // end displayLotWalthroughInstances
   }
 });

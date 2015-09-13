@@ -42,7 +42,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
 
   //Entities.configureStorage("FleetRepManager.Entities.Trailer");
 
-  Entities.TrailersOnlotCollection = Backbone.Collection.extend({
+  FleetRepManager.TrailersOnlotCollection = Entities.TrailersOnlotCollection = Backbone.Collection.extend({
     urlRoot: "/trailersonlot",
 
     url: function() {

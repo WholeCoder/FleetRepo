@@ -10,6 +10,9 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   });
 
   var API = {
+    displayLotWalthroughInstances: function() {
+      TrailersApp.LotWalkthrough.Controller.displayLotWalthroughInstances();
+    },
     startLotWalkthrough: function() {
       // Sets the FleetRepmanager.lot_walkthrough_trailers
       TrailersApp.LotWalkthrough.Controller.listStartLotWalkthroughTrailers();
@@ -130,6 +133,10 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
       FleetRepManager.execute("set:active:header", "contacts");
 */    }
   };
+
+  FleetRepManager.on("lotwalkthroughsnapshopinstances:view", function() {
+    API.displayLotWalthroughInstances();
+  });
 
   FleetRepManager.on("lotwalkthrough:start", function() {
     API.startLotWalkthrough();

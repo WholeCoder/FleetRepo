@@ -40,7 +40,8 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Fl
     events: {
       "click": "highlightName",
       "click .js-notfound" : "editUnit",
-      "click .js-notfoundeditlink" : "editUnit"
+      "click .js-notfoundeditlink" : "editUnit",
+      "click" : "editUnit"
     },
 
     onRender: function() {
