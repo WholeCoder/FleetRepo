@@ -164,7 +164,7 @@ if(confirm("Are you sure you want to delete this user? This row will be lost for
     },
 
     events: {
-      "click a": "disableLink"/*,
+      "click a": "disableLink",/*,
       
       "change .js-unitnumbersortbox": "clickedSortBox",
       "change .js-customersort": "clickedSortBox",
@@ -175,8 +175,12 @@ if(confirm("Are you sure you want to delete this user? This row will be lost for
       "change .js-dateapprovedsortbox": "clickedSortBox",
       "change .js-estimatedtimeofcompletesortbox": "clickedSortBox",
       "change .js-statussortbox": "clickedSortBox",
+*/
+      "click th.js-resetsort" : "initSort"
+    },
 
-      "click th.js-resetsort" : "clickedSortLinkSoReset"*/
+    initSort: function() {
+      $("#myUserTable").tablesorter();
     },
 
     initialize: function(){
