@@ -2254,7 +2254,7 @@
               <div class="container">
                  <div class="row">
                     <div  class="col-sm-6">
-Test walkthrough
+
                     </div>
                     <div  class="col-sm-6">
 
@@ -2389,6 +2389,9 @@ Test walkthrough
           $('#userfunctions').show();
           $('#portalgraphs').show();
 
+          $('#walkthroughtitle').show();
+          $('#backtowalkthroughdatelist').show();
+
           //style="width:600px;height:400px;"
           $("#piechart").css("width", "600px");
           $("#piechart").css("height", "400px");
@@ -2472,6 +2475,9 @@ Test walkthrough
           $('#userfunctions').show();
           $('#portalgraphs').show();
 
+          $('#walkthroughtitle').hide();
+          $('#backtowalkthroughdatelist').hide();
+
           //style="width:600px;height:400px;"
           $("#piechart").css("width", "600px");
           $("#piechart").css("height", "400px");
@@ -2508,6 +2514,11 @@ Test walkthrough
               event.preventDefault();
               FleetRepManager.showDoLotWalthroughLinks();
               FleetRepManager.trigger("lotwalkthrough:start");
+            });              
+
+            $( "#backtowalkthroughdatelist" ).on( "click", function(event) {
+              event.preventDefault();
+              FleetRepManager.trigger("lotwalkthroughsnapshopinstances:view");
             });              
 
 
