@@ -147,6 +147,9 @@ LotWalkthrough.LotWalkthroughTrailers = Marionette.CompositeView.extend({
       if (!allUpdated)
       {
         shouldUpdate = confirm("Some trailers were missing and not updated.  Are you sure you would like to save this walkthrough?");
+      } else
+      {
+        shouldUpdate = confirm("Are you sure you would like to save this walkthrough?");        
       }
 
       if (shouldUpdate)
