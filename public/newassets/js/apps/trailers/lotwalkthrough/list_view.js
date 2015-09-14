@@ -168,6 +168,7 @@ LotWalkthrough.LotWalkthroughTrailers = Marionette.CompositeView.extend({
                 FleetRepManager.showAdminLinks();
                 FleetRepManager.loadCharts();
                 FleetRepManager.trigger("trailers:list");
+                FleetRepManager.trigger("lotwalkthroughsnapshopinstances:view");
                  //FleetRepManager.trigger("user:new");
               },
               error  : function() { alert('Error - could not save the /savelotwalkthrough');}
