@@ -228,7 +228,7 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
                     console.log("/getlotwalkthroughinstances called");
 
                     for (var i = 0; i < data2.length; i++) {
-                        that.$(".js-dailywalkthroughs").append('<br /><a href="/get/' + data2[i]._id + '" class="js-gettrailerlistforawalkthrough">' + new Date(data2[i].dateoflotwalkthrough).toLocaleDateString() + '</a>');
+                        that.$(".js-dailywalkthroughs").append('<br /><a href="/get/' + data2[i]._id + '" style="font-size: 20pt;" class="js-gettrailerlistforawalkthrough">' + new Date(data2[i].dateoflotwalkthrough).toLocaleDateString() + '</a>');
                         
                         var lwalkthroughdate = new Date(data2[i].dateoflotwalkthrough);
                         that.$(".js-gettrailerlistforawalkthrough").on("click", function(event) {

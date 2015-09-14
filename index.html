@@ -511,9 +511,9 @@
              <div class="row">
                 <div  class="col-sm-6">
                   <div class="panel panel-danger">
-                     <div class="panel-heading"><b>FRS Daily Walkthroughs</b></div>
+                     <div class="panel-heading"><b>View FRS Daily Walkthroughs</b></div>
                      <div class="panel-body" style="height: 400px;">
-<b>Daily Walkthroughs</b><br /><br />
+<b>Choose a Daily Walkthrough to View</b><br /><br />
 <div class="js-dailywalkthroughs"></div>
 
 
@@ -2266,7 +2266,7 @@
            </div>
         </div>
         <div class="panel panel-danger">
-           <div class="panel-heading" style="color: black;"><b id="walkthroughdatestring" style="display:none;"></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b id="walkthroughtitle" style="display:none;">Fleet Repair Solutions Daily Lot Walkthough</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><a id="backtowalkthroughdatelist" style="display: none;">Back To List of Dates</a></b></div>
+           <div class="panel-heading" style="color: black;"><b id="walkthroughdatestring" style="display:none;"></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b id="walkthroughtitle" style="display:none;">Fleet Repair Solutions View Daily Lot Walkthoughs</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><a id="backtowalkthroughdatelist" style="display: none;">Back To List of Dates</a></b></div>
            <div class="panel-body" id="lot-walkthrough-region">
               <div class="container">
                  <div class="row">
@@ -2389,7 +2389,7 @@
 
         FleetRepManager.setViewWalthroughDate = function(dte) {
           $('#walkthroughdatestring').show();
-          $('#walkthroughdatestring').html("Lot Walkthrough On:  <b>"+dte.toLocaleDateString()+"</b>");
+          $('#walkthroughdatestring').html("Currently Viewing Lot Walkthrough For:  <b>"+dte.toLocaleDateString()+"</b>");
         }
 
         FleetRepManager.hideWalkthroughDateString = function() {

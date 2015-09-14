@@ -953,7 +953,7 @@ app.get("/getlotwalkthroughinstances", function(req, res) {
 console.log("\n\n/trailers req.session == "+JSON.stringify(req.session))
 if(req.session.currentuser.customer == "ADMIN")
 {
-  LotWalkthroughInstance.find({}, function(err, docs){
+  LotWalkthroughInstance.find({}, null, {sort: {dateoflotwalkthrough: -1}}, function(err, docs){
     if(err)
     {
        console.log("ERROR - getting all LotWalkthroughInstance.");
@@ -971,7 +971,7 @@ if(req.session.currentuser.customer == "ADMIN")
   });
 } else if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined)
 {
-  LotWalkthroughInstance.find({}, function(err, docs){
+  LotWalkthroughInstance.find({}, null, {sort: {dateoflotwalkthrough: -1}}, function(err, docs){
     if(err)
     {
        console.log("ERROR - getting all LotWalkthroughInstance.");
