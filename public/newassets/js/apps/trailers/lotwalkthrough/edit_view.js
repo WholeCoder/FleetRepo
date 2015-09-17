@@ -193,11 +193,13 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
       e.preventDefault();
       /*var data = Backbone.Syphon.serialize(this);
       this.trigger("form:submit", data);*/
+      $('#searchInputDoWalkthrough').val("");
       FleetRepManager.trigger("lotwalkthrough:resume");
     },
 
     saveClicked: function(e){
       e.preventDefault();
+      $('#searchInputDoWalkthrough').val("");
       var data = Backbone.Syphon.serialize(this);
       //alert('save trailer submit button clicked! - Not implemented yet!');
       this.trigger("form:submit", data);
