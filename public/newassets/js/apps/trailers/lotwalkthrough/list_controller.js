@@ -18,6 +18,7 @@ FleetRepManager.lot_walkthrough_trailers = trailers;
                 trailersListLayout.trailersRegion.show(contactsListView);
 
                 // sort by status
+
                 $("#myTable").tablesorter({sortList: [[8,1]]});
                 $("#searchInputDoWalkthrough").keyup(function () {
                     var rows = $("#fbody").find("tr").hide();
@@ -28,6 +29,7 @@ FleetRepManager.lot_walkthrough_trailers = trailers;
                         });
                     } else rows.show();
                 });
+                $('#searchInputDoWalkthrough').val("");
 
                 $('[data-toggle="tooltip"]').tooltip();
               });
@@ -62,6 +64,7 @@ FleetRepManager.lot_walkthrough_trailers = trailers;
                 });
             } else rows.show();
         });
+        $('#searchInputDoWalkthrough').val("");
 
         $('[data-toggle="tooltip"]').tooltip();
       });
