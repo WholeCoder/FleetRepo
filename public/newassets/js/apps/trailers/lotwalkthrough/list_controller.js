@@ -19,7 +19,7 @@ FleetRepManager.lot_walkthrough_trailers = trailers;
 
                 // sort by status
                 $("#myTable").tablesorter({sortList: [[8,1]]});
-                $("#searchInput").keyup(function () {
+                $("#searchInputDoWalkthrough").keyup(function () {
                     var rows = $("#fbody").find("tr").hide();
                     if (this.value.length) {
                         var data = this.value.split(" ");
@@ -53,7 +53,7 @@ FleetRepManager.lot_walkthrough_trailers = trailers;
 
         // sort by status
         $("#myTable").tablesorter({sortList: [[8,1]]});
-        $("#searchInput").keyup(function () {
+        $("#searchInputDoWalkthrough").keyup(function () {
             var rows = $("#fbody").find("tr").hide();
             if (this.value.length) {
                 var data = this.value.split(" ");
