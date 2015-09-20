@@ -303,11 +303,7 @@ if (req.file['size'] <= 100000)
 
 
 
-/*      console.log('received data: ' + data);
-      response.writeHead(200, {'Content-Type': 'text/html'});
-      response.write(data);
-      response.end();
-*/      }else{
+      }else{
           console.log(err);
 
           res.setHeader('content-type', 'application/json');
