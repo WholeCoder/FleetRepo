@@ -4,12 +4,12 @@ var express = require('express'),
 
     http = require('http').Server(app),
     io = require('socket.io')(http),
-    
+
     mkdirp = require('mkdirp'),
-    
+
     excelbuilder = require('msexcel-builder'),
 
-    path = require('path'),    
+    path = require('path'),
     User = require('./user-model'),
     Token = require('./token-model'),
     Trailer = require('./trailer-model'),
@@ -30,7 +30,7 @@ var express = require('express'),
     url = require('url'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session);
- 
+
 // ** MUST set this as a config variable on the heroku.com website **
 var DISABLE_SSL = process.env.ENVIRONMENT == 'local_development';
 var ENVIRONMENT = process.env.ENVIRONMENT;
@@ -132,43 +132,11 @@ app.get("/", function(req, res) {
 app.get("/uploaddocument", function(req, res) {
    sendIfNoSSLRequired(path.join(__dirname, 'index.html'),req, res)
 });
- 
+
 app.get("/mockup", function(req, res) {
    res.sendFile(path.join(__dirname, 'mockup.html'))
 });
 
-// take out after first run!
-/*app.get("/tempsetall100", function(req, res) {
-  Trailer.find({status1: new RegExp('^100%', "i")}, function( err, trailers100){
-    for (var i = 0;i < trailers100.length; i++)
-    {
-      var currTrailer = trailers100[i];
-
-      var currentDateInMillisectonds = new Date().getTime()
-      var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days
-
-      var dateWithAddedOffset = new Date(currentDateInMillisectonds + timeInMillisecondsToAdd);
-
-      currTrailer.whentobearchived = dateWithAddedOffset;
-      currTrailer.save(function (err) {
-        if (err) 
-        {
-          console.log('ERROR saving trailer!!');
-        } else 
-        {
-          console.log("Trailer saved successfully!");
-        }
-        
-      });
-    }
-  });
-
-  res.setHeader('content-type', 'application/json');
-  res.writeHead(200);
-  res.end("{}");
-
-});
-*/
 
 // this next app.get will remove the whentobedeleted from trailers
 /*app.get("/tempsetall100", function(req, res) {
@@ -176,8 +144,8 @@ app.get("/mockup", function(req, res) {
 
 
     var statusesToSetToUndefined =
-      ["100% COMPLETE:  IN TRANSIT TO CUSTOMER", 
-      "100% COMPLETE:  READY FOR P/U", 
+      ["100% COMPLETE:  IN TRANSIT TO CUSTOMER",
+      "100% COMPLETE:  READY FOR P/U",
       "100% COMPLETE:  RESERVED"
     ];
 
@@ -197,14 +165,14 @@ for (var j = 0; j < statusesToSetToUndefined.length; j++)
 
       currTrailer.whentobearchived = undefined;
       currTrailer.save(function (err) {
-        if (err) 
+        if (err)
         {
           console.log('ERROR saving trailer!!');
-        } else 
+        } else
         {
           console.log("Trailer saved successfully!");
         }
-        
+
       });
     }
   }); // end Trailer.find
@@ -229,16 +197,16 @@ for (var j = 0; j < statusesToSetToUndefined.length; j++)
 
     var trailer = new Trailer(trailerData[i]);
 
-    //trailer.whentobearchived = 
+    //trailer.whentobearchived =
     trailer.save(function (err) {
-      if (err) 
+      if (err)
       {
         console.log('ERROR saving trailer!!');
-      } else 
+      } else
       {
         console.log("Trailer saved successfully!");
       }
-      
+
     });
 
 
@@ -286,24 +254,24 @@ if (req.file['size'] <= 100000)
 
 
 
-        var aFile = new File({name:req.file['originalname'], 
-                              contents: data, 
+        var aFile = new File({name:req.file['originalname'],
+                              contents: data,
                               mimetype:  mime.lookup(req.file['originalname']),
                               customer: req.body.customer,
                               trailer_id: req.body._id});
 
         aFile.save(function (err) {
-          if (err) 
+          if (err)
           {
             console.log('ERROR saving a file!!');
 
             res.setHeader('content-type', 'application/json');
             res.writeHead(200);
             res.end('{"error":"'+err+'"}');
-          } else 
+          } else
           {
             console.log("File was saved successfully!");
-          
+
             Trailer.find({_id: req.body._id}, function(err, docs){
               var foundTrailer = docs[0];
               if (foundTrailer.numberofsupportingdocuments == undefined ||
@@ -314,7 +282,7 @@ if (req.file['size'] <= 100000)
                 foundTrailer.numberofsupportingdocuments++;
               }
 
-              Trailer.findOneAndUpdate({_id: req.body._id}, foundTrailer, {}, 
+              Trailer.findOneAndUpdate({_id: req.body._id}, foundTrailer, {},
                   function(err, doc){
                     res.redirect('#/viewdocumentupload/'+req.body._id+'/filesizeok');
 /*                    res.setHeader('content-type', 'application/json');
@@ -328,7 +296,7 @@ if (req.file['size'] <= 100000)
             }); // end Trailer.find
 
           } // end else
-          
+
         });
 
 
@@ -407,7 +375,7 @@ function sendOutDailyEmails()
           for (var j = 0; j < usernames.length; j++)
           {
 
-            sendAnEmail(usernames[j], "Fleet Repair Solutions Daily 100% Complete Rows.", 
+            sendAnEmail(usernames[j], "Fleet Repair Solutions Daily 100% Complete Rows.",
                     htmlTrailerTable);
           } // end for var j
         }); // end Trail.find
@@ -416,7 +384,7 @@ function sendOutDailyEmails()
     } // end else
   }); // end user.find
 
- 
+
  } // end function sendOutDailyEmails()
 
 // this snext route is called when an ADMIN logs in.
@@ -496,7 +464,7 @@ if(req.session.currentuser.customer == "ADMIN")
         console.log("------------- "+currTrailer.whentobearchived +" < " + rightNow);
 
                 Trailer.findOneAndRemove({'_id' : currTrailer._id}, function (err,trailer){
-                  if(err) 
+                  if(err)
                   {
                     return;
                   }
@@ -508,10 +476,10 @@ if(req.session.currentuser.customer == "ADMIN")
                   delete trailerArchive.whentobearchived;
 
                   trailerArchive.save(function (err) {
-                    if (err) 
+                    if (err)
                     {
                       console.log('ERROR saving trailer archive!!');
-                    } else 
+                    } else
                     {
                       console.log("Trailer Archive saved successfully!");
                       if (trailerArchive.numberofsupportingdocuments != undefined &&
@@ -535,7 +503,7 @@ if(req.session.currentuser.customer == "ADMIN")
                           });
                       }
                     }
-                    
+
                   });
 
                 }); // end Trailer.findOneAndRemove
@@ -564,7 +532,7 @@ app.get("/activate", function(req, res) {
 
           user.activated = true;
           user.save();
-  });  
+  });
 });
 
 app.get("/logout", function(req, res) {
@@ -625,7 +593,7 @@ console.log('2.  jsonString == '+jsonString);
 console.log('3.  found a user');
                 // login was successful if we have a user
                 if (user && user.activated) {
-console.log('4.  user is valid and activated');                  
+console.log('4.  user is valid and activated');
                     // handle login success
                     res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
@@ -707,24 +675,24 @@ function sendIfNoSSLRequired(page_path, req, res)
   console.log('called /newAdmin!!!!!!!!!!');
     sendIfNoSSLRequired(__dirname + '/newAppManager.html',req, res)
  });
- 
+
  app.get("/chat", function(req, res) {
   console.log('called /newAdmin!!!!!!!!!!');
     sendIfNoSSLRequired(__dirname + '/chat.html',req, res)
  });
- 
+
 
 function createExceldocument(trailer_data, callbackfunction)
 {
   // Create a random string of nonsense so users can't overwrite their excel files
   var token = randtoken.generate(16);
   var excelFilename = 'sample'+token+'.xlsx';
-  // Create a new workbook file in current working-path 
+  // Create a new workbook file in current working-path
   var workbook = excelbuilder.createWorkbook('./', excelFilename)
-  
-  // Create a new worksheet with 10 columns and 12 rows 
+
+  // Create a new worksheet with 10 columns and 12 rows
   var sheet1 = workbook.createSheet('Exported Customer Portal Units', 50, trailer_data.length+10);
-  
+
   var columnTitles = ["Unit #",
   "Customer",
   "Account",
@@ -770,12 +738,12 @@ function createExceldocument(trailer_data, callbackfunction)
     sheet1.set(11, j+3, currentTrailer.status3);
   }
 
-  // Fill some data 
+  // Fill some data
 /*  sheet1.set(1, 1, 'I am title');
   for (var i = 2; i < 5; i++)
     sheet1.set(i, 1, 'test'+i);
-*/  
-  // Save it 
+*/
+  // Save it
   workbook.save(function(ok){
 /*    if (!ok) {
       console.log('           workbook canceling ok == '+ok);
@@ -784,7 +752,7 @@ function createExceldocument(trailer_data, callbackfunction)
     else {
 */      console.log('------------congratulations, your workbook created');
       callbackfunction(excelFilename);
-      
+
 /*    }*/
   });
 
@@ -793,7 +761,7 @@ function createExceldocument(trailer_data, callbackfunction)
 
 
 app.get("/FleetRepairSolutionsPortalData.xlsx", function(req, res) {
-  
+
 
   var trailerRay = [];
 console.log("------------------ req.query.searchTerm == "+req.query.searchTerm);
@@ -815,7 +783,7 @@ if(req.session.currentuser.customer == "ADMIN")
     orclausearray.push({estimatedtimeofcompletion: new RegExp(searchStringArray[i])})
     orclausearray.push({status1: new RegExp(searchStringArray[i])})
     orclausearray.push({status2: new RegExp(searchStringArray[i])})
-    orclausearray.push({status3: new RegExp(searchStringArray[i])})  
+    orclausearray.push({status3: new RegExp(searchStringArray[i])})
   }
   var orclause =  {$or: orclausearray}
   // var orclause =  {$or: [{status1: new RegExp('^10%', "i")}]}
@@ -839,7 +807,7 @@ if(req.session.currentuser.customer == "ADMIN")
         res.writeHead(200);
 */        //res.end(JSON.stringify(trailerRay));
         console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
-        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)  
+        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)
       });
 
     }
@@ -861,7 +829,7 @@ if(req.session.currentuser.customer == "ADMIN")
     orclausearray.push({estimatedtimeofcompletion: new RegExp(searchStringArray[i])})
     orclausearray.push({status1: new RegExp(searchStringArray[i])})
     orclausearray.push({status2: new RegExp(searchStringArray[i])})
-    orclausearray.push({status3: new RegExp(searchStringArray[i])})  
+    orclausearray.push({status3: new RegExp(searchStringArray[i])})
   }
 
   var orclause =  {$or: orclausearray}
@@ -885,7 +853,7 @@ if(req.session.currentuser.customer == "ADMIN")
         res.writeHead(200);
 */        //res.end(JSON.stringify(trailerRay));
         console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
-        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)  
+        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)
       });
     }
   });
@@ -901,7 +869,7 @@ if(req.session.currentuser.customer == "ADMIN")
 
 
  });
- 
+
 app.get("/trailers", function(req, res) {
   var trailerRay = [];
 
@@ -945,7 +913,7 @@ if(req.session.currentuser.customer == "ADMIN")
 } // END IF
 
 });
- 
+
 
 app.get("/getlotwalkthroughinstances", function(req, res) {
   var trailerRay = [];
@@ -990,14 +958,14 @@ if(req.session.currentuser.customer == "ADMIN")
 } // END IF
 
 });
- 
+
 
 
 
 
 
 app.get("/FleetRepairSolutionsOnLotPortalData.xlsx", function(req, res) {
-  
+
 
  // These are the statuses of the trailers on the lot.
   var onLotStatuses =
@@ -1037,7 +1005,7 @@ if(req.session.currentuser.customer == "ADMIN")
     orclausearray.push({estimatedtimeofcompletion: new RegExp(searchStringArray[i])})
     orclausearray.push({status1: new RegExp(searchStringArray[i])})
     orclausearray.push({status2: new RegExp(searchStringArray[i])})
-    orclausearray.push({status3: new RegExp(searchStringArray[i])})  
+    orclausearray.push({status3: new RegExp(searchStringArray[i])})
   }
   var orclause =  {$or: orclausearray}
 
@@ -1074,7 +1042,7 @@ if(req.session.currentuser.customer == "ADMIN")
         res.writeHead(200);
 */        //res.end(JSON.stringify(trailerRay));
         console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
-        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)  
+        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)
       });
 
     }
@@ -1096,7 +1064,7 @@ if(req.session.currentuser.customer == "ADMIN")
     orclausearray.push({estimatedtimeofcompletion: new RegExp(searchStringArray[i])})
     orclausearray.push({status1: new RegExp(searchStringArray[i])})
     orclausearray.push({status2: new RegExp(searchStringArray[i])})
-    orclausearray.push({status3: new RegExp(searchStringArray[i])})  
+    orclausearray.push({status3: new RegExp(searchStringArray[i])})
   }
 
   var orclause =  {$or: orclausearray}
@@ -1113,7 +1081,7 @@ if(req.session.currentuser.customer == "ADMIN")
 
   var orclause2 =  {$or: orclausearray2}
 
-  var andclause =  {$and: [orclause, orclause2, 
+  var andclause =  {$and: [orclause, orclause2,
                         {location: "FRS - (GRANTVILLE PA)"}
                         , {customer: req.session.currentuser.customer}]}
 
@@ -1135,7 +1103,7 @@ if(req.session.currentuser.customer == "ADMIN")
         res.writeHead(200);
 */        //res.end(JSON.stringify(trailerRay));
         console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
-        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)  
+        sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)
       });
     }
   });
@@ -1151,7 +1119,7 @@ if(req.session.currentuser.customer == "ADMIN")
 
 
  });
- 
+
 
 
 
@@ -1251,7 +1219,7 @@ if(req.session.currentuser.customer == "ADMIN")
 } // END IF
 
 });
- 
+
 app.get("/trailerarchives", function(req, res) {
   var trailerRay = [];
 
@@ -1295,7 +1263,7 @@ if(req.session.currentuser.customer == "ADMIN")
 } // END IF
 
 });
- 
+
 app.post("/barchartdata", function(req, res) {
   var wins2 = [
   // [0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]
@@ -1308,7 +1276,7 @@ app.post("/barchartdata", function(req, res) {
   var barchartdata = {"wins": wins2, "percents": percents2};
 
 
-    var tempChartData = [];  
+    var tempChartData = [];
     Trailer.find({status1: new RegExp('^10%', "i")}, function( err, trailers10){
       console.log( "Number of 10% Trailers:", trailers10.length );
       wins2.push([0,trailers10.length]);
@@ -1379,7 +1347,7 @@ if(req.session.currentuser.customer == "ADMIN")
       ["100% - Complete - Reserved for Driver","greenlight.png"]
     ];
 */
-    var tempChartData = [];  
+    var tempChartData = [];
     Trailer.find({status1: new RegExp('^10%', "i")}, function( err, trailers10){
       console.log( "Number of 10% Trailers:", trailers10.length );
       piechartdata.push({data: [[0,trailers10.length]], label: "10% Compelete", color:"#ff3f0b"});
@@ -1426,7 +1394,7 @@ Trailer.find({status1: new RegExp('^25%', "i")}, function( err, trailers25){
     }); // end 10%
 } else
 {
-    var tempChartData = [];  
+    var tempChartData = [];
     var andclause =  {$and: [{status1: new RegExp('^10%', "i")}, {customer: req.session.currentuser.customer}]}
     // {status1: new RegExp('^10%', "i")}
     Trailer.find(andclause, function( err, trailers10){
@@ -1521,7 +1489,7 @@ if(req.session.currentuser.customer == "ADMIN")
               var foundUser = docs[0];
               foundUser.sendemailoncompleted = userInfoJson.sendemailoncompleted;
 
-              User.findOneAndUpdate({_id: foundUser._id}, foundUser, {}, 
+              User.findOneAndUpdate({_id: foundUser._id}, foundUser, {},
                   function(err, doc){
 console.log("!!!!!!!!!!!!!!!!!!!!!!!! found and updated User /setsendemailoncompleted");
                     res.setHeader('content-type', 'application/json');
@@ -1565,7 +1533,7 @@ if(req.session.currentuser.customer == "ADMIN")
               var foundUser = docs[0];
               foundUser.senddailyemail = userInfoJson.senddailyemail;
 
-              User.findOneAndUpdate({_id: foundUser._id}, foundUser, {}, 
+              User.findOneAndUpdate({_id: foundUser._id}, foundUser, {},
                   function(err, doc){
 console.log("!!!!!!!!!!!!!!!!!!!!!!!! found and updated User /senddailyemail");
                     res.setHeader('content-type', 'application/json');
@@ -1644,7 +1612,7 @@ User.getAuthenticated(req.session.currentuser.username.toLowerCase(), userdata.c
 console.log('3.  found a user');
                 // login was successful if we have a user
                 if (user && user.activated) {
-console.log('4.  user is valid and activated');                  
+console.log('4.  user is valid and activated');
                     // handle login success
 
 
@@ -1691,7 +1659,7 @@ console.log('5. could not log in reasonCouldNotLogIn == '+reasonCouldNotLogIn);
                 res.end("{\"status\":\""+reasonCouldNotLogIn+"\"}");
 
             });  // User.getAuthenticated
-  
+
         });
     }
   } // end if
@@ -1709,8 +1677,8 @@ if(req.session.currentuser.customer == "ADMIN")
            var newTrailerObject = JSON.parse(jsonString);
 
           var statusesToSetToUndefined =
-            ["100% COMPLETE:  IN TRANSIT TO CUSTOMER", 
-            "100% COMPLETE:  READY FOR P/U", 
+            ["100% COMPLETE:  IN TRANSIT TO CUSTOMER",
+            "100% COMPLETE:  READY FOR P/U",
             "100% COMPLETE:  RESERVED"
           ];
 
@@ -1741,10 +1709,10 @@ if(req.session.currentuser.customer == "ADMIN")
 
 
             trailer.save(function (err) {
-              if (err) 
+              if (err)
               {
                 console.log('ERROR saving trailer!!');
-              } else 
+              } else
               {
                 console.log("Trailer saved successfully!");
               }
@@ -1778,10 +1746,10 @@ if(req.session.currentuser.customer == "ADMIN")
         var object = {"dateoflotwalkthrough": new Date()};
 
         LotWalkthroughInstance.create(object, function (err, lotwalkthroughinstance) {
-          if (err) 
+          if (err)
           {
             console.log('ERROR saving lotwalkthroughinstance!!');
-          } else 
+          } else
           {
             console.log("LotWalkthroughTrailerInstance saved successfully!");
 
@@ -1844,8 +1812,8 @@ if(req.session.currentuser.customer == "ADMIN")
 
 
           var statusesToSetToUndefined =
-            ["100% COMPLETE:  IN TRANSIT TO CUSTOMER", 
-            "100% COMPLETE:  READY FOR P/U", 
+            ["100% COMPLETE:  IN TRANSIT TO CUSTOMER",
+            "100% COMPLETE:  READY FOR P/U",
             "100% COMPLETE:  RESERVED"
           ];
 
@@ -1899,7 +1867,7 @@ console.log("----------------- 2");
                 res.writeHead(200);
                 res.end("{}");
               }
-console.log("numer of files found == "+docs.length);              
+console.log("numer of files found == "+docs.length);
 var count = 0;
               for (var i = 0; i < docs.length; i++)
               {
@@ -1908,20 +1876,20 @@ var count = 0;
                 foundFile.customer = newTrailerObject.customer;
 console.log("----------------- 3 foundFile.name == "+foundFile.name);
                 foundFile.save(function(err) {
-console.log(" err == "+err);                  
+console.log(" err == "+err);
                     if (err) throw err;
                     count++;
-console.log("     count == "+count);                    
+console.log("     count == "+count);
                     if (count == docs.length)
                     {
-console.log("sending back content!!!!!!!!!!!!!!!!!!!!!");                      
+console.log("sending back content!!!!!!!!!!!!!!!!!!!!!");
                       res.setHeader('content-type', 'application/json');
                       res.writeHead(200);
                       res.end("{}");
                     } // end if
                 });
 
-                /*File.findOneAndUpdate({_id: foundFile._id}, foundFile, {}, 
+                /*File.findOneAndUpdate({_id: foundFile._id}, foundFile, {},
                     function(err, doc2){
 console.log("----------------- 4");
                       if (i == docs.length-1)
@@ -1940,14 +1908,14 @@ console.log("----------------- 4");
 
             });/*            var trailer = new Trailer(newTrailerObject);
             trailer.save(function (err) {
-              if (err) 
+              if (err)
               {
                 console.log('ERROR saving trailer!!');
-              } else 
+              } else
               {
                 console.log("Trailer saved successfully!");
               }
-              
+
             });
 */
 console.log("----------------- 5");
@@ -2050,7 +2018,7 @@ console.log("\n\n-------------------------");
 console.log("         doc.customer == "+doc.customer);
 console.log("-------------------------\n\n");
                         var query = { "trailer_id": doc._id };
-                        File.update(query, { $set: { "customer": doc.customer }}, { multi: true }, 
+                        File.update(query, { $set: { "customer": doc.customer }}, { multi: true },
                           function callback (err, numAffected) {
                           // numAffected is the number of updated documents
                           counterOfTrailerObjects++;
@@ -2107,7 +2075,7 @@ if(req.session.currentuser.customer == "ADMIN")
   });
 } // end if
 });
- 
+
 app.get("/users", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
 {
@@ -2136,7 +2104,7 @@ if(req.session.currentuser.customer == "ADMIN")
   });
 } // end if
 });
- 
+
 app.post("/gettrailer", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
 {
@@ -2317,7 +2285,7 @@ if(req.session.currentuser.customer == "ADMIN")
                   fs.writeFile(filenamewithpath, obj.contents, function (err) {
                     if (err) return console.log(err);
                     console.log('Hello World > helloworld.txt');
-    
+
                     res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
                     res.end(JSON.stringify({"filename": filename, "tokenpath": token}));
@@ -2355,7 +2323,7 @@ if(req.session.currentuser.customer == "ADMIN")
                   fs.writeFile(filenamewithpath, obj.contents, function (err) {
                     if (err) return console.log(err);
                     console.log('Hello World > helloworld.txt');
-    
+
                     res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
                     res.end(JSON.stringify({"filename": filename, "tokenpath": token}));
@@ -2396,7 +2364,7 @@ if(req.session.currentuser.customer == "ADMIN")
                   fs.writeFile(filenamewithpath, obj.contents, function (err) {
                     if (err) return console.log(err);
                     console.log('Hello World > helloworld.txt');
-    
+
                     res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
                     res.end(JSON.stringify({"filename": filename, "tokenpath": token}));
@@ -2434,7 +2402,7 @@ if(req.session.currentuser.customer == "ADMIN")
                   fs.writeFile(filenamewithpath, obj.contents, function (err) {
                     if (err) return console.log(err);
                     console.log('Hello World > helloworld.txt');
-    
+
                     res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
                     res.end(JSON.stringify({"filename": filename, "tokenpath": token}));
@@ -2508,7 +2476,7 @@ console.log("!!!!!!!!!!!executing File.find");
 
 } // end if
 });
- 
+
 
 app.post("/gettrailerarchivedocuments", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
@@ -2571,7 +2539,7 @@ console.log("!!!!!!!!!!!executing File.find");
 
 } // end if
 });
- 
+
 
 app.post("/deletetrailer", function(req, res) {
 if(req.session.currentuser.customer == "ADMIN")
@@ -2587,7 +2555,7 @@ if(req.session.currentuser.customer == "ADMIN")
            console.log("newDeleteTrailerObject._id == "+newDeleteTrailerObject._id);
 
           Trailer.findOneAndRemove({'_id' : newDeleteTrailerObject._id}, function (err,trailer){
-              
+
               File.find({ trailer_id:newDeleteTrailerObject._id }).remove( function(err) {
                 if (err) throw err;
 
@@ -2598,14 +2566,14 @@ if(req.session.currentuser.customer == "ADMIN")
           });
             //var trailer = new Trailer(newTrailerObject);
 /*            trailer.save(function (err) {
-              if (err) 
+              if (err)
               {
                 console.log('ERROR saving trailer!!');
-              } else 
+              } else
               {
                 console.log("Trailer saved successfully!");
               }
-              
+
             });
 */      });
   }
@@ -2614,16 +2582,16 @@ if(req.session.currentuser.customer == "ADMIN")
 
 app.post("/deleteuseraccount", function(req, res)
 {
-  if (req.session.currentuser.customer == "ADMIN") 
+  if (req.session.currentuser.customer == "ADMIN")
   {
-    if (req.method == 'POST') 
+    if (req.method == 'POST')
     {
       var jsonString = '';
-      req.on('data', function(data) 
+      req.on('data', function(data)
       {
         jsonString += data;
       });
-      req.on('end', function() 
+      req.on('end', function()
       {
 
         var newDeleteUserObject = JSON.parse(jsonString);
@@ -2635,18 +2603,18 @@ app.post("/deleteuseraccount", function(req, res)
 
           if(user.customer == "ADMIN")
           {
-            User.find({customer: new RegExp('ADMIN', "i")}, function(err, userAdmins) 
+            User.find({customer: new RegExp('ADMIN', "i")}, function(err, userAdmins)
             {
-              if (userAdmins.length > 1) 
+              if (userAdmins.length > 1)
               {
 
-                User.findOneAndRemove({'username': newDeleteUserObject.email}, 
-                    function(err, user) 
+                User.findOneAndRemove({'username': newDeleteUserObject.email},
+                    function(err, user)
                     {
-                      if (err) 
+                      if (err)
                       {
                           console.log("ERROR in /deleteuseraccount")
-                      } else 
+                      } else
                       {
                           console.log("COMPLETED /deleteuseraccount successfully")
 
@@ -2661,13 +2629,13 @@ app.post("/deleteuseraccount", function(req, res)
           else
           {
             // User we are deleting isn't and ADMIN
-            User.findOneAndRemove({'username': newDeleteUserObject.email}, 
-                function(err, user) 
+            User.findOneAndRemove({'username': newDeleteUserObject.email},
+                function(err, user)
                 {
-                  if (err) 
+                  if (err)
                   {
                       console.log("ERROR in /deleteuseraccount")
-                  } else 
+                  } else
                   {
                       console.log("COMPLETED /deleteuseraccount successfully")
 
@@ -2695,16 +2663,16 @@ app.post("/deleteuseraccount", function(req, res)
 // this route is used by the table to delete a user
 app.post("/deleteuser", function(req, res)
 {
-  if (req.session.currentuser.customer == "ADMIN") 
+  if (req.session.currentuser.customer == "ADMIN")
   {
-    if (req.method == 'POST') 
+    if (req.method == 'POST')
     {
       var jsonString = '';
-      req.on('data', function(data) 
+      req.on('data', function(data)
       {
         jsonString += data;
       });
-      req.on('end', function() 
+      req.on('end', function()
       {
 
         var newDeleteUserObject = JSON.parse(jsonString);
@@ -2716,18 +2684,18 @@ app.post("/deleteuser", function(req, res)
 
           if(user.customer == "ADMIN")
           {
-            User.find({customer: new RegExp('ADMIN', "i")}, function(err, userAdmins) 
+            User.find({customer: new RegExp('ADMIN', "i")}, function(err, userAdmins)
             {
-              if (userAdmins.length > 1) 
+              if (userAdmins.length > 1)
               {
 
-                User.findOneAndRemove({_id: newDeleteUserObject._id}, 
-                    function(err, user) 
+                User.findOneAndRemove({_id: newDeleteUserObject._id},
+                    function(err, user)
                     {
-                      if (err) 
+                      if (err)
                       {
                           console.log("ERROR in /deleteuser")
-                      } else 
+                      } else
                       {
                           console.log("COMPLETED /deleteuser successfully")
 
@@ -2742,13 +2710,13 @@ app.post("/deleteuser", function(req, res)
           else
           {
             // User we are deleting isn't and ADMIN
-            User.findOneAndRemove({ _id: newDeleteUserObject._id }, 
-                function(err, user) 
+            User.findOneAndRemove({ _id: newDeleteUserObject._id },
+                function(err, user)
                 {
-                  if (err) 
+                  if (err)
                   {
                       console.log("ERROR in /deleteuser")
-                  } else 
+                  } else
                   {
                       console.log("COMPLETED /deleteuser successfully")
 
@@ -2788,14 +2756,14 @@ function getAllObjectsProperties(obj)
 app.get("/greeting", function(req, res) {
     res.setHeader('content-type', 'application/json');
     res.writeHead(200);
-  
+
     var str = getAllObjectsProperties(req.headers);
     console.log('------header properties == '+str);
     console.log('----------cookie header == '+req.headers['cookie']);
 
     console.log('============req.session.lastPage == '+req.session.lastPage);
     req.session.lastPage = '/radical';
-    
+
       if(req.headers['x-forwarded-proto'] == "https")
       {
         res.end("{\"id\":3433,\"content\":\"This is https!\"}");
@@ -2828,7 +2796,7 @@ function sendOneTrailerEmailWhenComplete(trailer)
   User.find({customer: trailer.customer,sendemailoncompleted: true}, function(err, users){
     for (var i = 0; i < users.length; i++)
     {
-      sendAnEmail(users[i].username, "Unit "+trailer.unitnumber+" marked 100% Complete", 
+      sendAnEmail(users[i].username, "Unit "+trailer.unitnumber+" marked 100% Complete",
                   buildHTMLTrailerTable([trailer]));
     }
   }); // end User.find

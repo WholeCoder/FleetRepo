@@ -5,7 +5,7 @@ var express = require('express'),
     http = require('http').Server(app),
     io = require('socket.io')(http),
 
-    path = require('path'),    
+    path = require('path'),
     User = require('./user-model'),
     Token = require('./token-model'),
     Trailer = require('./trailer-model'),
@@ -14,10 +14,10 @@ var express = require('express'),
     url = require('url'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session);
- 
+
 // ** MUST set this as a config variable on the heroku.com website **
 var DISABLE_SSL = process.env.ENVIRONMENT == 'local_development';
-var ENVIRONMENT = "remote_developmeent";/*process.env.ENVIRONMENT*/;
+var ENVIRONMENT = "local_development";/*process.env.ENVIRONMENT*/;
 
 var mongodbconnectionstring = "mongodb://localhost/test";
 
@@ -59,8 +59,8 @@ var token = randtoken.generate(16);
 
 // create a user a new user
 var testUser = new User({
-    username: 'test',
-    password: 'test',
+    username: 'jpierich1985@gmail.com',
+    password: 'qwertyuiop',
     customer: 'ADMIN',
     activated: true,
     activationtoken: token
@@ -68,6 +68,6 @@ var testUser = new User({
 
 testUser.save(function(err) {
     if (err) throw err;
-console.log('could not save testUser!');
+console.log('could not save testUser! '+err);
     //sendAnEmail(u.email, req, res, token);
 });
