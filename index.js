@@ -597,7 +597,7 @@ function sendIfNoSSLRequired(page_path, req, res)
  });
 
 
-function createExceldocument(trailer_data, callbackfunction)
+function createExceldocument(trailer_data, callbackfunction, removeDateRSNotified)
 {
   // Create a random string of nonsense so users can't overwrite their excel files
   var token = randtoken.generate(16);
@@ -608,15 +608,22 @@ function createExceldocument(trailer_data, callbackfunction)
   // Create a new worksheet with 10 columns and 12 rows
   var sheet1 = workbook.createSheet('Exported Customer Portal Units', 50, trailer_data.length+10);
 
-  var columnTitles = ["Unit #",
-  "Customer",
-  "Account",
-  "Vehicle Type",
-  "Location",
-  "Date RS Notified",
-  "Date Approved",
-  "Estimated Time of Completion",
-  "Status"]
+  var columnTitles = [];
+
+  columnTitles.push("Unit #");
+  columnTitles.push("Customer");
+  columnTitles.push("Account");
+  columnTitles.push("Vehicle Type");
+  columnTitles.push("Location");
+  
+  if (!removeDateRSNotified)
+  {
+    columnTitles.push("Date RS Notified");
+  }
+  
+  columnTitles.push("Date Approved");
+  columnTitles.push("Estimated Time of Completion");
+  columnTitles.push("Status");
 
   for (var i = 0; i < columnTitles.length; i++)
   {
@@ -629,28 +636,54 @@ function createExceldocument(trailer_data, callbackfunction)
 
     var widthOfEachColumn = 30;
 
-    sheet1.width(1, widthOfEachColumn);
-    sheet1.set(1, j+3,currentTrailer.unitnumber);
-    sheet1.width(2, widthOfEachColumn);
-    sheet1.set(2, j+3, currentTrailer.customer);
-    sheet1.width(3, widthOfEachColumn);
-    sheet1.set(3, j+3, currentTrailer.account);
-    sheet1.width(4, widthOfEachColumn);
-    sheet1.set(4, j+3, currentTrailer.vehicletype);
-    sheet1.width(5, widthOfEachColumn);
-    sheet1.set(5, j+3, currentTrailer.location);
-    sheet1.width(6, widthOfEachColumn);
-    sheet1.set(6, j+3, currentTrailer.datersnotified);
-    sheet1.width(7, widthOfEachColumn);
-    sheet1.set(7, j+3, currentTrailer.dateapproved);
-    sheet1.width(8, widthOfEachColumn);
-    sheet1.set(8, j+3, currentTrailer.estimatedtimeofcompletion);
-    sheet1.width(9, widthOfEachColumn);
-    sheet1.set(9, j+3, currentTrailer.status1);
-    sheet1.width(10, widthOfEachColumn);
-    sheet1.set(10, j+3, currentTrailer.status2);
-    sheet1.width(11, widthOfEachColumn);
-    sheet1.set(11, j+3, currentTrailer.status3);
+    var columnNumber = 1;
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3,currentTrailer.unitnumber);
+    columnNumber++;
+
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3, currentTrailer.customer);
+    columnNumber++;
+
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3, currentTrailer.account);
+    columnNumber++;
+
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3, currentTrailer.vehicletype);
+    columnNumber++;
+
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3, currentTrailer.location);
+    columnNumber++;
+
+    if (!removeDateRSNotified)
+    {
+      sheet1.width(columnNumber, widthOfEachColumn);
+      sheet1.set(columnNumber, j+3, currentTrailer.datersnotified);
+      columnNumber++;
+    }
+    
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3, currentTrailer.dateapproved);
+    columnNumber++;
+
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3, currentTrailer.estimatedtimeofcompletion);
+    columnNumber++;
+
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3, currentTrailer.status1);
+    columnNumber++;
+
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3, currentTrailer.status2);
+    columnNumber++;
+
+    sheet1.width(columnNumber, widthOfEachColumn);
+    sheet1.set(columnNumber, j+3, currentTrailer.status3);
+    columnNumber++;
+
   }
 
   // Fill some data
@@ -708,12 +741,13 @@ if(req.session.currentuser.customer == "ADMIN")
       trailerRay = docs;
       console.log('            got all Trailer documents length = '+trailerRay.length);
       // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+      var removeDateRSNotified = false;
       createExceldocument(trailerRay, function(excelFilename) {
         console.log("           in createExelDocument callback -----sending xsl file");
         //res.end(JSON.stringify(trailerRay));
         console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
         sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)
-      });
+      }, removeDateRSNotified);
 
     }
   });
@@ -729,7 +763,7 @@ if(req.session.currentuser.customer == "ADMIN")
     orclausearray.push({account: new RegExp(searchStringArray[i])})
     orclausearray.push({vehicletype: new RegExp(searchStringArray[i])})
     orclausearray.push({location: new RegExp(searchStringArray[i])})
-    orclausearray.push({datersnotified: new RegExp(searchStringArray[i])})
+    // orclausearray.push({datersnotified: new RegExp(searchStringArray[i])})
     orclausearray.push({dateapproved: new RegExp(req.query.searchTerm)})
     orclausearray.push({estimatedtimeofcompletion: new RegExp(searchStringArray[i])})
     orclausearray.push({status1: new RegExp(searchStringArray[i])})
@@ -752,12 +786,13 @@ if(req.session.currentuser.customer == "ADMIN")
     {
       trailerRay = docs;
       // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
+      var removeDateRSNotified = true;
       createExceldocument(trailerRay, function(excelFilename) {
         console.log("           in createExelDocument callback -----sending xsl file");
         //res.end(JSON.stringify(trailerRay));
         console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
         sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)
-      });
+      },removeDateRSNotified);
     }
   });
 } // END IF
