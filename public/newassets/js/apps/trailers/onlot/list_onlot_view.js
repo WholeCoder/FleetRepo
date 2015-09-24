@@ -12,7 +12,7 @@ FleetRepManager.module("TrailersApp.OnLot", function(OnLot, FleetRepManager, Bac
 
   OnLot.CustomerOnLotTrailer = Marionette.ItemView.extend({
     tagName: "tr",
-    template: "#trailer-onlot-list-item",
+    template: "#trailer-onlot-customer-list-item",
 
     triggers: {
 /*      "click td a.js-edit": "trailer:edit",
@@ -37,7 +37,7 @@ FleetRepManager.module("TrailersApp.OnLot", function(OnLot, FleetRepManager, Bac
   OnLot.CustomerOnLotTrailers = Marionette.CompositeView.extend({
     tagName: "table",
     className: "tablesorter table table-striped table-bordered table-hover",
-    template: "#trailer-onlot-list",
+    template: "#trailer-onlot-customer-list",
     emptyView: NoTrailersView,
     childView: OnLot.CustomerOnLotTrailer,
     childViewContainer: "tbody",
@@ -55,7 +55,7 @@ FleetRepManager.module("TrailersApp.OnLot", function(OnLot, FleetRepManager, Bac
       "change .js-accountsortbox": "clickedSortBox",
       "change .js-vehicletypesortbox": "clickedSortBox",
       "change .js-locationsortbox": "clickedSortBox",
-      "change .js-datersnotifiedsortbox": "clickedSortBox",
+      // "change .js-datersnotifiedsortbox": "clickedSortBox",
       "change .js-dateapprovedsortbox": "clickedSortBox",
       "change .js-estimatedtimeofcompletesortbox": "clickedSortBox",
       "change .js-statussortbox": "clickedSortBox",
@@ -147,10 +147,10 @@ FleetRepManager.module("TrailersApp.OnLot", function(OnLot, FleetRepManager, Bac
         this.sortClassObject["js-accountsortbox"] = 2;
         this.sortClassObject["js-vehicletypesortbox"] = 3;
         this.sortClassObject["js-locationsortbox"] = 4;
-        this.sortClassObject["js-datersnotifiedsortbox"] = 5;
-        this.sortClassObject["js-dateapprovedsortbox"] = 6;
-        this.sortClassObject["js-estimatedtimeofcompletesortbox"] = 7;
-        this.sortClassObject["js-statussortbox"] = 8;
+        // this.sortClassObject["js-datersnotifiedsortbox"] = 5;
+        this.sortClassObject["js-dateapprovedsortbox"] = 5;
+        this.sortClassObject["js-estimatedtimeofcompletesortbox"] = 6;
+        this.sortClassObject["js-statussortbox"] = 7;
     },
 
     onRenderCollection: function(){

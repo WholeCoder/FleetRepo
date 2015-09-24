@@ -322,7 +322,7 @@ console.log(" successfully got /gettrailer");
       "change .js-accountsortbox": "clickedSortBox",
       "change .js-vehicletypesortbox": "clickedSortBox",
       "change .js-locationsortbox": "clickedSortBox",
-      "change .js-datersnotifiedsortbox": "clickedSortBox",
+      // "change .js-datersnotifiedsortbox": "clickedSortBox",
       "change .js-dateapprovedsortbox": "clickedSortBox",
       "change .js-estimatedtimeofcompletesortbox": "clickedSortBox",
       "change .js-statussortbox": "clickedSortBox",
@@ -414,10 +414,10 @@ console.log(" successfully got /gettrailer");
         this.sortClassObject["js-accountsortbox"] = 2;
         this.sortClassObject["js-vehicletypesortbox"] = 3;
         this.sortClassObject["js-locationsortbox"] = 4;
-        this.sortClassObject["js-datersnotifiedsortbox"] = 5;
-        this.sortClassObject["js-dateapprovedsortbox"] = 6;
-        this.sortClassObject["js-estimatedtimeofcompletesortbox"] = 7;
-        this.sortClassObject["js-statussortbox"] = 8;
+        // this.sortClassObject["js-datersnotifiedsortbox"] = 5;
+        this.sortClassObject["js-dateapprovedsortbox"] = 5;
+        this.sortClassObject["js-estimatedtimeofcompletesortbox"] = 6;
+        this.sortClassObject["js-statussortbox"] = 7;
     },
 
     onRenderCollection: function(){
