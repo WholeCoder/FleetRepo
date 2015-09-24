@@ -1,3 +1,31 @@
+
+// ** MUST set this as a config variable on the heroku.com website **
+var DISABLE_SSL = process.env.ENVIRONMENT == 'local_development';
+var ENVIRONMENT = process.env.ENVIRONMENT;
+
+var mongodbconnectionstring = "mongodb://localhost/test";
+
+console.log("ENVIRONMENT == "+ENVIRONMENT);
+console.log("DISABLE_SSL == "+DISABLE_SSL);
+
+
+if (DISABLE_SSL && ENVIRONMENT == 'local_development') // on development
+{
+  console.log("!!!!!!!DISABLE_SSL was set - admin app won't be encrypted!!!!!!")
+  console.log("setting connection to local mongodb!!!!!!!!!!!!");
+  mongodbconnectionstring = "mongodb://localhost/test";
+} else if (ENVIRONMENT == 'remote_developmeent') // on testing site
+{
+  mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds047802.mongolab.com:47802/heroku_dswxx1s9";
+} else if (ENVIRONMENT == 'production')
+{
+  require('newrelic');
+  mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds027293-a0.mongolab.com:27293,ds027293-a1.mongolab.com:27293/heroku_qlr988hb?replicaSet=rs-ds027293";
+} else
+{
+  console.log("!!CONFIG ERROR - ENVIRONMENT system variable not found.  Can not set mongodb variable!!!!")
+}
+
 var express = require('express'),
     cookieParser = require('cookie-parser'),
     app = express(),
@@ -30,34 +58,6 @@ var express = require('express'),
     url = require('url'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session);
-
-// ** MUST set this as a config variable on the heroku.com website **
-var DISABLE_SSL = process.env.ENVIRONMENT == 'local_development';
-var ENVIRONMENT = process.env.ENVIRONMENT;
-
-var mongodbconnectionstring = "mongodb://localhost/test";
-
-console.log("ENVIRONMENT == "+ENVIRONMENT);
-console.log("DISABLE_SSL == "+DISABLE_SSL);
-
-
-if (DISABLE_SSL && ENVIRONMENT == 'local_development') // on development
-{
-  console.log("!!!!!!!DISABLE_SSL was set - admin app won't be encrypted!!!!!!")
-  console.log("setting connection to local mongodb!!!!!!!!!!!!");
-  mongodbconnectionstring = "mongodb://localhost/test";
-} else if (ENVIRONMENT == 'remote_developmeent') // on testing site
-{
-  mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds047802.mongolab.com:47802/heroku_dswxx1s9";
-} else if (ENVIRONMENT == 'production')
-{
-  require('newrelic');
-  mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds027293-a0.mongolab.com:27293,ds027293-a1.mongolab.com:27293/heroku_qlr988hb?replicaSet=rs-ds027293";
-} else
-{
-  console.log("!!CONFIG ERROR - ENVIRONMENT system variable not found.  Can not set mongodb variable!!!!")
-}
-
 
 
 var mongoose = require ("mongoose");
