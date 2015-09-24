@@ -2675,7 +2675,7 @@ function buildHTMLTrailerTable(trailers)
   htmlString += '   <th>Account</th>';
   htmlString += '   <th>Vehicle Type</th>';
   htmlString += '   <th>Location</th>';
-  htmlString += '   <th>Date RS Notified</th>';
+  // htmlString += '   <th>Date RS Notified</th>';
   htmlString += '   <th>Date Approved</th>';
   htmlString += '   <th>Estimated Time of Completion</th>';
   htmlString += '   <th>Status</th>';
@@ -2693,7 +2693,7 @@ function buildHTMLTrailerTable(trailers)
     htmlString += '   <td>'+currentTrailer.account+'</td>';
     htmlString += '   <td>'+currentTrailer.vehicletype+'</td>';
     htmlString += '   <td>'+currentTrailer.location+'</td>';
-    htmlString += '   <td>'+currentTrailer.datersnotified+'</td>';
+    // htmlString += '   <td>'+currentTrailer.datersnotified+'</td>';
     htmlString += '   <td>'+currentTrailer.dateapproved+'</td>';
     htmlString += '   <td>'+currentTrailer.estimatedtimeofcompletion+'</td>';
     htmlString += '   <td>'+currentTrailer.status1+'<br />'+currentTrailer.status2+'<br />'+currentTrailer.status3+'</td>';
