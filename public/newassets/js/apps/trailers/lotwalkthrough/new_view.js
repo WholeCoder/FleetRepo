@@ -172,6 +172,7 @@ FleetRepManager.module("TrailersApp.NewLotWalkthrough", function(NewLotWalkthrou
           this.$( ".js-location" ).autocomplete({
             source: locationsTags
           });
+          this.$( ".js-location" ).val("FRS - (GRANTVILLE PA)");
 
     },
 
@@ -219,7 +220,7 @@ console.log('LotWalkthrough trailer data == '+JSON.stringify(data));
      }
 
      var lengthOfModelsArray = FleetRepManager.lot_walkthrough_trailers.models.length;
-     data._id = "newrecordid"+lengthOfModelsArray.length;
+     data._id = "newrecordid"+lengthOfModelsArray;
      data.updatedalready = true;
      
      FleetRepManager.lot_walkthrough_trailers.models.push(new FleetRepManager.TrailersOnLot(data));

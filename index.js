@@ -1866,13 +1866,18 @@ console.log("/updateonlottrailers - jsonString == "+jsonString);
                     }
                     var trailerid = newTrailerObjectsArray[k]._id;
                     delete newTrailerObjectsArray[k]._id;
+console.log("trailerid == "+trailerid);
+                    var query = {_id: trailerid};
+                    if (query._id.indexOf('newrecordid') > -1) {
+                        query._id = new mongoose.mongo.ObjectID();
+console.log("found correct trailerid - setting _id == "+query._id);                        
+                    }
 
                     console.log("----------------------customer before update findOne - custuer == "+newTrailerObjectsArray[k].customer);
-                    Trailer.findOneAndUpdate({
-                        _id: trailerid
-                    }, newTrailerObjectsArray[k], { 'new': true },function(err, doc) {
+                    Trailer.findOneAndUpdate(query, newTrailerObjectsArray[k], { 'new': true, 'upsert': true },function(err, doc) {
                         if (err) {
                             console.log("ERROR - could not find and update the trailer with _id == " + newTrailerObject._id);
+                            console.log("     ERROR was == "+err);
                         } else {
                           console.log('     found a unit with unitnumber == '+doc.unitnumber);
 
