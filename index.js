@@ -977,7 +977,7 @@ if(req.session.currentuser.customer == "ADMIN")
         //res.end(JSON.stringify(trailerRay));
         console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
         sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)
-      });
+      },false); // false keeps RS Notified
 
     }
   });
@@ -1036,7 +1036,7 @@ if(req.session.currentuser.customer == "ADMIN")
         //res.end(JSON.stringify(trailerRay));
         console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/'+excelFilename));
         sendIfNoSSLRequired(path.join(__dirname, '/'+excelFilename),req, res)
-      });
+      },true);// true removed Date RS Notified
     }
   });
 } // END IF
