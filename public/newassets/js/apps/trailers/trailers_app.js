@@ -83,6 +83,11 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
       TrailersApp.New.Controller.showNewTrailerForm();
     },
 
+    showNewTrailerOnLotWalkthrough: function() {
+      console.log("showNewTrailer in controller called");
+      TrailersApp.New.Controller.showNewTrailerForm();
+    },
+
     showEditTrailer: function() {
       TrailersApp.Edit.Controller.showEditTrailerForm();
     },
@@ -153,6 +158,11 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
   FleetRepManager.on("trailers:new", function(){
     //FleetRepManager.navigate("contacts");
     API.showNewTrailer();
+  });
+
+  FleetRepManager.on("newtraileronlotwalkthrough:new", function(){
+    //FleetRepManager.navigate("contacts");
+    API.showNewTrailerOnLotWalkthrough();
   });
 
   FleetRepManager.on("trailers:edit", function(){

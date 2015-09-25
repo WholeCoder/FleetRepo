@@ -115,6 +115,7 @@ LotWalkthrough.LotWalkthroughTrailers = Marionette.CompositeView.extend({
     events: {
       "click a": "disableLink",
       "click .js-submit": "commitAndSaveAllChanges",
+      "click .js-addnewtrailer": "addANewTrailer",
       
       "change .js-unitnumbersortbox": "clickedSortBox",
       "change .js-customersort": "clickedSortBox",
@@ -127,6 +128,11 @@ LotWalkthrough.LotWalkthroughTrailers = Marionette.CompositeView.extend({
       "change .js-statussortbox": "clickedSortBox",
 
       "click th.js-resetsort" : "clickedSortLinkSoReset"
+    },
+
+    addANewTrailer: function(event) {
+      event.preventDefault();
+      FleetRepManager.trigger("newtraileronlotwalkthrough:new");
     },
 
     commitAndSaveAllChanges: function(event) {
