@@ -1,5 +1,5 @@
-FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, VapeBookManager, Backbone, Marionette, $, _){
-  LotWalkthrough.Trailer = Marionette.ItemView.extend({
+FleetRepManager.module("TrailersApp.NewLotWalkthrough", function(NewLotWalkthrough, VapeBookManager, Backbone, Marionette, $, _){
+  NewLotWalkthrough.Trailer = Marionette.ItemView.extend({
     title: "LotWalkthrough Trailer",
 
     template: "#trailer-form",

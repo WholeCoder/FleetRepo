@@ -85,7 +85,7 @@ FleetRepManager.module("TrailersApp", function(TrailersApp, FleetRepManager, Bac
 
     showNewTrailerOnLotWalkthrough: function() {
       console.log("showNewTrailer in controller called");
-      TrailersApp.New.Controller.showNewTrailerForm();
+      TrailersApp.NewLotWalkthrough.Controller.showNewOnLotTrailerForm();
     },
 
     showEditTrailer: function() {
