@@ -41,6 +41,9 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
       var trailersListLayout = new List.Layout();
       var noTrailersView = new List.NoTrailersView();
 
+
+      $('#searchInput').val("");
+
       FleetRepManager.regions.table.show(noTrailersView);
       
 $.when(fetchingTrailers).done(function(trailers){
