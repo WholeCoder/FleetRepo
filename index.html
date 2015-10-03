@@ -2822,6 +2822,10 @@
                     FleetRepManager.doAutoUpdateTable = false;
                     FleetRepManager.autoUpdateTimerID = setInterval(function()
                         {
+
+                          $('#searchInput').val("");
+                          $('#searchInputDoWalkthrough').val("");
+
                           if(FleetRepManager.admin)
                           {
                             FleetRepManager.trigger("trailers:list");
