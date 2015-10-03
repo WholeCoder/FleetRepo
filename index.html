@@ -1304,7 +1304,7 @@
               </span>
             </span>
         </th>
-        <th colspan="2" align="center" class="js-resetsort">
+        <th colspan="1" align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -1316,6 +1316,8 @@
                 </span>
               </span>
             </span>
+        </th>
+        <th>
         </th>
         <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
@@ -1381,11 +1383,16 @@
             <option value="1">1</option>
           </select>
         </th>
-        <th colspan="2">
+        <th colspan="1">
           <select style="width:60px;" class="js-statussortbox">
             <option value=""></option>
             <option value="1">1</option>
           </select>
+        </th>
+        <th>
+        </th>
+        <th>
+          <!-- Supporting Documents -->
         </th>
       </tr>
    </thead>
@@ -1504,7 +1511,7 @@
               </span>
             </span>
         </th>
-        <th colspan="2" align="center" class="js-resetsort">
+        <th colspan="1" align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -1516,6 +1523,8 @@
                 </span>
               </span>
             </span>
+        </th>
+        <th>
         </th>
         <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
@@ -1581,11 +1590,15 @@
             <option value="1">1</option>
           </select>
         </th>
-        <th colspan="2">
+        <th colspan="1">
           <select style="width:60px;" class="js-statussortbox">
             <option value=""></option>
             <option value="1">1</option>
           </select>
+        </th>
+        <th>
+        </th>
+        <th>
         </th>
       </tr>
    </thead>
@@ -1903,7 +1916,7 @@
               </span>
             </span>
         </th>
-        <th colspan="2" align="center" class="js-resetsort">
+        <th colspan="1" align="center" class="js-resetsort">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
               <span style="color:black;width:80px;" class="tooltip-item">
                   <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
@@ -1915,6 +1928,8 @@
                 </span>
               </span>
             </span>
+        </th>
+        <th>
         </th>
         <th align="center">
             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
@@ -1981,12 +1996,15 @@
             <option value="1">1</option>
           </select>
         </th>
-        <th colspan="2">
+        <th colspan="1">
           <select style="width:60px;" class="js-statussortbox">
             <option value=""></option>
             <option value="1">1</option>
           </select>
         </th>
+        <th>
+        </th>
+        <th>
       </tr>
    </thead>
    <tbody id="fbody">
@@ -2664,6 +2682,8 @@
 
         FleetRepManager.showArchiveLinks = function(isOnlot) {
           $('.js-backtotrailerlist').show();
+          $('#searchInput').val("");
+          $('#searchInputDoWalkthrough').val("");
 
           if (isOnlot)
           {
@@ -2697,6 +2717,12 @@
         FleetRepManager.showDoLotWalthroughLinks = function() {
           $('.js-backtotrailerlist').hide();
           $('.js-backtotrailerlistfromlotwalkthrough').show();          
+
+          $('#searchInput').val("");
+          $('#searchInputDoWalkthrough').val("");
+
+          $('#searchInput').val("");
+          $('#searchInputDoWalkthrough').val("");
 
           $('#lotwalkthroughtext').show();
           $('#searchInputDoWalkthrough').show();
@@ -2804,7 +2830,7 @@
                           {
                             FleetRepManager.trigger("trailerscustomer:list");
                             FleetRepManager.loadCharts();
-                            FleetRepManager.hideAdminLinks();
+                            // FleetRepManager.hideAdminLinks();
                           }
                         }, 30000);
                     //return confirm("Are you sure?");
@@ -2832,6 +2858,9 @@
             $( "#manualrefresh" ).on( "click", function(event) {
               event.preventDefault();
 
+              $('#searchInput').val("");
+              $('#searchInputDoWalkthrough').val("");
+
               if(FleetRepManager.admin)
               {
                 FleetRepManager.trigger("trailers:list");
@@ -2840,7 +2869,7 @@
               {
                 FleetRepManager.trigger("trailerscustomer:list");
                 FleetRepManager.loadCharts();
-                FleetRepManager.hideAdminLinks();
+                // FleetRepManager.hideAdminLinks();
               }
             });   
 
@@ -2888,11 +2917,17 @@
                   FleetRepManager.showAdminLinks();
                   FleetRepManager.loadCharts();
                   FleetRepManager.trigger("trailers:list");
+                  
+                  $('#searchInput').val("");
+                  $('#searchInputDoWalkthrough').val("");
                 }
               }
             });   
 
             $('.js-backtotrailerlist').on("click", function(event) {
+              $('#searchInput').val("");
+              $('#searchInputDoWalkthrough').val("");
+
               if (FleetRepManager.admin)
               {
                 FleetRepManager.showAdminLinks();

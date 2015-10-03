@@ -17,7 +17,7 @@ FleetRepManager.module("TrailersApp.ListArchive", function(ListArchive, FleetRep
                 trailersListLayout.trailersRegion.show(contactsListView);
 
                 // sort by status
-                $("#myTable").tablesorter({sortList: [[8,1]]});
+                $("#myTable").tablesorter({sortList: [[7,1]]});
                 $("#searchInput").keyup(function () {
                     var rows = $("#fbody").find("tr").hide();
                     if (this.value.length) {
@@ -27,6 +27,9 @@ FleetRepManager.module("TrailersApp.ListArchive", function(ListArchive, FleetRep
                         });
                     } else rows.show();
                 });
+                
+                $('#searchInput').val("");
+                $('#searchInputDoWalkthrough').val("");
 
                 $('[data-toggle="tooltip"]').tooltip();
               });

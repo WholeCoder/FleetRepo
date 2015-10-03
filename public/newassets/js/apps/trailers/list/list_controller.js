@@ -17,7 +17,7 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
                 trailersListLayout.trailersRegion.show(contactsListView);
 
                 // sort by status
-                $("#myTable").tablesorter({sortList: [[8,1]]});
+                $("#myTable").tablesorter({sortList: [[7,1]]});
                 $("#searchInput").keyup(function () {
                     var rows = $("#fbody").find("tr").hide();
                     if (this.value.length) {
