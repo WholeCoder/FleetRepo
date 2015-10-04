@@ -56,6 +56,7 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
                       FleetRepManager.admin = true;
                       FleetRepManager.showAdminLinks();
                       FleetRepManager.loadCharts();
+                      FleetRepManager.startAutoUpdatingChartAndTable();
                       FleetRepManager.trigger("trailers:list");
                       //FleetRepManager.trigger("user:new");
                       FleetRepManager.trigger("user:listusers");
@@ -74,6 +75,7 @@ FleetRepManager.module("UserApp.Login", function(Login, VapeBookManager, Backbon
               FleetRepManager.loadCharts();
               FleetRepManager.trigger("trailerscustomer:list");
               FleetRepManager.trigger("show:letuserresetpassword");
+              FleetRepManager.startAutoUpdatingChartAndTable();
             }
           } else
           {
