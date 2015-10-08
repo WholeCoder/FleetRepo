@@ -515,13 +515,32 @@ app.post("/login", function(req, res) {
           var token = randtoken.generate(16);
           var expIn = expiresIn(3);
           //saveTokenToDatabase({email:user.username , token: token}, req, res);
-          res.end('{"email":"' + user.username.toLowerCase() + '","token":"' + token + '","expiresIn":' + expIn + ',"customer":"' + user.customer + '"}');
-          req.session.currentuser = {};
-          req.session.currentuser.username = user.username.toLowerCase();
-          req.session.currentuser.customer = user.customer;
-          req.session.save();
-          console.log("req.session.currentuser.username == " + req.session.currentuser.username.toLowerCase());
-          console.log('login success user looks like:  ' + '{"email":"' + user.username.toLowerCase() + '","token":"' + token + '","expiresIn":' + expIn + ',"customer":"' + user.customer + '"}');
+          
+          if (user.numberofsuccessfullogins == undefined
+            || user.numberofsuccessfullogins == null)
+          {
+            user.numberofsuccessfullogins = 1;
+          } else
+          {
+            user.numberofsuccessfullogins += 1;
+          }
+
+          user.save(function(err) {
+            if (err)
+            { 
+              throw err;
+              console.log ("ERROR in user.save in /login!!");
+              return;
+            }
+            
+            res.end('{"email":"' + user.username.toLowerCase() + '","token":"' + token + '","expiresIn":' + expIn + ',"customer":"' + user.customer + '"}');
+            req.session.currentuser = {};
+            req.session.currentuser.username = user.username.toLowerCase();
+            req.session.currentuser.customer = user.customer;
+            req.session.save();
+            console.log("req.session.currentuser.username == " + req.session.currentuser.username.toLowerCase());
+            console.log('login success user looks like:  ' + '{"email":"' + user.username.toLowerCase() + '","token":"' + token + '","expiresIn":' + expIn + ',"customer":"' + user.customer + '"}');
+            });
           return;
         }
 
@@ -2169,7 +2188,8 @@ app.get("/users", function(req, res) {
             username: obj[i].username,
             customer: obj[i].customer,
             sendemailoncompleted: obj[i].sendemailoncompleted,
-            senddailyemail: obj[i].senddailyemail
+            senddailyemail: obj[i].senddailyemail,
+            numberofsuccessfullogins: obj[i].numberofsuccessfullogins
           })
         }
 

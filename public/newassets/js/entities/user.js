@@ -8,7 +8,8 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       username: "",
       customer: "",
       sendemailoncompleted: false,
-      senddailyemail: false
+      senddailyemail: false,
+      numberofsuccessfullogins: 0
     }/*,
 
     validate: function(attrs, options) {

@@ -958,6 +958,19 @@
               </span>
             </span>            
         </th>
+          <th align="center" class="js-resetsort">
+             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Number of Logins<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Number of Logins!
+                </span>
+              </span>
+            </span>            
+        </th>
         <th align="center">
           Send Email on Completed Unit
         </th>
@@ -978,6 +991,7 @@
   <script type="text/template" id="user-list-item">
     <td><%- username %></td>
     <td><%- customer %></td>
+    <td><%- numberofsuccessfullogins == undefined ? 0 : numberofsuccessfullogins %></td>
     <td><input type="checkbox" class="js-sendemailoncompleted" <%- sendemailoncompleted ? "checked" : "" %> /></td>
     <td>
       <input type="checkbox" class="js-senddailyemail" <%- senddailyemail ? "checked" : "" %> />
