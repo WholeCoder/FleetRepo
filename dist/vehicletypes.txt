@@ -1,0 +1,21 @@
+Vehicle Types - DROP DOWN BUT NO AUTOCOMPLETE
+
+<option value=""></option>
+<option value="REEFER: REEFER UNIT">REEFER: REEFER UNIT</option>
+<option value="TRAILER:  DRY VAN">TRAILER:  DRY VAN</option>
+<option value="TRAILER:  REEFER VAN">TRAILER:  REEFER VAN</option>
+<option value="TRAILER:  FLAT BED">TRAILER:  FLAT BED</option>
+<option value="TRAILER:  CONTAINER / CHASSIS">TRAILER:  CONTAINER / CHASSIS</option>
+<option value="TRACTOR:  CONDO">TRACTOR:  CONDO</option>
+<option value="TRACTOR:  DAY CAB">TRACTOR:  DAY CAB</option>
+
+
+
+
+
+
+
+
+
+
+

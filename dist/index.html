@@ -1,0 +1,3235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Fleet Repair Solutions Customer Portal</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+ -->
+
+    <link href="./newassets/css/bootstrap.css" rel="stylesheet">
+    <link href="./newassets/css/application.css" rel="stylesheet">
+    <link href="./newassets/css/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+
+    <link href="./newassets/js/vendor/datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+    <!-- Styles tooltips ith white background -->
+    <link rel="stylesheet" href="./jquery-ui.css">
+
+    <link href="./bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./justified-nav.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<!--    <script src="./Justified Nav Template for Bootstrap_files/ie-emulation-modes-warning.js"></script>
+-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <style type="text/css">
+      .blue-button-style {
+        background-color: #0205f6; color: white;
+      }
+
+
+    .container {
+      width: 2000px !important;
+    }
+
+    .btn-xs {
+      padding: 0px 0px;
+      font-size: 12px;
+      border-radius: 8px;
+    }
+    </style>
+
+    <link href="logosheenstyle.css" rel="stylesheet"></link>
+    <link rel="stylesheet" href="./theme.blue.css">
+    <link rel="stylesheet" type="text/css" href="./tooltip-classic.css" />
+ </head>
+<body style="background:url('./lightAmerican-Flag-Christian-Stock-Images.jpg')">
+
+  <script type="text/template" id="trailer-list-none">
+    <td colspan="13">No units to display.</td>
+  </script>
+
+  <script type="text/template" id="user-list-none">
+    <td colspan="13">No users to display.</td>
+  </script>
+
+  <script type="text/template" id="trailer-list-layout">
+    <div id="panel-region"></div>
+    <div id="trailers-region"></div>
+  </script>
+
+  <script type="text/template" id="trailer-list-item">
+    <td><%- unitnumber %></td>
+    <td><%- customer %></td>
+    <td><%- account %></td>
+    <td><%- vehicletype %></td>
+    <td><%- location %></td>
+    <td><%- datersnotified %></td>
+    <td><%- dateapproved %></td>
+    <td><%- estimatedtimeofcompletion %></td>
+    <td>
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status1) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status2) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status3) %><br />
+    </td>
+    <td>
+      <%- FleetRepManager.getStatusTitle(status1) %><br />
+      <%- FleetRepManager.getStatusTitle(status2) %><br />
+      <%- FleetRepManager.getStatusTitle(status3) %><br />
+    </td>
+    <td>
+    <b><%- note != undefined && note != "" && note != null ? "1 note" : "" %></b><br/>
+      <a href="#trailers/<%- _id %>/edit" class="js-edit">
+        Edit Note
+      </a><br />
+    <b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-uploaddocuments">Upload Docs</a></td>
+    <td>
+      <a href="#trailers/<%- _id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
+        <i class="icon-pencil"></i>
+        Edit
+      </a>
+    </td>
+    <td>
+      <button class="btn btn-xs btn-danger js-delete">
+        <i class="icon-remove"></i>
+        Delete
+      </button>
+    </td>
+  </script>
+
+  <script type="text/template" id="trailer-archive-list-item">
+    <td><%- unitnumber %></td>
+    <td><%- customer %></td>
+    <td><%- account %></td>
+    <td><%- vehicletype %></td>
+    <td><%- location %></td>
+    <td><%- datersnotified %></td>
+    <td><%- dateapproved %></td>
+    <td><%- estimatedtimeofcompletion %></td>
+    <td>
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status1) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status2) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status3) %><br />
+    </td>
+    <td>
+      <%- FleetRepManager.getStatusTitle(status1) %><br />
+      <%- FleetRepManager.getStatusTitle(status2) %><br />
+      <%- FleetRepManager.getStatusTitle(status3) %><br />
+    </td>
+    <td><b><%- note != undefined && note != "" && note != null ? "1 note" : "" %></b><br /><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-viewdocuments">View Documents</a></td>
+  </script>
+
+  <script type="text/template" id="trailer-archive-customer-list-item">
+    <td><%- unitnumber %></td>
+    <td><%- customer %></td>
+    <td><%- account %></td>
+    <td><%- vehicletype %></td>
+    <td><%- location %></td>
+<!--    <td><%- datersnotified %></td>-->
+    <td><%- dateapproved %></td>
+    <td><%- estimatedtimeofcompletion %></td>
+    <td>
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status1) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status2) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status3) %><br />
+    </td>
+    <td>
+      <%- FleetRepManager.getStatusTitle(status1) %><br />
+      <%- FleetRepManager.getStatusTitle(status2) %><br />
+      <%- FleetRepManager.getStatusTitle(status3) %><br />
+    </td>
+    <td><b><%- note != undefined && note != "" && note != null ? "1 note" : "" %><br /><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-viewdocuments">View Documents</a></td>
+  </script>
+
+  <script type="text/template" id="trailer-onlot-list-item">
+    <td><%- unitnumber %></td>
+    <td><%- customer %></td>
+    <td><%- account %></td>
+    <td><%- vehicletype %></td>
+    <td><%- location %></td>
+    <td><%- datersnotified %></td>
+    <td><%- dateapproved %></td>
+    <td><%- estimatedtimeofcompletion %></td>
+    <td>
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status1) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status2) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status3) %><br />
+    </td>
+    <td>
+      <%- FleetRepManager.getStatusTitle(status1) %><br />
+      <%- FleetRepManager.getStatusTitle(status2) %><br />
+      <%- FleetRepManager.getStatusTitle(status3) %><br />
+    </td>
+    <td>Coming Soon!</td>
+  </script>
+
+  <script type="text/template" id="trailer-onlot-customer-list-item">
+    <td><%- unitnumber %></td>
+    <td><%- customer %></td>
+    <td><%- account %></td>
+    <td><%- vehicletype %></td>
+    <td><%- location %></td>
+<!--    <td><%- datersnotified %></td> -->
+    <td><%- dateapproved %></td>
+    <td><%- estimatedtimeofcompletion %></td>
+    <td>
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status1) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status2) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status3) %><br />
+    </td>
+    <td>
+      <%- FleetRepManager.getStatusTitle(status1) %><br />
+      <%- FleetRepManager.getStatusTitle(status2) %><br />
+      <%- FleetRepManager.getStatusTitle(status3) %><br />
+    </td>
+    <td>Coming Soon!</td>
+  </script>
+
+  <script type="text/template" id="lotwalkthrough-list-item">
+    <td><%- unitnumber %></td>
+    <td><%- customer %></td>
+    <td><%- account %></td>
+    <td><%- vehicletype %></td>
+    <td><%- location %></td>
+    <td><%- datersnotified %></td>
+    <td><%- dateapproved %></td>
+    <td><%- estimatedtimeofcompletion %></td>
+    <td>
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status1) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status2) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status3) %><br />
+    </td>
+    <td>
+      <%- FleetRepManager.getStatusTitle(status1) %><br />
+      <%- FleetRepManager.getStatusTitle(status2) %><br />
+      <%- FleetRepManager.getStatusTitle(status3) %><br />
+    </td>
+    <td>
+      <b><%- note != undefined && note != "" && note != null ? "1 note" : "" %></b><br/>
+        <a href="#" class="js-notfoundeditlink">
+          Edit Note
+        </a>
+    </td>
+
+    <td>
+      <button class="btn btn-xs btn-danger js-notfound">
+        <i class="icon-remove"></i>
+        Not Found
+      </button>
+    </td>
+  </script>
+
+  <script type="text/template" id="view-lotwalkthrough-list-item">
+    <td><%- unitnumber %></td>
+    <td><%- customer %></td>
+    <td><%- account %></td>
+    <td><%- vehicletype %></td>
+    <td><%- location %></td>
+    <td><%- datersnotified %></td>
+    <td><%- dateapproved %></td>
+    <td><%- estimatedtimeofcompletion %></td>
+    <td>
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status1) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status2) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status3) %><br />
+    </td>
+    <td>
+      <%- FleetRepManager.getStatusTitle(status1) %><br />
+      <%- FleetRepManager.getStatusTitle(status2) %><br />
+      <%- FleetRepManager.getStatusTitle(status3) %><br />
+    </td>
+    <td>
+      <b><%- note != undefined && note != "" && note != null ? "1 note" : "" %></b>
+    </td>
+
+    <td>
+      <button class="btn btn-xs btn-danger js-notfound">
+        <i class="icon-remove"></i>
+        Not Found
+      </button>
+    </td>
+  </script>
+
+  <script type="text/template" id="trailer-customer-list-item">
+    <td><%- unitnumber %></td>
+    <td><%- customer %></td>
+    <td><%- account %></td>
+    <td><%- vehicletype %></td>
+    <td><%- location %></td>
+<!--    <td><%- datersnotified %></td> -->
+    <td><%- dateapproved %></td>
+    <td><%- estimatedtimeofcompletion %></td>
+    <td>
+      <img src="./<%- FleetRepManager.getLightImage(status1) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status1) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status2) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status2) %><br />
+      <img src="./<%- FleetRepManager.getLightImage(status3) %>" />&nbsp;&nbsp;<%- FleetRepManager.getPercentage(status3) %><br />
+    </td>
+    <td>
+      <%- FleetRepManager.getStatusTitle(status1) %><br />
+      <%- FleetRepManager.getStatusTitle(status2) %><br />
+      <%- FleetRepManager.getStatusTitle(status3) %><br />
+    </td>
+    <td><b><%- note != undefined && note != "" && note != null ? "1 note" : "" %></b><br /><b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %><br /><a class="js-downloaddocuments">View</a></b></td>
+  </script>
+
+<script type="text/template" id="new-user-form">
+   <div class="container">
+    <div class="row">
+      <form accept-charset="UTF-8" role="form">
+       <div  class="col-sm-6">
+   
+          <div class="panel panel-danger">
+             <div class="panel-heading">Create New User Account</div>
+             <div class="panel-body" style="height: 358px;">
+                <fieldset>
+                   <div>
+                      <input placeholder="E-mail" name="email" type="text" style="width:400px;">
+                   </div>
+                   <div>
+                      <input placeholder="E-mail (Confirmation)" name="emailconfirmation" type="text" style="width:400px;">
+                   </div>
+                   <div>
+                      <input placeholder="Password" name="password" type="text" value="" style="width:400px;">
+                   </div>
+                   <div>
+                      <input placeholder="Password (Confirmation)" name="passwordconfirmation" type="text" value="" style="width:400px;">
+                   </div>
+                   <div>
+                      <input placeholder="Customer" name="customer" class="js-customer" type="text" value="" style="width:400px;">
+                   </div>
+                </fieldset>
+                <p>Use the value of <b>ADMIN</b> in the <b>Customer form field</b> to give this user Administration rights (add, edit, view, delete, users and units).</p>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-submit" type="submit" value="Create New User Account"></div>
+          </div>
+
+       </div>
+       <div  class="col-sm-6">
+   
+
+          <div class="panel panel-danger">
+             <div class="panel-heading"><b>Note</b></div>
+             <div class="panel-body" style="height: 300px;">
+                
+             </div>
+             <div class="panel-footer">
+                <input class="btn btn-lg btn-danger btn-block js-cancelusercreate" type="submit" value="Cancel Create New user" />
+             </div>
+          </div>
+
+
+
+       </div>
+     </form>
+    </div>
+   </div>
+</script>
+
+<script type="text/template" id="login-form">
+   <div class="container">
+    <div class="row">
+      <div  class="col-sm-6">
+       <form accept-charset="UTF-8" role="form">
+          <div class="panel panel-danger">
+             <div class="panel-heading">Login</div>
+             <div class="panel-body" style="height: 225px;">
+                <br />
+                <br />
+                <br />
+                <br />
+                <fieldset>
+                   <div>
+                      <input placeholder="E-mail" name="email" type="text">
+                   </div>
+                   <div>
+                      <input placeholder="Password" name="password" type="password" value="">
+                   </div>
+                </fieldset>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-submit" type="submit" value="Log In"></div>
+          </div>
+       </form>
+     </div>
+     <div  class="col-sm-6">
+   
+
+          <div class="panel panel-danger">
+             <div class="panel-heading">Contact Us</div>
+             <div class="panel-body" style="height: 300px;">
+                <p><b><a href="http://www.fleetrep.net/contact/">Contact Us</a></b> if you would like access to the <br /><b><a href="http://www.fleetrep.net/"><img src="./betalogo.png" /></a> Customer Portal</b>.</p><br />
+                <img src="./call-us.png" alt="Call us">
+                (717) 469-4524
+                <p>550 Firehouse Rd.<br/>
+                  PO Box 459<br/>
+                  Grantville, PA 17028<br/>
+                  <a href="mailto:service@fleetrep.net">service@fleetrep.net</a></p/>
+             </div>
+          </div>
+
+
+
+       </div>
+    </div>
+   </div>
+</script>
+
+<script type="text/template" id="reset-user-password-form">
+   <div class="container">
+    <div class="row">
+      <form accept-charset="UTF-8" role="form">
+       <div  class="col-sm-6">
+   
+          <div class="panel panel-danger">
+             <div class="panel-heading">Reset User Password</div>
+             <div class="panel-body" style="height: 300px;">
+                <fieldset>
+                   <div>
+                      <input type="text" name="email" id="resetemail" disabled>
+                   </div>
+                   <div>
+                      <input placeholder="New Password" name="password" type="text" value="">
+                   </div>
+                   <div>
+                      <input placeholder="New Password (Confirmation)" name="passwordconfirmation" type="text" value="">
+                   </div>
+                </fieldset>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-resetuserpassword" type="submit" value="Reset User Password"></div>
+          </div>
+
+       </div>
+       <div  class="col-sm-6">
+   
+
+          <div class="panel panel-danger">
+             <div class="panel-heading"><b>Note</b></div>
+             <div class="panel-body" style="height: 300px;">
+                <p><b>*note*</b>  You will <b>need</b> to <b>call</b> or <b>text message</b> the user and tell them their new <b>password</b>.  <b>Email</b> is <b>not encrypted</b> and <b>anything</b> sent via email can be <b>seen</b> by <b>anyone</b>.</p>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-canceluserreset" type="submit" value="Cancel Reset" /></div>
+          </div>
+
+
+
+       </div>
+     </form>
+    </div>
+   </div>
+</script>
+
+
+<script type="text/template" id="let-user-reset-password-form">
+   <div class="container">
+    <div class="row">
+      <form accept-charset="UTF-8" role="form">
+       <div  class="col-sm-6">
+   
+          <div class="panel panel-danger">
+             <div class="panel-heading">Reset Your Password</div>
+             <div class="panel-body" style="height: 300px;">
+                <fieldset>
+                   <div>
+                      <input placeholder="Current Password" type="text" name="currentpassword" id="currentpassword" />
+                   </div>
+                   <div>
+                      <input placeholder="New Password" name="password" type="text" value="" />
+                   </div>
+                   <div>
+                      <input placeholder="New Password (Confirmation)" name="passwordconfirmation" type="text" value="" />
+                   </div>
+                </fieldset>
+             </div>
+             <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-resetuserpassword" type="submit" value="Reset Your Password"></div>
+          </div>
+
+       </div>
+       <div  class="col-sm-6">
+   
+
+          <div class="panel panel-danger">
+             <div class="panel-heading"><b>Note</b></div>
+             <div class="panel-body" style="height: 350px;">
+
+             </div>
+             <div class="panel-footer">
+
+             </div>
+          </div>
+
+
+
+       </div>
+     </form>
+    </div>
+   </div>
+</script>
+
+<script type="text/template" id="admin-upload-supporting-documents-form">
+
+
+
+<div class="container">
+             <div class="row">
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Supporting Documents Upload</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+<br />Unit Number:  <%- unitnumber %><br /><br />
+  <form method="POST" enctype="multipart/form-data"
+    action="/uploaddocument">
+    <input type="hidden" name="customer" value="<%- customer %>" />
+    <input type="hidden" name="_id" value="<%- _id %>" />
+    File to upload: <input type="file" name="avatar"><br /> <br /> <br /> <input type="submit"
+      value="Upload"> Press here to upload the file!
+  </form>
+
+                     </div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-doneuploadingdocuments" type="submit" value="Done" /></div>
+                  </div>
+
+                </div>
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Supporting Documents</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+<div class="js-currentfiles"><b>Current Files</b></div>
+
+                     </div>
+                     <div class="panel-footer"></div>
+                  </div>
+
+                </div>
+             </div>
+          </div>
+
+
+
+
+
+
+
+
+</script>
+
+<script type="text/template" id="admin-list-trailer-walkthroughs">
+
+
+
+<div class="container">
+             <div class="row">
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>View FRS Daily Walkthroughs</b></div>
+                     <div class="panel-body" style="height: 400px;">
+<b>Choose a Daily Walkthrough to View</b><br /><br />
+<div class="js-dailywalkthroughs"></div>
+
+
+                     </div>
+                     <div class="panel-footer"></div>
+                  </div>
+
+                </div>
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Note</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+
+                     </div>
+                     <div class="panel-footer"></div>
+                  </div>
+
+                </div>
+             </div>
+          </div>
+
+
+
+
+
+
+
+
+</script>
+
+
+<script type="text/template" id="customer-download-supporting-documents-form">
+
+
+
+<div class="container">
+             <div class="row">
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Suporting Documents</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+<br />Unit Number:  <%- unitnumber %><br /><br />
+<div class="js-currentfiles"><b>Current Files</b></div>
+<br /><br />
+<b>**note**</b><br /><%- note %>
+
+
+                     </div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-doneuploadingdocuments" type="submit" value="Done" /></div>
+                  </div>
+
+                </div>
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Note</b></div>
+                     <div class="panel-body" style="height: 400px;">
+
+
+                     </div>
+                     <div class="panel-footer">
+                     </div>
+                  </div>
+
+                </div>
+             </div>
+          </div>
+
+
+
+
+
+
+
+
+</script>
+
+  <script type="text/template" id="trailer-form">
+          <div class="container">
+             <div class="row">
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>New Unit Record</b></div>
+                     <div class="panel-body" style="height: 500px;">
+
+<form>             
+                <fieldset>
+                   <table>
+                   <tbody>
+                     <tr>
+                        <td><b>Unit #:<br /></b></td>
+                        <td><input style="width:400px;" placeholder="Unit #" name="unitnumber" type="text" value="<%- unitnumber %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Customer:</b></td>
+                        <td><input style="width:400px;" placeholder="Customer" name="customer" class="js-customer" type="text" value="<%- customer %>" style="width:500px;"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Account:</b></td>
+                        <td><input style="width:400px;" placeholder="Account" name="account" type="text" value="<%- account %>" class="js-account" style="width:500px;"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Vehicle Type:</b></td>
+                        <td>
+                        <select name="vehicletype" class="js-vehicletype" style="width:400px;">
+                          <option value=""></option>
+                          <option value="REEFER: REEFER UNIT">REEFER: REEFER UNIT</option>
+                          <option value="TRAILER:  DRY VAN">TRAILER:  DRY VAN</option>
+                          <option value="TRAILER:  REEFER VAN">TRAILER:  REEFER VAN</option>
+                          <option value="TRAILER:  FLAT BED">TRAILER:  FLAT BED</option>
+                          <option value="TRAILER:  CONTAINER / CHASSIS">TRAILER:  CONTAINER / CHASSIS</option>
+                          <option value="TRACTOR:  CONDO">TRACTOR:  CONDO</option>
+                          <option value="TRACTOR:  DAY CAB">TRACTOR:  DAY CAB</option>
+                        </select>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Location:</b></td>
+                        <td><input style="width:400px;" placeholder="Location" name="location" id="location" class="js-location" type="text" value="<%- location %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Date RS Notified:</b></td>
+                        <td><input style="width:400px;" placeholder="Date RS Notified" name="datersnotified" class="js-datersnotified" type="text" value="<%- datersnotified %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Date Approved:</b></td>
+                        <td><input style="width:400px;" placeholder="Date Approved" class="js-dateapproved" name="dateapproved" type="text" value="<%- dateapproved %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Estimated Time of Completion:</b></td>
+                        <td><input style="width:400px;" placeholder="Estimated Time of Completion" class="js-estimatedtimeofcompletion" name="estimatedtimeofcompletion" type="text" value="<%- estimatedtimeofcompletion %>"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Status 1 (Master):</b></td>
+                        <td>
+                          <select style="width:400px;" name="status1" id="status1" style="width:300px;">
+                          </select>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Status 2:</b></td>
+                        <td>
+                          <select style="width:400px;" name="status2" id="status2" style="width:300px;">
+                            <option value="" selected></option>
+                          </select>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Status 3:</b></td>
+                        <td>
+                          <select style="width:400px;" name="status3" id="status3" style="width:300px;">
+                            <option value="" selected></option>
+                          </select>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Note:</b></td>
+                        <td>
+                          <textarea style="width:400px; height: 150px;" name="note" id="note"><%- note %></textarea>
+                        </td>
+                     </tr>
+                     </tbody>
+                   </table>
+                </fieldset>
+      </form>
+
+                     </div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-savetrailer" type="submit" value="Save Unit" /></div>
+                  </div>
+
+                </div>
+                <div  class="col-sm-6">
+                  <div class="panel panel-danger">
+                     <div class="panel-heading"><b>Note</b></div>
+                     <div class="panel-body" style="height: 500px;">
+                        <p><b>Setting</b> the <b>"Status 1 (Master)"</b> status input box <b>changes</b> the options in <b>"Status 2"</b> and <b>"Status 3"</b> boxes.</p>
+                        <p>If <b>all statuses</b> are <b>blank</b> then they <b>will not</b> be <b>counted</b> in the <b>charts</b>.</p>
+                     </div>
+                     <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-cancelsavetrailer" type="submit" value="Cancel Save Unit" /></div>
+                  </div>
+
+                </div>
+             </div>
+          </div>
+  </script>
+
+  <script type="text/template" id="trailer-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Unit #!                    
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Customer!
+                </span>
+              </span>
+            </span>
+        </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Account!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Vehicle Type!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+          
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Location<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Location!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date RS Notified!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date Approved!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Estimated Time of Completion!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="2" align="center" style="width:500px;" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:400px;" class="tooltip-item">
+                  <a href="#">Status<div style="width:500px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Status!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" style="width:125px;">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#" >Supporting Documents<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Click Below For Supporting Documents.
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+          <div style="width:60px;">
+          </div>
+        </th>
+        <th><div style="width:60px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></th>
+      </tr>
+      <tr>
+        <th>
+          <select style="width:60px;" class="js-unitnumbersortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-customersort">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-accountsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-vehicletypesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-locationsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-datersnotifiedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-dateapprovedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-estimatedtimeofcompletesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th colspan="2">
+          <select style="width:60px;" class="js-statussortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+   </thead>
+   <tbody id="fbody">
+
+   </tbody>
+  </script>
+
+
+  <script type="text/template" id="user-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">User Name/Email<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By User Name/Email!
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th align="center" class="js-resetsort">
+             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Customer<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By User Customer!
+                </span>
+              </span>
+            </span>            
+        </th>
+          <th align="center" class="js-resetsort">
+             <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Number of Logins<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Number of Logins!
+                </span>
+              </span>
+            </span>            
+        </th>
+        <th align="center">
+          Send Email on Completed Unit
+        </th>
+        <th align="center">
+          Send Daily Email
+        </th>
+        <th align="center">
+        </th>
+        <th align="center">
+        </th>
+      </tr>
+   </thead>
+   <tbody id="ubody">
+
+   </tbody>
+  </script>
+
+  <script type="text/template" id="user-list-item">
+    <td><%- username %></td>
+    <td><%- customer %></td>
+    <td><%- numberofsuccessfullogins == undefined ? 0 : numberofsuccessfullogins %></td>
+    <td><input type="checkbox" class="js-sendemailoncompleted" <%- sendemailoncompleted ? "checked" : "" %> /></td>
+    <td>
+      <input type="checkbox" class="js-senddailyemail" <%- senddailyemail ? "checked" : "" %> />
+    </td>
+    <td>
+      <button class="btn btn-xs btn-danger js-delete">
+        <i class="icon-remove"></i>
+        Delete
+      </button>
+    </td>
+    <td>
+     <a class="btn btn-xs js-resetpassword" style="background-color: #0205f6; color: white;">
+        <i class="icon-pencil"></i>
+        Reset Password
+      </a>
+    </td>
+  </script>
+
+
+  <script type="text/template" id="trailer-archive-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Unit #!                    
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Customer!
+                </span>
+              </span>
+            </span>
+        </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Account!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Vehicle Type!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+          
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Location<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Location!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date RS Notified!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date Approved!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Estimated Time of Completion!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="2" align="center" style="width:500px;" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:400px;" class="tooltip-item">
+                  <a href="#">Status<div style="width:500px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Status!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#" >Supporting Documents<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Click Below For Supporting Documents.
+                </span>
+              </span>
+            </span>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <select style="width:60px;" class="js-unitnumbersortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-customersort">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-accountsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-vehicletypesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-locationsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-datersnotifiedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-dateapprovedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-estimatedtimeofcompletesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th colspan="2">
+          <select style="width:60px;" class="js-statussortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th></th>
+      </tr>
+   </thead>
+   <tbody id="fbody">
+
+   </tbody>
+  </script>
+
+  <script type="text/template" id="trailer-customer-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Unit #!                    
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Customer!
+                </span>
+              </span>
+            </span>
+        </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Account!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Vehicle Type!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+          
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Location<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Location!
+                </span>
+              </span>
+            </span>
+        </th>
+<!--        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date RS Notified!
+                </span>
+              </span>
+            </span>
+        </th>
+-->        
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date Approved!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Estimated Time of Completion!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="1" align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Status!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+        </th>
+        <th align="center">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#" >Supporting Documents<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Click Below For Supporting Documents.
+                </span>
+              </span>
+            </span>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <select style="width:60px;" class="js-unitnumbersortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-customersort">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-accountsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-vehicletypesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-locationsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+<!--        <th>
+          <select style="width:60px;" class="js-datersnotifiedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+-->        
+        <th>
+          <select style="width:60px;" class="js-dateapprovedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-estimatedtimeofcompletesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th colspan="1">
+          <select style="width:60px;" class="js-statussortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+        </th>
+        <th>
+          <!-- Supporting Documents -->
+        </th>
+      </tr>
+   </thead>
+   <tbody id="fbody">
+
+   </tbody>
+  </script>
+
+
+  <script type="text/template" id="trailer-archive-customer-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Unit #!                    
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Customer!
+                </span>
+              </span>
+            </span>
+        </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Account!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Vehicle Type!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+          
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Location<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Location!
+                </span>
+              </span>
+            </span>
+        </th>
+<!--        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date RS Notified!
+                </span>
+              </span>
+            </span>
+        </th>
+-->        
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date Approved!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Estimated Time of Completion!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="1" align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Status!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+        </th>
+        <th align="center">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#" >Supporting Documents<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Click Below For Supporting Documents.
+                </span>
+              </span>
+            </span>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <select style="width:60px;" class="js-unitnumbersortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-customersort">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-accountsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-vehicletypesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-locationsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+<!--        <th>
+          <select style="width:60px;" class="js-datersnotifiedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+-->        
+        <th>
+          <select style="width:60px;" class="js-dateapprovedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-estimatedtimeofcompletesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th colspan="1">
+          <select style="width:60px;" class="js-statussortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+        </th>
+        <th>
+        </th>
+      </tr>
+   </thead>
+   <tbody id="fbody">
+
+   </tbody>
+  </script>
+
+
+  <script type="text/template" id="trailer-onlot-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Unit #!                    
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Customer!
+                </span>
+              </span>
+            </span>
+        </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Account!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Vehicle Type!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+          
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Location<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Location!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date RS Notified!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date Approved!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Estimated Time of Completion!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="2" align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Status!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#" >Supporting Documents<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Click Below For Supporting Documents.
+                </span>
+              </span>
+            </span>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <select style="width:60px;" class="js-unitnumbersortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-customersort">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-accountsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-vehicletypesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-locationsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-datersnotifiedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-dateapprovedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-estimatedtimeofcompletesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th colspan="2">
+          <select style="width:60px;" class="js-statussortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+      </tr>
+   </thead>
+   <tbody id="fbody">
+
+   </tbody>
+  </script>
+
+
+  <script type="text/template" id="trailer-onlot-customer-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Unit #!                    
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Customer!
+                </span>
+              </span>
+            </span>
+        </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Account!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Vehicle Type!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+          
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Location<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Location!
+                </span>
+              </span>
+            </span>
+        </th>
+<!--        
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date RS Notified!
+                </span>
+              </span>
+            </span>
+        </th>
+-->        
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date Approved!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Estimated Time of Completion!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="1" align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Status!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+        </th>
+        <th align="center">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#" >Supporting Documents<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Click Below For Supporting Documents.
+                </span>
+              </span>
+            </span>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <select style="width:60px;" class="js-unitnumbersortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-customersort">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-accountsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-vehicletypesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-locationsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+<!--
+        <th>
+          <select style="width:60px;" class="js-datersnotifiedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+-->        
+        <th>
+          <select style="width:60px;" class="js-dateapprovedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-estimatedtimeofcompletesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th colspan="1">
+          <select style="width:60px;" class="js-statussortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+        </th>
+        <th>
+      </tr>
+   </thead>
+   <tbody id="fbody">
+
+   </tbody>
+  </script>
+
+
+
+  <script type="text/template" id="lotwalkthrough-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Unit #!                    
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Customer!
+                </span>
+              </span>
+            </span>
+        </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Account!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Vehicle Type!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+          
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Location<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Location!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date RS Notified!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date Approved!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Estimated Time of Completion!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="2" align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Status!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+        </th>
+        <th align="center">
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <select style="width:60px;" class="js-unitnumbersortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-customersort">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-accountsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-vehicletypesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-locationsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-datersnotifiedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-dateapprovedsortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+          <select style="width:60px;" class="js-estimatedtimeofcompletesortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th colspan="2">
+          <select style="width:60px;" class="js-statussortbox">
+            <option value=""></option>
+            <option value="1">1</option>
+          </select>
+        </th>
+        <th>
+        </th>
+      </tr>
+      <tr>
+        <th colspan="6">
+           <input class="btn btn-lg btn-danger btn-block js-submit" type="submit" value="Commit and Save All Changes">
+        </th>
+        <th colspan="6">
+           <input class="btn btn-lg btn-success btn-block js-addnewtrailer" type="submit" value="Add New Trailer">
+        </th>
+      </tr>
+   </thead>
+   <tbody id="fbody">
+
+   </tbody>
+  </script>
+
+
+
+  <script type="text/template" id="view-lotwalkthrough-list">
+    <thead>
+      <tr>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:60px;" class="tooltip-item">
+                  <a href="#">Unit #<br/><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Unit #!                    
+                </span>
+              </span>
+            </span>            
+         </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Customer<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Customer!
+                </span>
+              </span>
+            </span>
+        </th>
+         <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Account<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Account!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Vehicle Type<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Vehicle Type!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+          
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Location<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Location!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date RS Notified<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date RS Notified!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Date Approved<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Date Approved!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Estimated Time of Completion<span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Estimated Time of Completion!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="2" align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Status<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Status!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="1" align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Note<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Note!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th colspan="1" align="center" class="js-resetsort">
+            <span class="tooltip tooltip-effect-4" style="opacity: 1;">
+              <span style="color:black;width:80px;" class="tooltip-item">
+                  <a href="#">Found<div style="width:100px;"></div><span class="glyphicon glyphicon-sort pull-right"></span></a>
+              </span>
+              <span class="tooltip-content clearfix">
+                <img src="./littlefleetreplogo.png">
+                <span class="tooltip-text">
+                    Sort By Found!
+                </span>
+              </span>
+            </span>
+        </th>
+        <th>
+        </th>
+        <th align="center">
+        </th>
+      </tr>
+   </thead>
+   <tbody id="fbody">
+
+   </tbody>
+  </script>
+
+
+
+
+ <div class="container">
+
+    <!-- The justified navigation menu is meant for single line per list item.
+         Multiple lines will require custom code not provided by Bootstrap. -->
+    <div class="masthead">
+      <div class="container">
+        <div class="row">
+          <div  class="col-sm-12">
+            <h3>
+              <div id="banner" class="pull-left">
+                <div class="sheen"></div>
+                <a href="http://www.fleetrep.net/"><img src="./fleetreplogo.jpg" class="logo"></a>
+              </div>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <script>
+        setTimeout(function() {
+          //alert("shimmering");
+          document.getElementById('banner').className = 'loaded pull-left';
+        }, 50);
+      </script>
+      <nav>
+        <ul class="nav nav-justified">
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li class="active"><a href="http://www.fleetrep.net/">Home</a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+        </ul>
+      </nav>
+    </div>
+<style type="text/css">
+  /* This is for the beta ribbon.*/
+  /* The ribbons */
+
+  .corner-ribbon{
+    width: 200px;
+    background: #e43;
+    position: absolute;
+    top: 25px;
+    left: -50px;
+    text-align: center;
+    line-height: 50px;
+    letter-spacing: 1px;
+    color: #f0f0f0;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+
+  /* Custom styles */
+
+  .corner-ribbon.sticky{
+    position: fixed;
+  }
+
+  .corner-ribbon.shadow{
+    box-shadow: 0 0 3px rgba(0,0,0,.3);
+  }
+
+  /* Different positions */
+
+  .corner-ribbon.top-left{
+    top: 25px;
+    left: -50px;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+
+  .corner-ribbon.top-right{
+    top: 25px;
+    right: -50px;
+    left: auto;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
+
+  .corner-ribbon.bottom-left{
+    top: auto;
+    bottom: 25px;
+    left: -50px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
+
+  .corner-ribbon.bottom-right{
+    top: auto;
+    right: -50px;
+    bottom: 25px;
+    left: auto;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+  }
+
+  /* Colors */
+
+  .corner-ribbon.white{background: #f0f0f0; color: #555;}
+  .corner-ribbon.black{background: #333;}
+  .corner-ribbon.grey{background: #999;}
+  .corner-ribbon.blue{background: #0305f1;}
+  .corner-ribbon.green{background: #2c7;}
+  .corner-ribbon.turquoise{background: #1b9;}
+  .corner-ribbon.purple{background: #95b;}
+  .corner-ribbon.red{background: #f50a0a;}
+  .corner-ribbon.orange{background: #e82;}
+  .corner-ribbon.yellow{background: #ec0;}
+</style>
+<!-- <div class="corner-ribbon top-right sticky blue">
+  <a href="http://www.fleetrep.net/contact/" style="color: white;">Beta! - Share!</a>
+</div>
+ -->
+  <!-- Jumbotron -->
+  <div class="jumbotron">
+     <div class="panel-group" id="app-container">
+        <div class="panel panel-danger">
+           <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal  </b><input id="searchInputDoWalkthrough" placeholder="Type Here To Filter The Table" style="display:none;">:&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><span style="display:none;color: red;" id="lotwalkthroughtext"><b>&nbsp;DOING&nbsp;&nbsp;WALKTHROUGH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="onlottext"><b>&nbsp;ON&nbsp;&nbsp;FRS&nbsp;&nbsp;LOT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="archivestext"><b>&nbsp;ARCHIVES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><a href="#" style="display:none;" class="js-exportonlotunits"><b>Export Current View&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></a><a href="#" style="display:none;" class="js-backtotrailerlist"><b>Back to Trailer List</b></a><a href="#" style="display:none;" class="js-backtotrailerlistfromlotwalkthrough"><b>Back to Trailer List</b></a><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-onlotunits"><b>On Lot Units</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-viewarchives"><b>View Archives</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="dolotwalkthrough"><b>Do Lot Walkthrough</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true" checked="true"> Auto-Update Table and Charts</div></div>
+
+
+           <div class="panel-body" id="table-region">
+
+           </div>
+        </div>
+        <div class="panel panel-danger">
+           <div class="panel-heading" style="color: black;"><b id="userfunctions" style="display:none;">Fleet Repair Solutions Customer Portal User Functions</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><a id="newuser" style="display: none;">New User</a></b></div>
+           <div class="panel-body" id="user-admin-region">
+              <div class="container">
+                 <div class="row">
+                    <div  class="col-sm-6">
+
+                    </div>
+                    <div  class="col-sm-6">
+
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="panel panel-danger">
+           <div class="panel-heading" style="color: black;"><b id="walkthroughdatestring" style="display:none;"></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b id="walkthroughtitle" style="display:none;">Fleet Repair Solutions View Daily Lot Walkthoughs</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><a id="backtowalkthroughdatelist" style="display: none;">Back To List of Dates</a></b></div>
+           <div class="panel-body" id="lot-walkthrough-region">
+              <div class="container">
+                 <div class="row">
+                    <div  class="col-sm-6">
+
+                    </div>
+                    <div  class="col-sm-6">
+
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="panel panel-danger">
+           <div class="panel-heading" style="color: black;"><b id="portalgraphs" style="display:none;">Fleet Repair Solutions Customer Portal Graphs</b></div>
+           <div class="panel-body">
+              <div class="container">
+                 <div class="row">
+                    <div  class="col-sm-6">
+                       <div id="piechart"></div>
+
+                    </div>
+                    <div  class="col-sm-6">
+                       <div id="barchart"></div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+
+     <!--[if lt IE 9]><script src="./excanvas.min.js"></script><![endif]-->
+     <script src="./flotr2.min.js"></script>
+     <!-- Site footer -->
+     <footer class="footer">
+        <p>© <b>Fleet Repair Solutions 2015</b><div id="currentenvironment"></div></p>
+     </footer>
+  </div>
+
+<!-- /container -->
+
+
+
+  <script src="./newassets/js/vendor/jquery.js"></script>
+  <script src="./newassets/js/vendor/jquery-ui-1.10.3.js"></script>
+  <script src="./newassets/js/vendor/json2.js"></script>
+  <script src="./newassets/js/vendor/underscore.js"></script>
+  <script src="./newassets/js/vendor/backbone.js"></script>
+  <script src="./newassets/js/vendor/backbone.picky.js"></script>
+  <script src="./newassets/js/vendor/backbone.syphon.js"></script>
+  <script src="./newassets/js/vendor/backbone.marionette.js"></script>
+  <script src="./newassets/js/vendor/spin.js"></script>
+  <script src="./newassets/js/vendor/spin.jquery.js"></script>
+  <script src="./jquery.tablesorter.combined.js"></script>
+  <script src="./newassets/js/vendor/datepicker/js/bootstrap-datepicker.js"></script>
+  <script src="./newassets/js/vendor/datepicker/locales/bootstrap-datepicker.el.min.js"></script>
+
+  <script src="./newassets/js/app.js"></script>
+
+  <script src="./newassets/js/entities/trailer.js"></script>
+  <script src="./newassets/js/entities/user.js"></script>
+  <script src="./newassets/js/entities/trailerarchive.js"></script>
+  <script src="./newassets/js/entities/trailersonlot.js"></script>
+
+  <script src="./newassets/js/apps/trailers/list/list_view.js"></script>
+  <script src="./newassets/js/apps/trailers/list/list_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/archive/list_archive_view.js"></script>
+  <script src="./newassets/js/apps/trailers/archive/list_archive_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/onlot/list_onlot_view.js"></script>
+  <script src="./newassets/js/apps/trailers/onlot/list_onlot_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/lotwalkthrough/instance_view.js"></script>
+
+  <script src="./newassets/js/apps/trailers/lotwalkthrough/list_view.js"></script>
+  <script src="./newassets/js/apps/trailers/lotwalkthrough/list_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/lotwalkthrough/edit_view.js"></script>
+  <script src="./newassets/js/apps/trailers/lotwalkthrough/edit_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/lotwalkthrough/new_view.js"></script>
+  <script src="./newassets/js/apps/trailers/lotwalkthrough/new_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/new/new_view.js"></script>
+  <script src="./newassets/js/apps/trailers/new/new_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/new/edit_view.js"></script>
+  <script src="./newassets/js/apps/trailers/new/edit_controller.js"></script>
+
+  <script src="./newassets/js/apps/trailers/new/edit_documents_view.js"></script>
+
+  <script src="./newassets/js/apps/trailers/new/download_documents_view.js"></script>
+
+  <script src="./newassets/js/apps/trailers/trailers_app.js"></script>
+
+  <script src="./newassets/js/apps/user/new/new_view.js"></script>
+  <script src="./newassets/js/apps/user/new/new_controller.js"></script>
+
+  <script src="./newassets/js/apps/user/list/list_view.js"></script>
+  <script src="./newassets/js/apps/user/list/list_controller.js"></script>
+
+  <script src="./newassets/js/apps/user/new/resetpassword_view.js"></script>
+  <script src="./newassets/js/apps/user/new/resetpassword_controller.js"></script>
+
+  <script src="./newassets/js/apps/user/new/letuserresetpassword_view.js"></script>
+  <script src="./newassets/js/apps/user/new/letuserresetpassword_controller.js"></script>
+
+  <script src="./newassets/js/apps/user/login/login_view.js"></script>
+  <script src="./newassets/js/apps/user/login/login_controller.js"></script>
+
+  <script src="./newassets/js/apps/user/user_app.js"></script>
+
+  <script type="text/javascript">
+    FleetRepManager.start();
+  </script>
+
+     <script>
+        FleetRepManager.clickHandlersSet = false;
+        // FleetRepManager.doAutoUpdateTable = false;
+        FleetRepManager.showAlertForEnvironmentWarn = true;
+        FleetRepManager.admin = true;
+
+
+           function startAutoUpdatingChartAndTable()
+            {
+              FleetRepManager.doAutoUpdateTable = false;
+              FleetRepManager.autoUpdateTimerID = setInterval(function()
+                  {
+
+                    $('#searchInput').val("");
+                    $('#searchInputDoWalkthrough').val("");
+
+                    if(FleetRepManager.admin)
+                    {
+                      FleetRepManager.trigger("trailers:list");
+                      FleetRepManager.loadCharts();
+                    } else
+                    {
+                      FleetRepManager.trigger("trailerscustomer:list");
+                      FleetRepManager.loadCharts();
+                      // FleetRepManager.hideAdminLinks();
+                    }
+                  }, 15*60*1000);
+            }
+
+            function stopAutoUpdateChartAndTable()
+            {
+                   FleetRepManager.doAutoUpdateTable = false;
+                  clearInterval(FleetRepManager.autoUpdateTimerID);
+
+            }
+
+
+        FleetRepManager.startAutoUpdatingChartAndTable = startAutoUpdatingChartAndTable;
+
+        FleetRepManager.setViewWalthroughDate = function(dte) {
+          $('#walkthroughdatestring').show();
+          $('#walkthroughdatestring').html("Currently Viewing Lot Walkthrough For:  <b>"+dte.toLocaleDateString()+"</b>");
+        }
+
+        FleetRepManager.hideWalkthroughDateString = function() {
+          $('#walkthroughdatestring').hide();
+        }
+
+        FleetRepManager.showAdminLinks = function() {
+          $('.js-backtotrailerlist').hide();
+          $('.js-backtotrailerlistfromlotwalkthrough').hide();          
+          $('#archivestext').hide();
+          $('#onlottext').hide();
+          $('#lotwalkthroughtext').hide();
+          $('#searchInputDoWalkthrough').hide();
+
+          $('.js-exportonlotunits').hide();
+
+          $('#searchInput').show();
+          $('#customername').show();
+          $('#logout').show();
+          $('#toolbar').show();
+          $('#dolotwalkthrough').show();
+          $('#newuser').show();
+
+          console.log("show #userfunctions called!!!!!!!!!!!!");
+          $('#userfunctions').show();
+          $('#portalgraphs').show();
+
+          $('#walkthroughtitle').show();
+          $('#backtowalkthroughdatelist').show();
+
+          //style="width:600px;height:400px;"
+          $("#piechart").css("width", "600px");
+          $("#piechart").css("height", "400px");
+
+          $("#barchart").css("width", "600px");
+          $("#barchart").css("height", "400px");
+        }
+
+        FleetRepManager.showArchiveLinks = function(isOnlot) {
+          $('.js-backtotrailerlist').show();
+          $('#searchInput').val("");
+          $('#searchInputDoWalkthrough').val("");
+
+          if (isOnlot)
+          {
+            $('#onlottext').show();
+            $('.js-exportonlotunits').show();
+          } else
+          {
+            $('#archivestext').show();
+            $('.js-exportonlotunits').hide();
+          }
+
+          $('#searchInput').show();
+          $('#customername').show();
+          $('#logout').show();
+          $('#toolbar').hide();
+          $('#dolotwalkthrough').show();
+
+          console.log("show #userfunctions called!!!!!!!!!!!!");
+          $('#userfunctions').show();
+          $('#portalgraphs').hide();
+
+          //style="width:600px;height:400px;"
+/*          $("#piechart").css("width", "0px");
+          $("#piechart").css("height", "0px");
+
+          $("#barchart").css("width", "0px");
+          $("#barchart").css("height", "0px");
+*/
+        }
+
+        FleetRepManager.showDoLotWalthroughLinks = function() {
+          $('.js-backtotrailerlist').hide();
+          $('.js-backtotrailerlistfromlotwalkthrough').show();          
+
+          $('#searchInput').val("");
+          $('#searchInputDoWalkthrough').val("");
+
+          $('#searchInput').val("");
+          $('#searchInputDoWalkthrough').val("");
+
+          $('#lotwalkthroughtext').show();
+          $('#searchInputDoWalkthrough').show();
+          
+          $('.js-exportonlotunits').hide();
+
+          $('#searchInput').hide();
+          $('#customername').show();
+          $('#logout').hide();
+          $('#toolbar').hide();
+          $('#dolotwalkthrough').hide();
+
+          console.log("show #userfunctions called!!!!!!!!!!!!");
+          $('#userfunctions').show();
+          $('#portalgraphs').hide();
+
+          //style="width:600px;height:400px;"
+/*          $("#piechart").css("width", "0px");
+          $("#piechart").css("height", "0px");
+
+          $("#barchart").css("width", "0px");
+          $("#barchart").css("height", "0px");
+*/
+        }
+
+        FleetRepManager.showCustomerTrailerLinks = function() {
+          $('.js-backtotrailerlist').hide();
+          $('.js-backtotrailerlistfromlotwalkthrough').hide();          
+          $('#archivestext').hide();
+          $('#onlottext').hide();
+          $('.js-exportonlotunits').hide();
+          $('#dolotwalkthrough').hide();
+
+          $('#searchInput').show();
+          $('#customername').show();
+          $('#logout').show();
+          $('#toolbar').show();
+
+          console.log("show #userfunctions called!!!!!!!!!!!!");
+          $('#userfunctions').show();
+          $('#portalgraphs').show();
+
+          $('#walkthroughtitle').hide();
+          $('#backtowalkthroughdatelist').hide();
+
+          //style="width:600px;height:400px;"
+          $("#piechart").css("width", "600px");
+          $("#piechart").css("height", "400px");
+
+          $("#barchart").css("width", "600px");
+          $("#barchart").css("height", "400px");
+
+          $('#newtrailer').hide();
+        }
+
+        FleetRepManager.loadCharts = function () {
+          console.log("loadCharts Called!");      
+
+          // This next line makes sure that the click handlers are added onto the anchor tags above.  Need this!
+          if (!FleetRepManager.clickHandlersSet)
+          {    
+            FleetRepManager.clickHandlersSet = true;
+
+            $(".js-exportonlotunits").on( "click", function(event) {
+              //alert("searchInput == "+encodeURIComponent($("#searchInput").val()));
+              event.preventDefault();
+              $(location).attr('href','/FleetRepairSolutionsOnLotPortalData.xlsx' + "?dummyforie="+new Date().getTime().toString()+"&searchTerm="+encodeURIComponent($("#searchInput").val()));
+              //alert("exported to exel!");
+            }); // end js-exporttoexcel handler
+
+            $(".js-exporttoexcel").on( "click", function(event) {
+              //alert("searchInput == "+encodeURIComponent($("#searchInput").val()));
+              event.preventDefault();
+              $(location).attr('href','FleetRepairSolutionsPortalData.xlsx' + "?dummyforie="+new Date().getTime().toString()+"&searchTerm="+encodeURIComponent($("#searchInput").val()));
+              //alert("exported to exel!");
+            }); // end js-exporttoexcel handler
+
+            $( "#dolotwalkthrough" ).on( "click", function(event) {
+              event.preventDefault();
+              stopAutoUpdateChartAndTable();
+              $('#autoupdate').prop('checked', false);
+              FleetRepManager.showDoLotWalthroughLinks();
+              FleetRepManager.trigger("lotwalkthrough:start");
+            });              
+
+            $( "#backtowalkthroughdatelist" ).on( "click", function(event) {
+              event.preventDefault();
+              FleetRepManager.hideWalkthroughDateString();
+              FleetRepManager.trigger("lotwalkthroughsnapshopinstances:view");
+            });              
+
+
+ 
+            // autoupdate
+            // $('#autoupdate').prop('checked') // returns true or false
+            $('#autoupdate').click(function() {
+                if ($(this).is(':checked')) {
+                    startAutoUpdatingChartAndTable();
+                    //return confirm("Are you sure?");
+                    // $('#autoupdate').prop('checked', false);
+                } else
+                {
+                  stopAutoUpdateChartAndTable()
+                }
+            });
+
+            $( "#newtrailer" ).on( "click", function(event) {
+              event.preventDefault();
+              FleetRepManager.trigger("trailers:new");
+              stopAutoUpdateChartAndTable();
+              $('#autoupdate').prop('checked', false);
+            });              
+
+            $( "#newuser" ).on( "click", function(event) {
+              event.preventDefault();
+              FleetRepManager.trigger("user:new");
+            });              
+
+            $( "#manualrefresh" ).on( "click", function(event) {
+              event.preventDefault();
+
+              $('#searchInput').val("");
+              $('#searchInputDoWalkthrough').val("");
+
+              if(FleetRepManager.admin)
+              {
+                FleetRepManager.trigger("trailers:list");
+                FleetRepManager.loadCharts();
+              } else
+              {
+                FleetRepManager.trigger("trailerscustomer:list");
+                FleetRepManager.loadCharts();
+                // FleetRepManager.hideAdminLinks();
+              }
+            });   
+
+            $('.js-onlotunits').on("click", function(event) {
+              if ($('#autoupdate').prop('checked'))
+              {
+                  $('#autoupdate').prop('checked', false)
+                  // FleetRepManager.doAutoUpdateTable = false;
+                  stopAutoUpdateChartAndTable()
+                  // clearInterval(FleetRepManager.autoUpdateTimerID);
+              }
+
+              if (FleetRepManager.admin)
+              {
+                FleetRepManager.showArchiveLinks(true); // true means show on lot text
+                FleetRepManager.trigger("trailersonlot:list");
+              } else {
+                FleetRepManager.showArchiveLinks(true); // true means show on lot text
+                FleetRepManager.trigger("trailercustomeronlot:list");
+              }
+            });   
+
+            $('.js-viewarchives').on("click", function(event) {
+              if ($('#autoupdate').prop('checked'))
+              {
+                  $('#autoupdate').prop('checked', false)
+                  stopAutoUpdateChartAndTable();
+                  // FleetRepManager.doAutoUpdateTable = false;
+                  // clearInterval(FleetRepManager.autoUpdateTimerID);
+              }
+
+              if (FleetRepManager.admin)
+              {
+                FleetRepManager.showArchiveLinks(false); // false means show archive text
+                FleetRepManager.trigger("trailerarchives:list");
+              } else {
+                FleetRepManager.showArchiveLinks(false); // false means show archive text
+                FleetRepManager.trigger("trailercustomerarchives:list");
+              }
+            });   
+
+            $('.js-backtotrailerlistfromlotwalkthrough').on("click", function(event) {
+              if(confirm("Warning! Leaving this screen will abort the lot walkthrough process and you will lose all changes made to this table so far!"))
+              {
+                if (FleetRepManager.admin)
+                {
+                  FleetRepManager.showAdminLinks();
+                  FleetRepManager.loadCharts();
+                  FleetRepManager.trigger("trailers:list");
+                  
+                  $('#searchInput').val("");
+                  $('#searchInputDoWalkthrough').val("");
+                }
+              }
+            });   
+
+            $('.js-backtotrailerlist').on("click", function(event) {
+              $('#searchInput').val("");
+              $('#searchInputDoWalkthrough').val("");
+
+              if (FleetRepManager.admin)
+              {
+                FleetRepManager.showAdminLinks();
+                FleetRepManager.loadCharts();
+                FleetRepManager.trigger("trailers:list");
+              } else {
+                FleetRepManager.showCustomerTrailerLinks();
+                FleetRepManager.loadCharts();
+                FleetRepManager.trigger("trailerscustomer:list");
+              }
+            });   
+
+            $('#logout').on("click", function(event) {
+              //event.preventDefault();
+                $.ajax('/logout' + "?dummyforie="+new Date().getTime().toString(), {
+                  type: 'GET',
+                  data: JSON.stringify({}),
+                  contentType: 'text/json',
+                  success: function(dta) {
+                    /*FleetRepManager.loadpiechart(dta);*/
+                    //alert('credit card successfully processed.');
+                    //alert('logging out!');
+                  },
+                  error  : function() { if ( callback ) callback(false); }
+                });
+                
+            });        
+           } // if (!FleetRepManager.clickHandlersSet)
+
+          $.ajax('/getenvironment' + "?dummyforie="+new Date().getTime().toString(), {
+            type: 'GET',
+            data: JSON.stringify({}),
+            contentType: 'text/json',
+            success: function(dta) {
+              /*FleetRepManager.loadpiechart(dta);*/
+              //alert('credit card successfully processed.');
+              $('#currentenvironment').text(dta.environment);
+                  if(FleetRepManager.showAlertForEnvironmentWarn)
+                  {
+                    FleetRepManager.showAlertForEnvironmentWarn = false;
+                    if (dta.environment == 'Local Development Environment') // on development
+                    {
+                      //alert("In local developemnt!");
+                    } else if (dta.environment == 'Remote Development Environment') // on testing site
+                    {
+                      if (confirm("This is site is only used for Development of new features!  Click OK to be sent to Production!"))
+                      {
+                        $.ajax('/logout' + "?dummyforie="+new Date().getTime().toString(), {
+                          type: 'GET',
+                          data: JSON.stringify({}),
+                          contentType: 'text/json',
+                          success: function(dta) {
+                            /*FleetRepManager.loadpiechart(dta);*/
+                            //alert('credit card successfully processed.');
+                            //alert('logging out!');
+                          },
+                          error  : function() { if ( callback ) callback(false); }
+                        });
+                        var url = "https://immense-savannah-6140.herokuapp.com/";    
+                        $(location).attr('href',url);
+                      }
+                    } else if (dta.environment == 'Production')
+                    {
+                      //alert("This is Production.  Enter real data!");
+                    } else
+                    {
+                      alert("Something is wrong with the sites configuration.  - Tell the website administrater - WTF! Environment var == "+dta.environment);
+                    }
+                } // end FleetRepManager.showAlertForEnvironmentWarn if
+            },
+            error  : function() { alert('could not get ENVIRONMENT');if ( callback ) callback(false); }
+          });
+          // $('#logout').show();
+          // $('#deletealldata').show();
+          // $('#loaddummydata').show();
+          // $('#newtrailer').show();
+
+          $.ajax('/getAUsersCustomer' + "?dummyforie="+new Date().getTime().toString(), {
+            type: 'GET',
+            data: JSON.stringify({}),
+            contentType: 'text/json',
+            success: function(dta) {
+              $('#customername').html('<b>'+dta.customer+'</b>&nbsp;&nbsp;&nbsp;');
+/*              var spacerforusername = ''
+              var widthofspacestojustify = 170;// 120
+              var numberofspaces = widthofspacestojustify-dta.customer.length;
+              console.log("dta.customer.length == "+dta.customer.length);
+              console.log("numberofspaces == "+numberofspaces);
+              for (var i = 0; i < numberofspaces; i++)
+              {
+                spacerforusername += '&nbsp;';
+              }
+              console.log("spacerforusername == "+spacerforusername);
+              $('#spacerforusername').html(spacerforusername);
+*/            },
+            error  : function() { if ( callback ) callback(false); }
+          });
+
+/*          $.ajax('/barchartdata' + "?dummyforie="+new Date().getTime().toString(), {
+            type: 'POST',
+            data: JSON.stringify({}),
+            contentType: 'text/json',
+            success: function(dta) {
+              FleetRepManager.loadbarchartdata(dta);
+              //alert('successfully got data for chart.');
+            },
+            error  : function() { if ( callback ) callback(false); }
+          });
+*/
+          $.ajax('/piechartdata' + "?dummyforie="+new Date().getTime().toString(), {
+            type: 'POST',
+            data: JSON.stringify({}),
+            contentType: 'text/json',
+            success: function(dta) {
+              FleetRepManager.loadpiechart(dta);
+              //alert('credit card successfully processed.');
+            },
+            error  : function() { if ( callback ) callback(false); }
+          });
+
+        }; // end onload
+
+        FleetRepManager.loadbarchartdata = function (data) {
+        
+/*        wins = [[0,13],[1,11],[2,15],[3,15],[4,18],[5,21],[6,28]];
+        var percents = [
+            [0, "0 %"],
+            [1, "10%"],
+            [2, "20%"],
+            [3, "40%"],
+            [4, "60%"],
+            [5, "80%"],
+            [6, "100%"]
+        ];
+*/
+        wins = data.wins;
+        percents = data.percents;
+        Flotr.draw(document.getElementById("barchart"),[wins], {
+          title: "Percentage Completed (ALL DATA)",
+          colors: ["#D9534F"],
+            bars: {
+                show: true,
+                barWidth: 0.5,
+                shadowSize: 0,
+                fillOpacity: 1,
+                lineWidth: 0,
+            },
+            yaxis: {
+                min: 0,
+                tickDecimals: 0,
+            },
+            xaxis: {
+                ticks: percents,
+            },
+            grid: {
+                horizontalLines: false,
+                verticalLines: false,
+            }
+        });
+            
+        };
+        
+     </script>
+     <script>
+
+        FleetRepManager.loadpiechart = function (data) {
+
+/*            data = [
+                {data: [[0,14]], label: "0%"},
+                {data: [[1,14]], label: "10%"},
+                {data: [[2,14]], label: "20%"},
+                {data: [[3,14]], label: "40%"},
+                {data: [[4,14]], label: "60%"},
+                {data: [[5,14]], label: "80%"},
+                {data: [[6,38]], label: "100%"}
+            ];
+*/
+            Flotr.draw(document.getElementById("piechart"),data, {
+                title: "Status Comparison",                
+                pie: {
+                    show: true,
+                },
+                yaxis: {
+                    showLabels: false,
+                },
+                xaxis: {
+                    showLabels: false,
+                },
+                grid: {
+                    horizontalLines: false,
+                    verticalLines: false,
+                }
+            });
+        };
+
+    </script>
+    <script type="text/javascript">
+    FleetRepManager.statuses = [
+      ["", "blanklight.png","", ""],
+      ["10%  A/W AUTHORIZATION",            "redlight.png","A/W AUTHORIZATION", "10%"],
+      ["10%  A/W PARTS",                    "redlight.png","A/W PARTS", "10%"],
+      ["10%  A/W ESTIMATE",                 "redlight.png","A/W ESTIMATE", "10%"],
+      ["10%  A/W ARRIVAL OF UNIT",          "redlight.png","A/W ARRIVAL OF UNIT", "10%"],
+      ["25%  A/W REPAIRS", "yellowlight.png",  "A/W REPAIRS", "25%"],
+      ["50%  WORK IN PROGRESS", "yellowlight.png",        "WORK IN PROGRESS", "50%"],
+      ["75%  WORK IN PROGRESS", "yellowlight.png",        "WORK IN PROGRESS", "75%"],
+      ["90%  A/W FINAL QUALITY CHECK", "yellowlight.png", "A/W FINAL QUALITY CHECK", "90%"],
+      ["100% COMPLETE:  IN TRANSIT TO CUSTOMER", "greenlight.png",  "COMPLETE:  IN TRANSIT TO CUSTOMER", "100%"],
+      ["100% COMPLETE:  READY FOR P/U", "greenlight.png",           "COMPLETE:  READY FOR P/U", "100%"],
+      ["100% COMPLETE:  RELEASED TO CUSTOMER", "greenlight.png",    "COMPLETE:  RELEASED TO CUSTOMER", "100%"],
+      ["100% COMPLETE:  DELIVERED TO CUSTOMER", "greenlight.png",   "DELIVERED TO CUSTOMER", "100%"],
+      ["100% COMPLETE:  RESERVED", "greenlight.png", "COMPLETE:  RESERVED", "100%"]
+    ];
+
+    FleetRepManager.getLightImage = function(status) {
+      var imagename = "./statuserror.png"
+      for(var i = 0; i < FleetRepManager.statuses.length; i++)
+      {
+        if (FleetRepManager.statuses[i][0] == status)
+        {
+          return "./"+FleetRepManager.statuses[i][1];
+        }
+      }
+      console.log('could not find status when FleetRepManager.getLightImage() in index.html status == '+status);
+      return imagename; // name not found - use none
+    };
+
+    FleetRepManager.getPercentage = function(status) {
+      var imagename = "ERROR %";
+      for(var i = 0; i < FleetRepManager.statuses.length; i++)
+      {
+        if (FleetRepManager.statuses[i][0] == status)
+        {
+          return FleetRepManager.statuses[i][3];
+        }
+      }
+      console.log('could not find status when FleetRepManager.getPercentage() in index.html status == '+status);
+      return imagename; // name not found - use none
+    };
+
+    FleetRepManager.getCorrectVerbageForDocuments = function (numberofsupportingdocuments) {
+      if (numberofsupportingdocuments == undefined || numberofsupportingdocuments == null || numberofsupportingdocuments == 0)
+      {
+        return "";
+      } else if (numberofsupportingdocuments == 1)
+      {
+        return "1 document";
+      } else
+      {
+        return numberofsupportingdocuments + " documents";
+      }
+    };
+
+    FleetRepManager.getStatusTitle = function(status) {
+      var imagename = "ERROR - STATUS NOT VALID!";
+      for(var i = 0; i < FleetRepManager.statuses.length; i++)
+      {
+        if (FleetRepManager.statuses[i][0] == status)
+        {
+          return FleetRepManager.statuses[i][2];
+        }
+      }
+      console.log('could not find status when FleetRepManager.getStatusTitle() in index.html status == '+status);
+      return imagename; // name not found - use none
+    };
+    </script>
+
+</body>
+</html>
