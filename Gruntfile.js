@@ -19,7 +19,9 @@ module.exports = function(grunt) {
                                '!**/node_modules/**',  
                                '!**/documentsforreading/**',  
                                '!**/uploads/**',
-                               '!**/public/newassets/**'
+                               '!**/public/newassets/js/apps/**',
+                               '!**/public/newassets/js/entities/**',
+                               '!**/public/newassets/js/app.js'
                                ], dest: 'dist/'}/*,
      
           // makes all src relative to cwd 
@@ -36,7 +38,8 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['public/newassets/**/*.js'],
+        src: ['public/newassets/**/*.js',
+              '!**/public/newassets/js/vendor/**'],
         dest: 'dist/<%= pkg.name %>_newassest_javascript.js'
       }
     },
