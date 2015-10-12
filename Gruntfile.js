@@ -52,7 +52,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('replaceindex', function(){
+  grunt.registerTask('replaceindexhtmlwithminedscripttag', function(){
     var file = grunt.file.read('index.html');
     var fileRay = file.split('\n');
     var outputTemplate = '';
@@ -91,6 +91,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
-  grunt.registerTask('default', ['clean', 'copy:main', 'concat', 'uglify']);
+  grunt.registerTask('default', ['clean', 
+                                 'copy:main', 
+                                 'replaceindexhtmlwithminedscripttag', 
+                                 'concat', 
+                                 'uglify']);
 
 };
