@@ -52,6 +52,38 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask('replaceindex', function(){
+    var file = grunt.file.read('index.html');
+    var fileRay = file.split('\n');
+    var outputTemplate = '';
+    var foundStartTemplateMarker = false;
+    var foundEndTemplateMarket = false;
+    var concatenatedMinifiedFileScriptTagAlready = false;
+
+    for (var i = 0; i < fileRay.length; i++)
+    {
+      if(fileRay[i].indexOf('<!-- ReplaceTheseWthMinVersion-Start -->') > 0)
+      {
+        foundStartTemplateMarker = true;
+      }
+      if(fileRay[i].indexOf('<!-- ReplaceTheseWthMinVersion-End -->') > 0)
+      {
+        foundEndTemplateMarket = true;
+      }
+
+      if (foundStartTemplateMarker && !foundEndTemplateMarket && !concatenatedMinifiedFileScriptTagAlready)
+      {
+        outputTemplate += '<script src="./FleetRepo.min.js"></script>';  
+        concatenatedMinifiedFileScriptTagAlready = true;
+      } else if (foundStartTemplateMarker == foundEndTemplateMarket)
+      {
+        outputTemplate += fileRay[i];
+      }
+    }
+
+    grunt.file.write('./dist/index.html', outputTemplate);
+  });
+
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
 
