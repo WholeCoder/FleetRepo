@@ -15,6 +15,7 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
       this.$('.js-dateapproved').datepicker({autoclose: true});
 
       var availableTags = [
+          "Dedicated: Other Than Hershey",
           "Dedicated Hershey",
           "OTR",
           "Intermodal"

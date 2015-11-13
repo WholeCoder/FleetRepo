@@ -628,7 +628,7 @@ function createExceldocument(trailer_data, callbackfunction, removeDateRSNotifie
   columnTitles.push("Location");
 
   if (!removeDateRSNotified) {
-    columnTitles.push("Date RS Notified");
+    columnTitles.push("Date FRS Notified");
   }
 
   columnTitles.push("Date Approved");
@@ -1145,7 +1145,7 @@ app.get("/FleetRepairSolutionsOnLotPortalData.xlsx", function(req, res) {
           //res.end(JSON.stringify(trailerRay));
           console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/' + excelFilename));
           sendIfNoSSLRequired(path.join(__dirname, '/' + excelFilename), req, res)
-        }, true); // true removed Date RS Notified
+        }, true); // true removed Date FRS Notified
       }
     });
   } // END IF
@@ -2885,7 +2885,7 @@ function buildHTMLTrailerTable(trailers) {
   htmlString += '   <th>Account</th>';
   htmlString += '   <th>Vehicle Type</th>';
   htmlString += '   <th>Location</th>';
-  // htmlString += '   <th>Date RS Notified</th>';
+  // htmlString += '   <th>Date FRS Notified</th>';
   htmlString += '   <th>Date Approved</th>';
   htmlString += '   <th>Estimated Time of Completion</th>';
   htmlString += '   <th>Status</th>';

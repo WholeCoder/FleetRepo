@@ -15,6 +15,7 @@ FleetRepManager.module("UserApp.New", function(New, VapeBookManager, Backbone, M
       var that = this;
 
       var availableTags = [
+          "Dedicated: Other Than Hershey",
           "Dedicated Hershey",
           "OTR",
           "Intermodal"
