@@ -2505,6 +2505,7 @@
  -->
   <!-- Jumbotron -->
   <div class="jumbotron">
+     <h1 id="notrealsitewarning" style="color:red; display: none;">THIS IS NOT THE REAL FLEET REPAIR SOLUTIONS PORTAL! - GO <a href="http://fleetrs.com">HERE</a> TO GET ACCESS TO THE REAL FLEET REPAIR SOLUTIONS PORTAL.</h1>
      <div class="panel-group" id="app-container">
         <div class="panel panel-danger">
            <div class="panel-heading" style="color: black;"><b>Fleet Repair Solutions Customer Portal  </b><input id="searchInputDoWalkthrough" placeholder="Type Here To Filter The Table" style="display:none;">:&nbsp;<span style="display:none;" id="customername"><b>(None)</b></span><span style="display:none;color: red;" id="lotwalkthroughtext"><b>&nbsp;DOING&nbsp;&nbsp;WALKTHROUGH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="onlottext"><b>&nbsp;ON&nbsp;&nbsp;FRS&nbsp;&nbsp;LOT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><span style="display:none;color: red;" id="archivestext"><b>&nbsp;ARCHIVES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></span><a href="/" id="logout" style="display:none;" class="js-logout"><b>Log Out</b></a>&nbsp;&nbsp;<input id="searchInput" placeholder="Type Here To Filter The Table" style="display:none;"><a href="#" style="display:none;" class="js-exportonlotunits"><b>Export Current View&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></a><a href="#" style="display:none;" class="js-backtotrailerlist"><b>Back to Trailer List</b></a><a href="#" style="display:none;" class="js-backtotrailerlistfromlotwalkthrough"><b>Back to Trailer List</b></a><div id="toolbar" style="display:none;" class="pull-right"><a href="#" class="js-onlotunits"><b>On Lot Units</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-viewarchives"><b>View Archives</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="js-exporttoexcel"><b>Export Current View</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" style="display:none;" id="dolotwalkthrough"><b>Do Lot Walkthrough</b></a>&nbsp;&nbsp;&nbsp;<a href="/" id="manualrefresh" class="js-manualrefresh"><b>Update Charts & Table</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" id="newtrailer" class="js-newtrailer"><b>New Unit</b></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="autoupdate" value="true" checked="true"> Auto-Update Table and Charts</div></div>
@@ -3016,9 +3017,11 @@
                     FleetRepManager.showAlertForEnvironmentWarn = false;
                     if (dta.environment == 'Local Development Environment') // on development
                     {
+                      $('#notrealsitewarning').show();
                       //alert("In local developemnt!");
                     } else if (dta.environment == 'Remote Development Environment') // on testing site
                     {
+                      $('notrealsitewarning').show();
                       if (confirm("This is site is only used for Development of new features!  Click OK to be sent to Production!"))
                       {
                         $.ajax('/logout' + "?dummyforie="+new Date().getTime().toString(), {
