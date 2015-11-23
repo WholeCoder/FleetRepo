@@ -3021,7 +3021,7 @@
                       //alert("In local developemnt!");
                     } else if (dta.environment == 'Remote Development Environment') // on testing site
                     {
-                      $('notrealsitewarning').show();
+                      $('#notrealsitewarning').show();
                       if (confirm("This is site is only used for Development of new features!  Click OK to be sent to Production!"))
                       {
                         $.ajax('/logout' + "?dummyforie="+new Date().getTime().toString(), {

@@ -288,8 +288,26 @@ function sendOutDailyEmails() {
         }
         Trailer.find(andclause, function(err, trailers100) {
           var htmlTrailerTable = buildHTMLTrailerTable(trailers100);
-          var usernames = customerHashByCustomer[cust];
+
+          var cst = "";
+          if(trailers100.length > 0)
+          {
+            cst = trailers100[0].customer;
+          } else
+          {
+            // Don't send an email because there are no rows marked as 100;
+            console.log('\n\nDo not send an email because there are no rows marked as 100.\n\n');
+            return;
+          }
+
+
+          var usernames = customerHashByCustomer[cst];
           for (var j = 0; j < usernames.length; j++) {
+
+console.log("\n\n\n------------Sending an Email!-------------");
+console.log('email == '+usernames[j]);
+console.log('customer == '+cst);
+console.log("------------Sending an Email!------------- (end)\n\n\n");
 
             sendAnEmail(usernames[j], "Fleet Repair Solutions Daily 100% Complete Rows.",
               htmlTrailerTable);
@@ -365,6 +383,8 @@ app.get("/senddailyemail", function(req, res) {
 
   }
 });
+
+
 
 app.get("/archive100", function(req, res) {
 
