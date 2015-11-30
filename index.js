@@ -1419,79 +1419,53 @@ app.post("/piechartdata", function(req, res) {
 
 
     var tempChartData = [];
-    Trailer.find({
+    Trailer.count({
       status1: new RegExp('^10%', "i")
-    }, function(err, trailers10) {
-      console.log("Number of 10% Trailers:", trailers10.length);
+    }, function(err, count10) {
+      console.log("Number of 10% Trailers:", count10);
       piechartdata.push({
         data: [
-          [0, trailers10.length]
+          [0, count10]
         ],
         label: "10% Compelete",
         color: "#ff3f0b"
       });
 
-      Trailer.find({
-        status1: new RegExp('^50%', "i")
-      }, function(err, trailers50) {
-        console.log("Number of 50% Trailers:", trailers50.length);
+      var or25_50_75_90 = { $or: [
+                                  {status1: new RegExp('^50%', "i")},
+                                  {status1: new RegExp('^25%', "i")},
+                                  {status1: new RegExp('^75%', "i")},
+                                  {status1: new RegExp('^90%', "i")}
+                                 ]};
+
+      Trailer.count(or25_50_75_90, function(err, count25_50_75_90) {
+        console.log("Number of count25_50_75_90 Trailers:", count25_50_75_90);
         piechartdata.push({
           data: [
-            [1, trailers50.length]
+            [1, count25_50_75_90]
           ],
           label: "25%, 50%,75%,90% Complete",
           color: "#fffc0b"
         });
+        Trailer.count({
+          status1: new RegExp('^100%', "i")
+        }, function(err, count100) {
+          console.log("Number of 100% Trailers:", count100);
+          piechartdata.push({
+            data: [
+              [2, count100]
+            ],
+            label: "100% Complete",
+            color: "#00b800"
+          });
+
+          res.setHeader('content-type', 'application/json');
+          res.writeHead(200);
+          res.end(JSON.stringify(piechartdata));
 
 
-        Trailer.find({
-          status1: new RegExp('^25%', "i")
-        }, function(err, trailers25) {
-          piechartdata[1].data[0][1] += trailers25.length
-
-
-          Trailer.find({
-            status1: new RegExp('^75%', "i")
-          }, function(err, trailers75) {
-            console.log("Number of 75% Trailers:", trailers75.length);
-            piechartdata[1].data[0][1] += trailers75.length
-
-            Trailer.find({
-              status1: new RegExp('^90%', "i")
-            }, function(err, trailers90) {
-              console.log("Number of 90% Trailers:", trailers90.length);
-              piechartdata[1].data[0][1] += trailers90.length
-
-              Trailer.find({
-                status1: new RegExp('^100%', "i")
-              }, function(err, trailers100) {
-                console.log("Number of 100% Trailers:", trailers100.length);
-                piechartdata.push({
-                  data: [
-                    [2, trailers100.length]
-                  ],
-                  label: "100% Complete",
-                  color: "#00b800"
-                });
-
-                res.setHeader('content-type', 'application/json');
-                res.writeHead(200);
-                res.end(JSON.stringify(piechartdata));
-
-
-              }); // end 100%
-
-            }); // end 90%
-          }); // end 75%
-
-
-
-        }); // end 25%
-
-
-
-      }); // end 50%
-
+        }); // end 100%
+      }); // end or25_50_75_90
     }); // end 10%
   } else {
     var tempChartData = [];
@@ -1503,104 +1477,65 @@ app.post("/piechartdata", function(req, res) {
         }]
       }
       // {status1: new RegExp('^10%', "i")}
-    Trailer.find(andclause, function(err, trailers10) {
-      console.log("Number of 10% Trailers:", trailers10.length);
+    Trailer.count(andclause, function(err, count10) {
+      console.log("Number of 10% Trailers:", count10);
       piechartdata.push({
         data: [
-          [0, trailers10.length]
+          [0, count10]
         ],
         label: "10% Compelete",
         color: "#ff3f0b"
       });
 
-
+      var or25_50_75_90 = { $or: [
+                          {status1: new RegExp('^50%', "i")},
+                          {status1: new RegExp('^25%', "i")},
+                          {status1: new RegExp('^75%', "i")},
+                          {status1: new RegExp('^90%', "i")}
+                         ]};
 
       andclause = {
-        $and: [{
-          status1: new RegExp('^25%', "i")
-        }, {
+        $and: [or25_50_75_90, 
+        {
           customer: req.session.currentuser.customer
         }]
       }
-      Trailer.find(andclause, function(err, trailers25) {
-        console.log("Number of 25% Trailers:", trailers25.length);
+      Trailer.count(andclause, function(err, count25_50_75_90) {
+        console.log("Number of 25_50_75_90 Trailers:", count25_50_75_90);
         piechartdata.push({
           data: [
-            [1, trailers25.length]
+            [1, count25_50_75_90]
           ],
           label: "25%,50%,75%,90% Complete",
           color: "#fffc0b"
         });
 
-
-
-
         andclause = {
           $and: [{
-            status1: new RegExp('^50%', "i")
+            status1: new RegExp('^100%', "i")
           }, {
             customer: req.session.currentuser.customer
           }]
         }
-        Trailer.find(andclause, function(err, trailers50) {
-          console.log("Number of 50% Trailers:", trailers50.length);
-          piechartdata[1].data[0][1] += trailers50.length
+        Trailer.count(andclause, function(err, count100) {
+          console.log("Number of 100% Trailers:", count100);
+          piechartdata.push({
+            data: [
+              [2, count100]
+            ],
+            label: "100% Complete",
+            color: "#00b800"
+          });
 
-          andclause = {
-            $and: [{
-              status1: new RegExp('^75%', "i")
-            }, {
-              customer: req.session.currentuser.customer
-            }]
-          }
-          Trailer.find(andclause, function(err, trailers75) {
-            console.log("Number of 75% Trailers:", trailers50.length);
-            piechartdata[1].data[0][1] += trailers75.length
-
-            andclause = {
-              $and: [{
-                status1: new RegExp('^90%', "i")
-              }, {
-                customer: req.session.currentuser.customer
-              }]
-            }
-
-            Trailer.find(andclause, function(err, trailers90) {
-              console.log("Number of 90% Trailers:", trailers90.length);
-              piechartdata[1].data[0][1] += trailers90.length
-
-              andclause = {
-                $and: [{
-                  status1: new RegExp('^100%', "i")
-                }, {
-                  customer: req.session.currentuser.customer
-                }]
-              }
-              Trailer.find(andclause, function(err, trailers100) {
-                console.log("Number of 100% Trailers:", trailers100.length);
-                piechartdata.push({
-                  data: [
-                    [2, trailers100.length]
-                  ],
-                  label: "100% Complete",
-                  color: "#00b800"
-                });
-
-                res.setHeader('content-type', 'application/json');
-                res.writeHead(200);
-                res.end(JSON.stringify(piechartdata));
+          res.setHeader('content-type', 'application/json');
+          res.writeHead(200);
+          res.end(JSON.stringify(piechartdata));
 
 
-              }); // end 100%
-
-            }); // end 90%
-          }); // end 75%
-        }); // end 50%
+        }); // end 100%
 
 
-      }); // end 25%
-
-
+      }); // end count_25_50_75_90
 
     }); // end 10%
   } // end else clause
