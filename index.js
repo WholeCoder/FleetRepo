@@ -2832,7 +2832,7 @@ function sendOneTrailerEmailWhenComplete(trailer) {
 function buildHTMLTrailerTable(trailers) {
   var htmlString = '';
 
-  htmlString += '<table>';
+  htmlString += '<table border="1">';
   htmlString += '<thead>';
   htmlString += '  <tr>';
   htmlString += '   <th>Unit #</th>';
@@ -2845,6 +2845,7 @@ function buildHTMLTrailerTable(trailers) {
   htmlString += '   <th>Estimated Time of Completion</th>';
   htmlString += '   <th>Status</th>';
   htmlString += '   <th>Supporting Documents</th>';
+  htmlString += '   <th>Note</th>';
   htmlString += '  </tr>';
   htmlString += '</thead>';
   htmlString += '<tbody>';
@@ -2862,6 +2863,7 @@ function buildHTMLTrailerTable(trailers) {
     htmlString += '   <td>' + currentTrailer.estimatedtimeofcompletion + '</td>';
     htmlString += '   <td>' + currentTrailer.status1 + '<br />' + currentTrailer.status2 + '<br />' + currentTrailer.status3 + '</td>';
     htmlString += '   <td>' + getProperDocumentString(currentTrailer.numberofsupportingdocuments) + '<br />' + getNoteString(currentTrailer.note) + '</td>';
+    htmlString += '   <td>' + currentTrailer.note + '</td>';
     htmlString += ' </tr>';
   }
 
