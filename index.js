@@ -1,5 +1,7 @@
 // ** MUST set this as a config variable on the heroku.com website **
 var DISABLE_SSL = process.env.ENVIRONMENT == 'local_development';
+var GO_TO_REMOVE_DEV_ENVIRONTMENT = process.env.ENVIRONMENT == 'remote_developmeent';
+
 var ENVIRONMENT = process.env.ENVIRONMENT;
 
 var mongodbconnectionstring = "mongodb://localhost/test";
@@ -121,9 +123,26 @@ function saveTokenToDatabase(u, req, res) {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('*',function(req,res,next){
+  if(req.headers['x-forwarded-proto']!='https' && !DISABLE_SSL)
+  {
+    if (GO_TO_REMOVE_DEV_ENVIRONTMENT)
+    {
+      res.redirect('https://shrouded-bastion-9856.herokuapp.com'+req.url);
+    } else
+    {
+      res.redirect('https://www.fleetrepairsolutions.com'+req.url);
+    }
+  }
+  else
+    next(); /* Continue to other routes if we're not redirecting */
+})
 
-app.get("/", function(req, res) {
-  sendIfNoSSLRequired(path.join(__dirname, 'index.html'), req, res)
+
+app.get('/', function(req, res) {
+  // sendIfNoSSLRequired(path.join(__dirname, 'index.html'), req, res)
+  res.sendFile(path.join(__dirname, 'index.html'));
+  // response.render('pages/index');
 });
 
 
