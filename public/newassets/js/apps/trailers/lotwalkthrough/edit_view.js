@@ -217,7 +217,7 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
         data.status3 = '';
       }
 
-     if (data.status1.startsWith("100%"))
+     if (data.status1.indexOf("100%") == 0)
      {
         var currentDateInMillisectonds = new Date().getTime()
         var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days

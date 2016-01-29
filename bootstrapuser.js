@@ -59,8 +59,8 @@ var token = randtoken.generate(16);
 
 // create a user a new user
 var testUser = new User({
-    username: 'jpierich1985@gmail.com',
-    password: 'qwertyuiop',
+    username: 'rpierich@hotmail.com',
+    password: 'asdf',
     customer: 'ADMIN',
     activated: true,
     activationtoken: token

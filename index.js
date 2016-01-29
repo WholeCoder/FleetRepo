@@ -403,7 +403,52 @@ app.get("/senddailyemail", function(req, res) {
   }
 });
 
+function doTheArchive(_id)
+{
+  Trailer.findOneAndRemove({
+    '_id': _id
+  }, function(err, trailer) {
+    if (err) {
+      return;
+    }
+    delete trailer._id;
 
+    var trailerArchive = new TrailerArchive(trailer);
+
+    trailerArchive.whenitwasarchived = trailer.whentobearchived;
+    delete trailerArchive.whentobearchived;
+
+    trailerArchive.save(function(err) {
+      if (err) {
+        console.log('ERROR saving trailer archive!!');
+      } else {
+        console.log("Trailer Archive saved successfully!");
+        if (trailerArchive.numberofsupportingdocuments != undefined &&
+          trailerArchive.numberofsupportingdocuments != null &&
+          trailerArchive.numberofsupportingdocuments != 0) {
+          File.find({
+            trailer_id: trailerArchive._id
+          }, function(err, files) {
+            for (var i = 0; i < files.length; i++) {
+              files[i].remove();
+              delete files[i]._id;
+              files[i].trailer_id = trailerArchive._id;
+              var fileArchive = new FileArchive(files[i]);
+              fileArchive.save(function(err) {
+                if (err) {
+                  throw err;
+                }
+              });
+            }
+          });
+        }
+      }
+
+    });
+
+  }); // end Trailer.findOneAndRemove
+
+}
 
 app.get("/archive100", function(req, res) {
 
@@ -421,49 +466,7 @@ app.get("/archive100", function(req, res) {
         if (currTrailer.whentobearchived != undefined && currTrailer.whentobearchived.getTime() < rightNow.getTime()) {
           console.log("------------- " + currTrailer.whentobearchived + " < " + rightNow);
 
-          Trailer.findOneAndRemove({
-            '_id': currTrailer._id
-          }, function(err, trailer) {
-            if (err) {
-              return;
-            }
-            delete trailer._id;
-
-            var trailerArchive = new TrailerArchive(trailer);
-
-            trailerArchive.whenitwasarchived = trailer.whentobearchived;
-            delete trailerArchive.whentobearchived;
-
-            trailerArchive.save(function(err) {
-              if (err) {
-                console.log('ERROR saving trailer archive!!');
-              } else {
-                console.log("Trailer Archive saved successfully!");
-                if (trailerArchive.numberofsupportingdocuments != undefined &&
-                  trailerArchive.numberofsupportingdocuments != null &&
-                  trailerArchive.numberofsupportingdocuments != 0) {
-                  File.find({
-                    trailer_id: trailerArchive._id
-                  }, function(err, files) {
-                    for (var i = 0; i < files.length; i++) {
-                      files[i].remove();
-                      delete files[i]._id;
-                      files[i].trailer_id = trailerArchive._id;
-                      var fileArchive = new FileArchive(files[i]);
-                      fileArchive.save(function(err) {
-                        if (err) {
-                          throw err;
-                        }
-                      });
-                    }
-                  });
-                }
-              }
-
-            });
-
-          }); // end Trailer.findOneAndRemove
-
+          doTheArchive(currTrailer._id);
         } // end if
 
       } // end for
@@ -2612,6 +2615,25 @@ app.post("/gettrailerarchivedocuments", function(req, res) {
   } // end if
 });
 
+app.post("/archivetrailer", function(req, res) {
+  if (req.session.currentuser.customer == "ADMIN") {
+    if (req.method == 'POST') {
+      var jsonString = '';
+      req.on('data', function(data) {
+        jsonString += data;
+      });
+      req.on('end', function() {
+        var archiveTrailerObject = JSON.parse(jsonString);
+
+        doTheArchive(archiveTrailerObject._id);
+
+        res.setHeader('content-type', 'application/json');
+        res.writeHead(200);
+        res.end("{}");
+      });
+    }
+  } // end if
+});
 
 app.post("/deletetrailer", function(req, res) {
   if (req.session.currentuser.customer == "ADMIN") {

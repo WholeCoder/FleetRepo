@@ -207,8 +207,10 @@ console.log('new trailer data == '+JSON.stringify(data));
             }
           }
 
+console.log("markForArchival == "+markForArchival);
+console.log("data.status1 == "+data.status1);
 
-      if (markForArchival && data.status1.startsWith("100%"))
+      if (markForArchival && data.status1.indexOf("100%") == 0)
      {
         var currentDateInMillisectonds = new Date().getTime()
         var timeInMillisecondsToAdd = 1000*60*60*24*5; // 5 days

@@ -22,7 +22,26 @@ FleetRepManager.module("TrailersApp.List", function(List, FleetRepManager, Backb
       "click": "highlightName",
       "click td a.js-edit": "showEditTrailer",
       "click button.js-delete": "deleteTrailer",
-      "click td a.js-uploaddocuments": "showUploadDocuments"
+      "click td a.js-uploaddocuments": "showUploadDocuments",
+      "click button.js-archive": "archiveTrailer"
+    },
+
+    archiveTrailer: function(e)
+    {
+      e.preventDefault();
+      e.stopPropagation();
+      if(confirm("Are you sure you want to archive unit number "+this.model.get('unitnumber')+"?"))
+      {
+            $.ajax('/archivetrailer' + "?dummyforie="+new Date().getTime().toString(), {
+              type: 'POST',
+              data: JSON.stringify({_id:this.model.get('_id')}),
+              contentType: 'text/json',
+              success: function(data2) { 
+                FleetRepManager.trigger("trailers:list");
+              },
+              error  : function() { alert('Error - could not archive trailer row!');}
+            }); // end $.post
+      } // end if      
     },
 
     showUploadDocuments: function(e)

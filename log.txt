@@ -1,0 +1,10 @@
+[4mRunning "nodemon:dev" (nodemon) task[24m
+[33m[nodemon] 1.8.1[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node index.js`[39m
+ENVIRONMENT == local_development
+DISABLE_SSL == true
+!!!!!!!DISABLE_SSL was set - admin app won't be encrypted!!!!!!
+setting connection to local mongodb!!!!!!!!!!!!
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
