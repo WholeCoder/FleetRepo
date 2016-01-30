@@ -127,7 +127,7 @@ module.exports = function(grunt) {
           concatenatedMinifiedFileScriptTagAlready = true;
         } else if (foundStartTemplateMarker == foundEndTemplateMarket)
         {
-          outputTemplate += fileRay[i];
+          outputTemplate += fileRay[i] +'\n';
         }
       }
     }
