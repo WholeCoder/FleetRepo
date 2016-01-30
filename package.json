@@ -1,6 +1,9 @@
 {
   "name": "FleetRepo",
   "version": "1.0.0",
+  "engines": {
+    "node": "4.2.6"
+  },
   "description": "This is an app to allow Fleet Repair Solutions to keep their customers informed on trailer repairs.",
   "main": "index.js",
   "scripts": {
