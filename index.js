@@ -1,6 +1,6 @@
 // ** MUST set this as a config variable on the heroku.com website **
 var DISABLE_SSL = process.env.ENVIRONMENT == 'local_development';
-var GO_TO_REMOVE_DEV_ENVIRONTMENT = process.env.ENVIRONMENT == 'remote_developmeent';
+var GO_TO_REMOVE_DEV_ENVIRONTMENT = process.env.ENVIRONMENT == 'remote_development';
 
 var ENVIRONMENT = process.env.ENVIRONMENT;
 
@@ -15,7 +15,7 @@ if (DISABLE_SSL && ENVIRONMENT == 'local_development') // on development
   console.log("!!!!!!!DISABLE_SSL was set - admin app won't be encrypted!!!!!!")
   console.log("setting connection to local mongodb!!!!!!!!!!!!");
   mongodbconnectionstring = "mongodb://localhost/test";
-} else if (ENVIRONMENT == 'remote_developmeent') // on testing site
+} else if (ENVIRONMENT == 'remote_development') // on testing site
 {
   mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds047802.mongolab.com:47802/heroku_dswxx1s9";
 } else if (ENVIRONMENT == 'production') {
@@ -509,7 +509,7 @@ app.get("/getenvironment", function(req, res) {
     if (ENVIRONMENT == 'local_development') // on development
     {
       prettyEnvironment = "Local Development Environment";
-    } else if (ENVIRONMENT == 'remote_developmeent') // on testing site
+    } else if (ENVIRONMENT == 'remote_development') // on testing site
     {
       prettyEnvironment = "Remote Development Environment";
     } else if (ENVIRONMENT == 'production') {
