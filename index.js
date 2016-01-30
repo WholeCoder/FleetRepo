@@ -221,7 +221,7 @@ app.post('/uploaddocument', upload.single('avatar'), function(req, res, next) {
                 } else {
                   foundTrailer.numberofsupportingdocuments++;
                 }
-
+                delete foundTrailer._id;
                 Trailer.findOneAndUpdate({
                     _id: req.body._id
                   }, foundTrailer, {},
@@ -1597,13 +1597,24 @@ app.post("/setsendemailoncompleted", function(req, res) {
         User.find({
           _id: userInfoJson._id
         }, function(err, docs) {
+          if (err) 
+          {
+            console.log(err);
+          }
           var foundUser = docs[0];
+console.log("FOUND USER - foundUser == "+JSON.stringify(foundUser));          
           foundUser.sendemailoncompleted = userInfoJson.sendemailoncompleted;
 
+          var capturedId = foundUser._id;
+          delete foundUser._id;
           User.findOneAndUpdate({
-              _id: foundUser._id
+              _id: capturedId
             }, foundUser, {},
             function(err, doc) {
+              if (err)
+              {
+                console.log('ERROR - in /sendemailoncompleted!!!!!!!!!!! - ' + err);
+              }
               console.log("!!!!!!!!!!!!!!!!!!!!!!!! found and updated User /setsendemailoncompleted");
               res.setHeader('content-type', 'application/json');
               res.writeHead(200);
@@ -1643,8 +1654,10 @@ app.post("/senddailyemail", function(req, res) {
           var foundUser = docs[0];
           foundUser.senddailyemail = userInfoJson.senddailyemail;
 
+          var capturedId = foundUser._id;
+          delete foundUser._id;
           User.findOneAndUpdate({
-              _id: foundUser._id
+              _id: capturedId
             }, foundUser, {},
             function(err, doc) {
               console.log("!!!!!!!!!!!!!!!!!!!!!!!! found and updated User /senddailyemail");
@@ -1929,12 +1942,15 @@ app.post("/updatetrailer", function(req, res) {
         } else {
           newTrailerObject.whentobearchived = undefined;
         }
+        var capturedId = newTrailerObject._id;
+        delete newTrailerObject._id;
         console.log("\n\n----------------- 1");
         Trailer.findOneAndUpdate({
-          _id: newTrailerObject._id
+          '_id': capturedId
         }, newTrailerObject, {}, function(err, doc) {
           if (err) {
             console.log("ERROR - could not find and update the trailer with _id == " + newTrailerObject._id);
+            console.log("ERROR - could not find and update the trailer with doc._id == " + JSON.stringify(doc));
           } else {
             console.log("found in updatetrailer - _id found == " + doc._id);
           }
@@ -1956,6 +1972,7 @@ app.post("/updatetrailer", function(req, res) {
               res.setHeader('content-type', 'application/json');
               res.writeHead(200);
               res.end("{}");
+              return;
             }
             console.log("numer of files found == " + docs.length);
             var count = 0;
