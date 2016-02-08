@@ -1944,11 +1944,10 @@ app.post("/updatetrailer", function(req, res) {
                         } else {
                           console.log("obj[0] SAVED SUCCESSFULLY!!!!!!!!");
                         }
-                        /*Trailer.findOneAndUpdate({
+                        Trailer.findOneAndUpdate({
                             '_id': capturedId
                         }, newTrailerObject, {}, function(err, doc) {
                             if (err) {
-                                console.log("ERROR - could not find and update the trailer with _id == " + newTrailerObject._id);
                                 console.log("ERROR - could not find and update the trailer with doc._id == " + JSON.stringify(doc));
                             } else {
                                 console.log("found in updatetrailer - _id found == " + doc._id);
@@ -1999,8 +1998,8 @@ app.post("/updatetrailer", function(req, res) {
                             }); // end Trailer.find
 
 
-                        }); // Triler.findOneAndUpdate
-*/
+                        }); // Trailer.findOneAndUpdate
+
                     }); // end obj[0].save
                 }); // end Trailer.find
 
