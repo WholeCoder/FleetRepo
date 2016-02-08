@@ -17,7 +17,7 @@ var TrailerSchema = new Schema({
     whentobearchived: { type: Date },
     note: { type: String },
     initials: { type: String},
-    past_revisions: [TrailerSchema]
+    past_revisions: [module.exports]
 });
 
 
