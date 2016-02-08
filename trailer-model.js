@@ -15,7 +15,9 @@ var TrailerSchema = new Schema({
     status3: { type: String },
     numberofsupportingdocuments: { type: Number },
     whentobearchived: { type: Date },
-    note: { type: String }
+    note: { type: String },
+    initials: { type: String},
+    past_revisions: [TrailerSchema]
 });
 
 
