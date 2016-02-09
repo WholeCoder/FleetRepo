@@ -10,6 +10,17 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
     },
 
     onRender: function(){
+
+      var past_revisions = this.model.get('past_revisions');
+      _.sortBy(past_revisions, function(past_revision){ return new Date(past_revision.when_this_revision_saved); });
+      console.log("\n\nPast Revisions");
+      for (var i = 0; i < past_revisions.length; i++)
+      {
+        console.log("\twhen_this_revision_saved == "+past_revisions[i].when_this_revision_saved);
+        this.$(".js-revision-date").append('<option value="'+i+'">'+past_revisions[i].initials + ' ' + new Date(past_revisions[i].when_this_revision_saved)+'</option>');
+      }
+      console.log("******************");
+
       this.$('.js-datersnotified').datepicker({autoclose: true});
       this.$('.js-estimatedtimeofcompletion').datepicker({autoclose: true});
       this.$('.js-dateapproved').datepicker({autoclose: true});

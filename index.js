@@ -1922,6 +1922,8 @@ app.post("/updatetrailer", function(req, res) {
                 }
                 var capturedId = newTrailerObject._id;
                 delete newTrailerObject._id;
+                var when_this_revision_saved = new Date();
+                delete newTrailerObject.when_this_revision_saved;
                 console.log("\n\n----------------- 1");
 
                 Trailer.find({
@@ -1935,7 +1937,9 @@ app.post("/updatetrailer", function(req, res) {
             var intermediaryObject = JSON.parse(JSON.stringify(obj[0]));
             intermediaryObject.past_revisions = [];
             console.log("           _id before == "+intermediaryObject._id);
-            delete intermediaryObject._id;          
+            delete intermediaryObject._id; 
+            intermediaryObject.when_this_revision_saved = when_this_revision_saved;
+
             console.log("           _id after == "+intermediaryObject._id);
                     obj[0].past_revisions.push(new Trailer(intermediaryObject));
                     obj[0].save(function(err) {

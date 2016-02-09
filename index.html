@@ -626,7 +626,7 @@
                 <div  class="col-sm-6">
                   <div class="panel panel-danger">
                      <div class="panel-heading"><b>New Unit Record</b></div>
-                     <div class="panel-body" style="height: 500px;">
+                     <div class="panel-body" style="height: 550px;">
 
 <form>             
                 <fieldset>
@@ -720,10 +720,95 @@
                 </div>
                 <div  class="col-sm-6">
                   <div class="panel panel-danger">
-                     <div class="panel-heading"><b>Note</b></div>
-                     <div class="panel-body" style="height: 500px;">
-                        <p><b>Setting</b> the <b>"Status 1 (Master)"</b> status input box <b>changes</b> the options in <b>"Status 2"</b> and <b>"Status 3"</b> boxes.</p>
-                        <p>If <b>all statuses</b> are <b>blank</b> then they <b>will not</b> be <b>counted</b> in the <b>charts</b>.</p>
+                     <div class="panel-heading"><b>Revisions</b></div>
+                     <div class="panel-body" style="height: 550px;">
+                        
+                <fieldset>
+                   <table>
+                   <tbody>
+                      <tr>
+                        <td><b>Select a Revision:</b></td>
+                        <td>
+                          <select style="width:400px;" class="js-revision-date" style="width:300px;">
+                          </select>
+                        </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>Unit #:<br /></b></td>
+                        <td><input style="width:400px;" placeholder="Unit #" type="text" class="js-unit-revision"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Customer:</b></td>
+                        <td><input style="width:400px;" placeholder="Customer" class="js-customer-revision" type="text" style="width:500px;"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Account:</b></td>
+                        <td><input style="width:400px;" placeholder="Account" type="text" class="js-account-revision" style="width:500px;"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Vehicle Type:</b></td>
+                        <td>
+                        <input class="js-vehicletype-revision" style="width:400px;" type="text">
+                          
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Location:</b></td>
+                        <td><input style="width:400px;" placeholder="Location" class="js-location-revision" type="text"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Date FRS Notified:</b></td>
+                        <td><input style="width:400px;" placeholder="Date FRS Notified" class="js-datersnotified-revision" type="text"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Date Approved:</b></td>
+                        <td><input style="width:400px;" placeholder="Date Approved" class="js-dateapproved-revision" type="text"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Estimated Time of Completion:</b></td>
+                        <td><input style="width:400px;" placeholder="Estimated Time of Completion" class="js-estimatedtimeofcompletion-revision" type="text"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Status 1 (Master):</b></td>
+                        <td>
+                          <input type="text" style="width:400px;" class="js-status1-revision" style="width:300px;">
+                          
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Status 2:</b></td>
+                        <td>
+                          <input type="text" style="width:400px;" class="js-status2-revision">
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Status 3:</b></td>
+                        <td>
+                          <input type="text" style="width:400px;" class="js-status3-revision">
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Note:</b></td>
+                        <td>
+                          <textarea style="width:400px; height: 150px;" class="js-note-revision"></textarea>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><b>Your Initials:</b></td>
+                        <td><input style="width:400px;" placeholder="Your Initials" class="js-initials-revision" type="text">
+                        </td>
+                     </tr>
+                     </tbody>
+                   </table>
+                </fieldset>
+
+
+
+
+
+
+
                      </div>
                      <div class="panel-footer"><input class="btn btn-lg btn-danger btn-block js-cancelsavetrailer" type="submit" value="Cancel Save Unit" /></div>
                   </div>
