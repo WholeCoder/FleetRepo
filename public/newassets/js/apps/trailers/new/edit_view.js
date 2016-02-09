@@ -38,6 +38,12 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
         that2.$(".js-note-revision").val(pst_rev.note);
         that2.$(".js-initials-revision").val(pst_rev.initials);
       });
+      
+      if (past_revisions.length > 0)
+      {
+          this.$( ".js-revision-date" ).trigger( "change" ); 
+      }
+
       console.log("******************");
 
       this.$('.js-datersnotified').datepicker({autoclose: true});
