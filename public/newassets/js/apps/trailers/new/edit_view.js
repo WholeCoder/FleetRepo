@@ -19,6 +19,25 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
         console.log("\twhen_this_revision_saved == "+past_revisions[i].when_this_revision_saved);
         this.$(".js-revision-date").append('<option value="'+i+'">'+past_revisions[i].initials + ' ' + new Date(past_revisions[i].when_this_revision_saved)+'</option>');
       }
+      var that2 = this;
+      this.$( ".js-revision-date" ).change(function() {
+        var idx = that2.$( ".js-revision-date" ).val();
+        var pst_rev =  past_revisions[idx];
+      
+        that2.$(".js-unit-revision").val(pst_rev.unitnumber);
+        that2.$(".js-customer-revision").val(pst_rev.customer);
+        that2.$(".js-account-revision").val(pst_rev.account);
+        that2.$(".js-vehicletype-revision").val(pst_rev.vehicletype);
+        that2.$(".js-location-revision").val(pst_rev.location);
+        that2.$(".js-datersnotified-revision").val(pst_rev.datersnotified);
+        that2.$(".js-dateapproved-revision").val(pst_rev.dateapproved);
+        that2.$(".js-estimatedtimeofcompletion-revision").val(pst_rev.estimatedtimeofcompletion);
+        that2.$(".js-status1-revision").val(pst_rev.status1);
+        that2.$(".js-status2-revision").val(pst_rev.status2);
+        that2.$(".js-status3-revision").val(pst_rev.status3);
+        that2.$(".js-note-revision").val(pst_rev.note);
+        that2.$(".js-initials-revision").val(pst_rev.initials);
+      });
       console.log("******************");
 
       this.$('.js-datersnotified').datepicker({autoclose: true});
