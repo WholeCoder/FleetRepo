@@ -236,6 +236,12 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
     saveClicked: function(e){
       e.preventDefault();
       var data = Backbone.Syphon.serialize(this);
+
+      if (data.initials == undefined || data.initials.trim() == '')
+      {
+        alert("Your Initals are required!");
+        return;
+      }
       //alert('save trailer submit button clicked! - Not implemented yet!');
       this.trigger("form:submit", data);
       if (data.status1 == null)

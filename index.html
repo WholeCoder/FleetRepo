@@ -705,8 +705,12 @@
                         </td>
                      </tr>
                      <tr>
-                        <td><b>Your Initials:</b></td>
-                        <td><input style="width:400px;" placeholder="Your Initials" class="js-initials" name="initials" type="text" value="<%- initials %>"></td>
+                        <td><b>Your Initials:  <b style="color:red;">*required</b></b></td>
+                        <td><input style="width:400px;" placeholder="Your Initials" class="js-initials" name="initials" type="text" value=""></td>
+                     </tr>
+                     <tr>
+                        <td>Current Initials:</td>
+                        <td><b><%- initials%></b></td>
                      </tr>
                      </tbody>
                    </table>
