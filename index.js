@@ -2034,7 +2034,7 @@ app.post("/updateonlottrailers", function(req, res) {
 
 
 
-                console.log("/updateonlottrailers - jsonString == " + jsonString);
+                // console.log("/updateonlottrailers - jsonString == " + jsonString);
                 var newTrailerObjectsArray = JSON.parse(jsonString);
                 var countOfTrailerObjects = newTrailerObjectsArray.length;
                 var counterOfTrailerObjects = 0;
@@ -2043,7 +2043,8 @@ app.post("/updateonlottrailers", function(req, res) {
 
                 var counterOfFilesRay = [];
                 var processedAllFiles = [];
-                for (var c = 0; c < countOfTrailerObjects.length; c++) {
+                for (var c = 0; c < countOfTrailerObjects; c++) {
+console.log("INITIALS -----"+newTrailerObjectsArray[c].initials);
                     counterOfFilesRay[c] = 0;
                     processedAllFiles[c] = false;
                 }
@@ -2076,7 +2077,7 @@ app.post("/updateonlottrailers", function(req, res) {
                     }
                     var trailerid = newTrailerObjectsArray[k]._id;
                     delete newTrailerObjectsArray[k]._id;
-                    console.log("trailerid == " + trailerid);
+                    // console.log("trailerid == " + trailerid);
                     var query = {
                         _id: trailerid
                     };
@@ -2085,7 +2086,110 @@ app.post("/updateonlottrailers", function(req, res) {
                         console.log("found correct trailerid - setting _id == " + query._id);
                     }
 
-                    console.log("----------------------customer before update findOne - custuer == " + newTrailerObjectsArray[k].customer);
+                    // console.log("----------------------customer before update findOne - custuer == " + newTrailerObjectsArray[k].customer);
+ 
+
+var alreadySentResponse = false;
+
+
+if (trailerid.indexOf('newrecordid') <= -1)
+{
+  console.log("\t\tFOUND A RECORD THAT ALREADY EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  console.log("\t\t\ttrailerid == "+trailerid);
+
+findAndUpdateTrailerStep1(trailerid, newTrailerObjectsArray[k]);
+
+function findAndUpdateTrailerStep1(trailerid, newTrailerObject)
+{
+  Trailer.find({ _id: trailerid}, function(err, obj) {
+    var intermediaryObject = JSON.parse(JSON.stringify(obj[0]));
+    intermediaryObject.past_revisions = [];
+    // console.log("           _id before == "+intermediaryObject._id);
+    delete intermediaryObject._id; 
+    intermediaryObject.when_this_revision_saved = new Date();
+
+    if (newTrailerObject.past_revisions == undefined)
+    {
+      newTrailerObject.past_revisions = [];
+    }
+    newTrailerObject.past_revisions.push(new Trailer(intermediaryObject));
+
+
+    findAndUpdateTrailer(trailerid,newTrailerObject);
+  }); // end Trailer.find
+}
+
+  function findAndUpdateTrailer(trailerid, newObjectAttributes)
+  {
+  Trailer.findOneAndUpdate({
+                        _id: trailerid
+                      }, newObjectAttributes, {
+                          'new': true
+                      }, function(err, doc) {
+      if (err) {
+          console.log("ERROR! - can not find trailer record with trailerid == " + trailerid);
+      } // end err
+
+
+    console.log("\t\t\tbefore save INITIALS == "+newTrailerObject.initials);
+
+
+
+                File.find({
+                    trailer_id: trailerid
+                }, function(err, docs) {
+                    if (err) throw err;
+
+                    if (docs.length == 0) {
+                      if (!alreadySentResponse)
+                      {
+                        alreadySentResponse = true;
+                        res.setHeader('content-type', 'application/json');
+                        res.writeHead(200);
+                        res.end("{}");
+                        return;
+                      }
+                    }
+                    console.log("number of files found == " + docs.length);
+                    var count = 0;
+                    for (var i = 0; i < docs.length; i++) {
+                        var foundFile = docs[i];
+
+                        foundFile.customer = newTrailerObject.customer;
+                        console.log("----------------- 3 foundFile.name == " + foundFile.name);
+                        foundFile.save(function(err) {
+                            console.log(" err == " + err);
+                            if (err) throw err;
+                            count++;
+                            console.log("     count == " + count);
+                            if (count == docs.length) {
+                                if (!alreadySentResponse)
+                                {
+                                  alreadySentResponse = true;
+                                  console.log("sending back content!!!!!!!!!!!!!!!!!!!!!");
+                                  res.setHeader('content-type', 'application/json');
+                                  res.writeHead(200);
+                                  res.end("{}");
+                                }
+                            } // end if
+                        });
+
+
+                    } // end for
+
+                }); // end File.find
+
+
+            
+
+  }); // end Trailer.find
+  } // end findANdUpdateTrailer()
+
+
+}
+else
+{
+
                     Trailer.findOneAndUpdate(query, newTrailerObjectsArray[k], {
                         'new': true,
                         'upsert': true
@@ -2110,31 +2214,28 @@ app.post("/updateonlottrailers", function(req, res) {
                         console.log("\n\n-------------------------");
                         console.log("         doc.customer == " + doc.customer);
                         console.log("-------------------------\n\n");
-                        var query = {
-                            "trailer_id": doc._id
-                        };
-                        File.update(query, {
-                                $set: {
-                                    "customer": doc.customer
-                                }
-                            }, {
-                                multi: true
-                            },
-                            function callback(err, numAffected) {
-                                // numAffected is the number of updated documents
-                                counterOfTrailerObjects++;
+                        // numAffected is the number of updated documents
+                        counterOfTrailerObjects++;
 
-                                console.log("documents count so far == " + counterOfTrailerObjects + "         numAffected.nModified == " + numAffected.nModified + "    doc.customer == " + doc.customer);
+                        console.log("documents count so far == " + counterOfTrailerObjects + "         numAffected.nModified == " + numAffected.nModified + "    doc.customer == " + doc.customer);
 
-                                if (countOfTrailerObjects == counterOfTrailerObjects) {
-                                    console.log("   SENDING RESPONSE - UPDATED ALL DOCUMENTS")
-                                    res.setHeader('content-type', 'application/json');
-                                    res.writeHead(200);
-                                    res.end("{}");
-                                }
-                            });
+                        if (countOfTrailerObjects == counterOfTrailerObjects) {
+                            console.log("   SENDING RESPONSE - UPDATED ALL DOCUMENTS")
+                            res.setHeader('content-type', 'application/json');
+                            res.writeHead(200);
+                            res.end("{}");
+                        }
+                        
 
-                    });
+                    }); // end Trailer.findOneAndUpdate()
+
+
+
+
+} // end if
+
+
+
 
 
                 } // end for k
@@ -2220,7 +2321,7 @@ app.post("/gettrailer", function(req, res) {
                     if (err) {
                         console.log("ERROR! - can not find trailer record with _id == " + _id);
                     } else {
-                        console.log("called gettrailer obj == " + JSON.stringify(obj[0]));
+                        // console.log("called gettrailer obj == " + JSON.stringify(obj[0]));
                         res.setHeader('content-type', 'application/json');
                         res.writeHead(200);
                         res.end(JSON.stringify(obj[0]));
@@ -2243,7 +2344,7 @@ app.post("/gettrailer", function(req, res) {
                     if (err) {
                         console.log("ERROR! - can not find trailer record with _id == " + _id);
                     } else {
-                        console.log("called gettrailer obj == " + JSON.stringify(obj[0]));
+                        // console.log("called gettrailer obj == " + JSON.stringify(obj[0]));
                         res.setHeader('content-type', 'application/json');
                         res.writeHead(200);
                         res.end(JSON.stringify(obj[0]));
@@ -2319,7 +2420,7 @@ app.post("/gettrailerarchive", function(req, res) {
                     if (err) {
                         console.log("ERROR! - can not find trailer record with _id == " + _id);
                     } else {
-                        console.log("called gettrailer obj == " + JSON.stringify(obj[0]));
+                        // console.log("called gettrailer obj == " + JSON.stringify(obj[0]));
                         res.setHeader('content-type', 'application/json');
                         res.writeHead(200);
                         res.end(JSON.stringify(obj[0]));
@@ -2342,7 +2443,7 @@ app.post("/gettrailerarchive", function(req, res) {
                     if (err) {
                         console.log("ERROR! - can not find trailer record with _id == " + _id);
                     } else {
-                        console.log("called gettrailer obj == " + JSON.stringify(obj[0]));
+                        // console.log("called gettrailer obj == " + JSON.stringify(obj[0]));
                         res.setHeader('content-type', 'application/json');
                         res.writeHead(200);
                         res.end(JSON.stringify(obj[0]));

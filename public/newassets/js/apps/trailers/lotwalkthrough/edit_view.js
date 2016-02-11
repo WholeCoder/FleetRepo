@@ -10,6 +10,39 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
     },
 
     onRender: function(){
+      var past_revisions = this.model.get('past_revisions');
+      _.sortBy(past_revisions, function(past_revision){ return new Date(past_revision.when_this_revision_saved); });
+      console.log("\n\nPast Revisions");
+      for (var i = 0; i < past_revisions.length; i++)
+      {
+        console.log("\twhen_this_revision_saved == "+past_revisions[i].when_this_revision_saved);
+        this.$(".js-revision-date").append('<option value="'+i+'">'+past_revisions[i].initials + ' ' + new Date(past_revisions[i].when_this_revision_saved)+'</option>');
+      }
+      var that2 = this;
+      this.$( ".js-revision-date" ).change(function() {
+        var idx = that2.$( ".js-revision-date" ).val();
+        var pst_rev =  past_revisions[idx];
+      
+        that2.$(".js-unit-revision").val(pst_rev.unitnumber);
+        that2.$(".js-customer-revision").val(pst_rev.customer);
+        that2.$(".js-account-revision").val(pst_rev.account);
+        that2.$(".js-vehicletype-revision").val(pst_rev.vehicletype);
+        that2.$(".js-location-revision").val(pst_rev.location);
+        that2.$(".js-datersnotified-revision").val(pst_rev.datersnotified);
+        that2.$(".js-dateapproved-revision").val(pst_rev.dateapproved);
+        that2.$(".js-estimatedtimeofcompletion-revision").val(pst_rev.estimatedtimeofcompletion);
+        that2.$(".js-status1-revision").val(pst_rev.status1);
+        that2.$(".js-status2-revision").val(pst_rev.status2);
+        that2.$(".js-status3-revision").val(pst_rev.status3);
+        that2.$(".js-note-revision").val(pst_rev.note);
+        that2.$(".js-initials-revision").val(pst_rev.initials);
+      });
+      
+      if (past_revisions.length > 0)
+      {
+          this.$( ".js-revision-date" ).trigger( "change" ); 
+      }
+
       this.$('.js-datersnotified').datepicker({autoclose: true});
       this.$('.js-estimatedtimeofcompletion').datepicker({autoclose: true});
       this.$('.js-dateapproved').datepicker({autoclose: true});
@@ -203,7 +236,14 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
       $('#searchInputDoWalkthrough').val("");
       var data = Backbone.Syphon.serialize(this);
       //alert('save trailer submit button clicked! - Not implemented yet!');
-      this.trigger("form:submit", data);
+
+      if (data.initials == undefined || data.initials.trim() == '')
+      {
+        alert("Your Initals are required!");
+        return;
+      }
+
+     this.trigger("form:submit", data);
       if (data.status1 == null)
       {
         data.status1 = '';
@@ -229,6 +269,7 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
 
       console.log('update trailer data == '+JSON.stringify(this.model));
       data._id = this.model.get('_id');
+      data.past_revisions = this.model.get('past_revisions');
 
       //alert('Update the FleetRepManager.lot_walkthrough_trailers - probably automatically - but check. - length == '+FleetRepManager.lot_walkthrough_trailers.models.length);
       // update FleetRepManager.lot_walkthrough_trailers with data
@@ -243,6 +284,7 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
           data._id = this.model.get('_id');
           data.updatedalready = true;
           console.log("--------FleetRepManager.lot_walkthrough_trailers.models[i].get('customer') == "+FleetRepManager.lot_walkthrough_trailers.models[i].get('customer'));
+          // alert('intials == '+data.initials);
           FleetRepManager.lot_walkthrough_trailers.models[i] = new FleetRepManager.TrailersOnLot(data);
           console.log("lot_walkthrough_trailers.model index = "+i);
         }
