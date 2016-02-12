@@ -2090,16 +2090,18 @@ console.log("INITIALS -----"+newTrailerObjectsArray[c].initials);
  
 
 var alreadySentResponse = false;
+counterOfTrailerObjects++;
 
+var isLastTrailer = k == newTrailerObjectsArray.length-1;
 
 if (trailerid.indexOf('newrecordid') <= -1)
 {
   console.log("\t\tFOUND A RECORD THAT ALREADY EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!");
   console.log("\t\t\ttrailerid == "+trailerid);
 
-findAndUpdateTrailerStep1(trailerid, newTrailerObjectsArray[k]);
+findAndUpdateTrailerStep1(trailerid, newTrailerObjectsArray[k], isLastTrailer);
 
-function findAndUpdateTrailerStep1(trailerid, newTrailerObject)
+function findAndUpdateTrailerStep1(trailerid, newTrailerObject, isLastTrailer)
 {
   Trailer.find({ _id: trailerid}, function(err, obj) {
     var intermediaryObject = JSON.parse(JSON.stringify(obj[0]));
@@ -2115,11 +2117,11 @@ function findAndUpdateTrailerStep1(trailerid, newTrailerObject)
     newTrailerObject.past_revisions.push(new Trailer(intermediaryObject));
 
 
-    findAndUpdateTrailer(trailerid,newTrailerObject);
+    findAndUpdateTrailer(trailerid,newTrailerObject, isLastTrailer);
   }); // end Trailer.find
 }
 
-  function findAndUpdateTrailer(trailerid, newObjectAttributes)
+  function findAndUpdateTrailer(trailerid, newObjectAttributes, isLastTrailer)
   {
   Trailer.findOneAndUpdate({
                         _id: trailerid
@@ -2131,9 +2133,9 @@ function findAndUpdateTrailerStep1(trailerid, newTrailerObject)
       } // end err
 
 
-    console.log("\t\t\tbefore save INITIALS == "+newTrailerObject.initials);
+    console.log("\t\t\tbefore save INITIALS == "+newObjectAttributes.initials);
 
-
+                var alreadySentResponse = false;
 
                 File.find({
                     trailer_id: trailerid
@@ -2141,7 +2143,7 @@ function findAndUpdateTrailerStep1(trailerid, newTrailerObject)
                     if (err) throw err;
 
                     if (docs.length == 0) {
-                      if (!alreadySentResponse)
+                      if (isLastTrailer && !alreadySentResponse)
                       {
                         alreadySentResponse = true;
                         res.setHeader('content-type', 'application/json');
@@ -2155,7 +2157,7 @@ function findAndUpdateTrailerStep1(trailerid, newTrailerObject)
                     for (var i = 0; i < docs.length; i++) {
                         var foundFile = docs[i];
 
-                        foundFile.customer = newTrailerObject.customer;
+                        foundFile.customer = newObjectAttributes.customer;
                         console.log("----------------- 3 foundFile.name == " + foundFile.name);
                         foundFile.save(function(err) {
                             console.log(" err == " + err);
@@ -2163,13 +2165,13 @@ function findAndUpdateTrailerStep1(trailerid, newTrailerObject)
                             count++;
                             console.log("     count == " + count);
                             if (count == docs.length) {
-                                if (!alreadySentResponse)
+                                if (isLastTrailer && !alreadySentResponse)
                                 {
                                   alreadySentResponse = true;
-                                  console.log("sending back content!!!!!!!!!!!!!!!!!!!!!");
                                   res.setHeader('content-type', 'application/json');
                                   res.writeHead(200);
                                   res.end("{}");
+                                  return;
                                 }
                             } // end if
                         });
@@ -2215,15 +2217,16 @@ else
                         console.log("         doc.customer == " + doc.customer);
                         console.log("-------------------------\n\n");
                         // numAffected is the number of updated documents
-                        counterOfTrailerObjects++;
-
-                        console.log("documents count so far == " + counterOfTrailerObjects + "         numAffected.nModified == " + numAffected.nModified + "    doc.customer == " + doc.customer);
 
                         if (countOfTrailerObjects == counterOfTrailerObjects) {
-                            console.log("   SENDING RESPONSE - UPDATED ALL DOCUMENTS")
+                          if (isLastTrailer && !alreadySentResponse)
+                          {
+                            alreadySentResponse = true;
                             res.setHeader('content-type', 'application/json');
                             res.writeHead(200);
                             res.end("{}");
+                            return;
+                          }
                         }
                         
 
