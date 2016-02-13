@@ -1800,6 +1800,7 @@ app.post("/savetrailer", function(req, res) {
                     newTrailerObject.whentobearchived = undefined;
                 }
 
+                newTrailerObject.when_this_revision_saved = new Date();
                 var trailer = new Trailer(newTrailerObject);
 
 
@@ -2087,7 +2088,8 @@ console.log("INITIALS -----"+newTrailerObjectsArray[c].initials);
                     }
 
                     // console.log("----------------------customer before update findOne - custuer == " + newTrailerObjectsArray[k].customer);
- 
+ newTrailerObjectsArray[k].when_this_revision_saved = new Date();
+
 
 var alreadySentResponse = false;
 counterOfTrailerObjects++;
@@ -2099,6 +2101,8 @@ if (trailerid.indexOf('newrecordid') <= -1)
   console.log("\t\tFOUND A RECORD THAT ALREADY EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!");
   console.log("\t\t\ttrailerid == "+trailerid);
 
+// **note** We are using functions to capture the newTrailerObjectsArray[k] in the
+//          functions scope.
 findAndUpdateTrailerStep1(trailerid, newTrailerObjectsArray[k], isLastTrailer);
 
 function findAndUpdateTrailerStep1(trailerid, newTrailerObject, isLastTrailer)
@@ -2108,7 +2112,6 @@ function findAndUpdateTrailerStep1(trailerid, newTrailerObject, isLastTrailer)
     intermediaryObject.past_revisions = [];
     // console.log("           _id before == "+intermediaryObject._id);
     delete intermediaryObject._id; 
-    intermediaryObject.when_this_revision_saved = new Date();
 
     if (newTrailerObject.past_revisions == undefined)
     {
