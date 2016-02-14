@@ -17,7 +17,10 @@ var LotWalkthroughTrailerSchema = new Schema({
     whentobearchived: { type: Date },
     note: { type: String },
     lot_walkthrough_trailer_id: { type: Schema.Types.ObjectId},
-    updatedalready: { type: Boolean, default: false }
+    updatedalready: { type: Boolean, default: false },
+    initials: { type: String },
+    past_revisions: [module.exports],
+    when_this_revision_saved: { type: Date }
 });
 
 

@@ -94,7 +94,7 @@
       <a href="#trailers/<%- _id %>/edit" class="js-edit">
         Edit Note
       </a><br />
-    <b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><a class="js-uploaddocuments">Upload Docs</a></td>
+    <b><%- FleetRepManager.getCorrectVerbageForDocuments(numberofsupportingdocuments) %></b><br /><!--<a class="js-uploaddocuments">Upload Docs</a>--></td>
     <td>
       <a href="#trailers/<%- _id %>/edit" class="btn btn-xs js-edit" style="background-color: #0205f6; color: white;">
         <i class="icon-pencil"></i>
@@ -2806,7 +2806,7 @@
 
         FleetRepManager.setViewWalthroughDate = function(dte) {
           $('#walkthroughdatestring').show();
-          $('#walkthroughdatestring').html("Currently Viewing Lot Walkthrough For:  <b>"+dte.toLocaleDateString()+"</b>");
+          $('#walkthroughdatestring').html("Currently Viewing Lot Walkthrough For:  <b>"+dte.toLocaleDateString()+" - " +dte.toLocaleTimeString()+"</b>");
         }
 
         FleetRepManager.hideWalkthroughDateString = function() {

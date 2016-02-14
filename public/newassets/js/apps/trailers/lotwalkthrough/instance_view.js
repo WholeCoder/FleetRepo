@@ -228,10 +228,17 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
                     console.log("/getlotwalkthroughinstances called");
 
                     for (var i = 0; i < data2.length; i++) {
-                        that.$(".js-dailywalkthroughs").append('<br /><a href="/get/' + data2[i]._id + '" style="font-size: 20pt;" class="js-gettrailerlistforawalkthrough">' + new Date(data2[i].dateoflotwalkthrough).toLocaleDateString() + '</a>');
-                        
-                        var lwalkthroughdate = new Date(data2[i].dateoflotwalkthrough);
-                        that.$(".js-gettrailerlistforawalkthrough").on("click", function(event) {
+                        that.$(".js-dailywalkthroughs").append('<br /><a href="/get/' + data2[i]._id + '" style="font-size: 20pt;" class="js-gettrailerlistforawalkthrough'+i+'">' + new Date(data2[i].dateoflotwalkthrough).toLocaleDateString() +" - "+new Date(data2[i].dateoflotwalkthrough).toLocaleTimeString()+ '</a>');
+addClickHandlerTogetlistofwalkthroughs(data2[i], that,i)
+function addClickHandlerTogetlistofwalkthroughs(dataInstance, that,i)
+{
+    // alert('setting');
+                        var lwalkthroughdate = new Date(dataInstance.dateoflotwalkthrough);
+addClcikHanderTogetlistwalkthroughsStep2(dataInstance,that,lwalkthroughdate,i);
+function addClcikHanderTogetlistwalkthroughsStep2(dataInstance,that,lwalkthroughdate,i)                        
+{
+console.log("setting "+".js-gettrailerlistforawalkthrough"+i+"  on click handler");
+                        that.$(".js-gettrailerlistforawalkthrough"+i).on("click", function(event) {
                             //alert("searchInput == "+encodeURIComponent($("#searchInput").val()));
                             event.preventDefault();
                             var hrf = $(this).attr('href');
@@ -277,6 +284,10 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
                             //alert("exported to exel!");
                         }); // end js-getfile handler
 
+
+} // end addClcikHanderTogetlistwalkthroughsStep2
+
+} // end funcion addClickHandlerTogetlistofwalkthroughs()
                     }
                 },
                 error: function() {

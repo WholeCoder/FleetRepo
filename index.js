@@ -1852,24 +1852,69 @@ app.post("/savelotwalkthrough", function(req, res) {
                         var newLotWalkthroughTrailers = JSON.parse(jsonString);
                         var count = 0;
                         for (var i = 0; i < newLotWalkthroughTrailers.length; i++) {
+                            var trailerid = newLotWalkthroughTrailers[i]._id;
                             delete newLotWalkthroughTrailers[i]._id;
                             newLotWalkthroughTrailers[i].lot_walkthrough_trailer_id = lotwalkthroughinstance._id;
 
-                            var newlotwalkthroughtrailer = new LotWalkthroughTrailer(newLotWalkthroughTrailers[i]);
-                            newlotwalkthroughtrailer.save(function(err) {
-                                if (err) {
-                                    console.log('error in /savelotwalkthrough');
-                                } else {
-                                    count++;
-                                    if (count == newLotWalkthroughTrailers.length) {
-                                        res.setHeader('content-type', 'application/json');
-                                        res.writeHead(200);
-                                        res.end("{}");
-                                    }
+                            if (trailerid.indexOf('newrecordid') > -1)
+                            {
+                              var newlotwalkthroughtrailer = new LotWalkthroughTrailer(newLotWalkthroughTrailers[i]);
+                              newlotwalkthroughtrailer.save(function(err) {
+                                  if (err) {
+                                      console.log('error in /savelotwalkthrough');
+                                  } else {
+                                      count++;
+                                      if (count == newLotWalkthroughTrailers.length) {
+                                          res.setHeader('content-type', 'application/json');
+                                          res.writeHead(200);
+                                          res.end("{}");
+                                      }
 
-                                    console.log('saved newlotwalkthroughtrailer successfully.');
-                                }
-                            });
+                                      console.log('saved newlotwalkthroughtrailer successfully.');
+                                  }
+                              }); // end newlotwalkthroughtrailer.save(...)
+                            } else
+                            {
+                              // This trailer is not new
+                            
+                              saveOnLotStep1(newLotWalkthroughTrailers[i], trailerid, newLotWalkthroughTrailers.length);
+
+                              function saveOnLotStep1(walkthroughTrailer, trailerid, newlotwalkthroughTrailerslength)
+                              {
+                                Trailer.find({
+                                    _id: trailerid
+                                }, function(err, obj) {
+
+            var intermediaryObject = JSON.parse(JSON.stringify(obj[0]));
+            intermediaryObject.past_revisions = [];
+            console.log("           _id before == "+intermediaryObject._id);
+            delete intermediaryObject._id; 
+            intermediaryObject.when_this_revision_saved = when_this_revision_saved;
+
+walkthroughTrailer.past_revisions.push(intermediaryObject);
+
+                                    var newlotwalkthroughtrailer = new LotWalkthroughTrailer(walkthroughTrailer);
+                                    newlotwalkthroughtrailer.save(function(err) {
+                                        if (err) {
+                                            console.log('error in /savelotwalkthrough');
+                                        } else {
+                                            count++;
+                                            if (count == newlotwalkthroughTrailerslength) {
+                                                res.setHeader('content-type', 'application/json');
+                                                res.writeHead(200);
+                                                res.end("{}");
+                                            }
+
+                                            console.log('saved newlotwalkthroughtrailer successfully.');
+                                        }
+                                    }); // end newlotwalkthroughtrailer.save(...)
+                                  }) // Trailer.find
+                              } // end saveOnlotStep1()
+                            }
+
+
+
+
                         } // end for
 
                     } // end else
@@ -2102,7 +2147,7 @@ if (trailerid.indexOf('newrecordid') <= -1)
   console.log("\t\t\ttrailerid == "+trailerid);
 
 // **note** We are using functions to capture the newTrailerObjectsArray[k] in the
-//          functions scope.
+//          function's scope.
 findAndUpdateTrailerStep1(trailerid, newTrailerObjectsArray[k], isLastTrailer);
 
 function findAndUpdateTrailerStep1(trailerid, newTrailerObject, isLastTrailer)
