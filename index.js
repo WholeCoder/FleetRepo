@@ -1889,7 +1889,7 @@ app.post("/savelotwalkthrough", function(req, res) {
             intermediaryObject.past_revisions = [];
             console.log("           _id before == "+intermediaryObject._id);
             delete intermediaryObject._id; 
-            intermediaryObject.when_this_revision_saved = when_this_revision_saved;
+            // intermediaryObject.when_this_revision_saved = when_this_revision_saved;
 
 walkthroughTrailer.past_revisions.push(intermediaryObject);
 

@@ -712,6 +712,10 @@
                         <td>Current Initials:</td>
                         <td><b><%- initials%></b></td>
                      </tr>
+                     <tr>
+                        <td>Record Created At:</td>
+                        <td><b><%- new Date(when_this_revision_saved).toLocaleDateString() +" - "+new Date(when_this_revision_saved).toLocaleTimeString() %></b></td>
+                     </tr>
                      </tbody>
                    </table>
                 </fieldset>
