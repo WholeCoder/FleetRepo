@@ -2874,11 +2874,12 @@
 
             $( "#dolotwalkthrough" ).on( "click", function(event) {
               event.preventDefault();
-              stopAutoUpdateChartAndTable();
+              alert("This feature is temporarily disabled until the codebase is upgraded with revisions.  Please call Ruben @ 717.557.6919 if you need more of an explanation.  Thanks.")
+/*              stopAutoUpdateChartAndTable();
               $('#autoupdate').prop('checked', false);
               FleetRepManager.showDoLotWalthroughLinks();
               FleetRepManager.trigger("lotwalkthrough:start");
-            });              
+*/            });              
 
             $( "#backtowalkthroughdatelist" ).on( "click", function(event) {
               event.preventDefault();
