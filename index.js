@@ -83,7 +83,6 @@ mongoose.connect(connStr, function(err) {
 
 // save user to database
 function saveUserToDatabase(u, req, res) {
-    console.log("saveUserToDatabase() called-----------");
     // Generate a 16 character alpha-numeric token:
     var token = randtoken.generate(16);
 
@@ -105,7 +104,6 @@ function saveUserToDatabase(u, req, res) {
 
 // save token to database
 function saveTokenToDatabase(u, req, res) {
-    console.log("saveTokenToDatabase() called-----------");
 
     // create a user a new user
     var testToken = new Token({
@@ -172,14 +170,6 @@ app.post('/uploaddocument', upload.single('avatar'), function(req, res, next) {
     //console.log("req.body.name == "+req.body.name);
 
     if (req.session.currentuser.customer == "ADMIN") {
-
-
-        console.log("req.file == " + req.file);
-
-        for (var prop in req.file) {
-            console.log("   " + prop + "  ==  " + req.file[prop]);
-        }
-
 
         if (req.file['size'] <= 100000) {
             var filePath = path.join(__dirname, 'uploads', req.file.filename);
@@ -342,7 +332,7 @@ app.get("/senddailyemail", function(req, res) {
                 'nextsenddailyemail': -1
             }
         }, function(err, cfg) {
-            console.log("/senddailyemail called cfg == " + cfg);
+
             if (cfg == null) // no configuration row was found
             {
                 var rightNow = new Date();
@@ -455,7 +445,6 @@ app.get("/archive100", function(req, res) {
 
                 var rightNow = new Date();
                 if (currTrailer.whentobearchived != undefined && currTrailer.whentobearchived.getTime() < rightNow.getTime()) {
-                    console.log("------------- " + currTrailer.whentobearchived + " < " + rightNow);
 
                     doTheArchive(currTrailer._id);
                 } // end if
@@ -493,7 +482,7 @@ app.get("/logout", function(req, res) {
 });
 
 app.get("/getenvironment", function(req, res) {
-    console.log("----------current user in session == " + JSON.stringify(req.session.currentuser));
+
     if (req.session.currentuser != undefined) {
 
         var prettyEnvironment = "WTF?";
@@ -526,22 +515,17 @@ app.post("/login", function(req, res) {
     }
 
     // *** note!!! *** headers always come through lowercase!!!!
-    console.log("authorization == " + req.headers['authorization']); //Authorization
     if (req.method == 'POST') {
-        console.log('1.  POST found');
         var jsonString = '';
         req.on('data', function(data) {
             jsonString += data;
         });
         req.on('end', function() {
             var loginInfoJson = JSON.parse(jsonString)
-            console.log('2.  jsonString == ' + jsonString);
             User.getAuthenticated(loginInfoJson.email.toLowerCase(), loginInfoJson.password, function(err, user, reason) {
                 if (err) throw err;
-                console.log('3.  found a user');
                 // login was successful if we have a user
                 if (user && user.activated) {
-                    console.log('4.  user is valid and activated');
                     // handle login success
                     res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
@@ -567,8 +551,6 @@ app.post("/login", function(req, res) {
                         req.session.currentuser.username = user.username.toLowerCase();
                         req.session.currentuser.customer = user.customer;
                         req.session.save();
-                        console.log("req.session.currentuser.username == " + req.session.currentuser.username.toLowerCase());
-                        console.log('login success user looks like:  ' + '{"email":"' + user.username.toLowerCase() + '","token":"' + token + '","expiresIn":' + expIn + ',"customer":"' + user.customer + '"}');
                     });
                     return;
                 }
@@ -589,7 +571,6 @@ app.post("/login", function(req, res) {
                         reasonCouldNotLogIn = "Max Attempts"
                         break;
                 }
-                console.log('5. could not log in reasonCouldNotLogIn == ' + reasonCouldNotLogIn);
                 res.setHeader('content-type', 'application/json');
                 res.writeHead(200);
 
@@ -883,7 +864,6 @@ app.get("/FleetRepairSolutionsPortalData.xlsx", function(req, res) {
 app.get("/trailers", function(req, res) {
     var trailerRay = [];
 
-    console.log("\n\n/trailers req.session == " + JSON.stringify(req.session))
     if (req.session.currentuser.customer == "ADMIN") {
         Trailer.find({}, function(err, docs) {
             if (err) {
@@ -924,7 +904,6 @@ app.get("/trailers", function(req, res) {
 app.get("/getlotwalkthroughinstances", function(req, res) {
     var trailerRay = [];
 
-    console.log("\n\n/trailers req.session == " + JSON.stringify(req.session))
     if (req.session.currentuser.customer == "ADMIN") {
         LotWalkthroughInstance.find({}, null, {
             sort: {
@@ -989,7 +968,6 @@ app.get("/FleetRepairSolutionsOnLotPortalData.xlsx", function(req, res) {
 
 
     var trailerRay = [];
-    console.log("------------------ req.query.searchTerm == " + req.query.searchTerm);
     //console.log("\n\n/trailers req.session == "+JSON.stringify(req.session))
     if (req.session.currentuser.customer == "ADMIN") {
         var searchStringArray = req.query.searchTerm.split(" ");
@@ -1061,7 +1039,6 @@ app.get("/FleetRepairSolutionsOnLotPortalData.xlsx", function(req, res) {
             }
             // var orclause =  {$or: [{status1: new RegExp('^10%', "i")}]}
 
-        console.log('               found ADMIN');
         Trailer.find(andclause, function(err, docs) {
             if (err) {
                 console.log("ERROR - getting all Trailers.");
@@ -1070,12 +1047,9 @@ app.get("/FleetRepairSolutionsOnLotPortalData.xlsx", function(req, res) {
                 res.end(JSON.stringify(trailerRay));
             } else {
                 trailerRay = docs;
-                console.log('            got all Trailer documents length = ' + trailerRay.length);
                 // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
                 createExceldocument(trailerRay, function(excelFilename) {
-                    console.log("           in createExelDocument callback -----sending xsl file");
                     //res.end(JSON.stringify(trailerRay));
-                    console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/' + excelFilename));
                     sendIfNoSSLRequired(path.join(__dirname, '/' + excelFilename), req, res)
                 }, false); // false keeps RS Notified
 
@@ -1163,9 +1137,7 @@ app.get("/FleetRepairSolutionsOnLotPortalData.xlsx", function(req, res) {
                 trailerRay = docs;
                 // console.log("/trailers - trailerRay == "+JSON.stringify(trailerRay));
                 createExceldocument(trailerRay, function(excelFilename) {
-                    console.log("           in createExelDocument callback -----sending xsl file");
                     //res.end(JSON.stringify(trailerRay));
-                    console.log('!!!!!!!!!!!! path ==' + path.join(__dirname, '/' + excelFilename));
                     sendIfNoSSLRequired(path.join(__dirname, '/' + excelFilename), req, res)
                 }, true); // true removed Date FRS Notified
             }
@@ -1199,9 +1171,7 @@ app.get("/trailersonlot", function(req, res) {
 
 
     var trailerRay = [];
-    console.log("-----------executing /trailersonlot");
 
-    console.log("\n\n/trailers req.session == " + JSON.stringify(req.session))
     if (req.session.currentuser.customer == "ADMIN") {
 
 
@@ -1297,7 +1267,6 @@ app.get("/trailersonlot", function(req, res) {
 app.get("/trailerarchives", function(req, res) {
     var trailerRay = [];
 
-    console.log("\n\n/trailers req.session == " + JSON.stringify(req.session))
     if (req.session.currentuser.customer == "ADMIN") {
         TrailerArchive.find({}, function(err, docs) {
             if (err) {
@@ -1354,31 +1323,26 @@ app.post("/barchartdata", function(req, res) {
     Trailer.find({
         status1: new RegExp('^10%', "i")
     }, function(err, trailers10) {
-        console.log("Number of 10% Trailers:", trailers10.length);
         wins2.push([0, trailers10.length]);
 
         Trailer.find({
             status1: new RegExp('^50%', "i")
         }, function(err, trailers50) {
-            console.log("Number of 50% Trailers:", trailers50.length);
             wins2.push([1, trailers50.length]);
 
             Trailer.find({
                 status1: new RegExp('^75%', "i")
             }, function(err, trailers75) {
-                console.log("Number of 75% Trailers:", trailers50.length);
                 wins2[1][1] += trailers75.length
 
                 Trailer.find({
                     status1: new RegExp('^90%', "i")
                 }, function(err, trailers90) {
-                    console.log("Number of 90% Trailers:", trailers90.length);
                     wins2[1][1] += trailers90.length
 
                     Trailer.find({
                         status1: new RegExp('^100%', "i")
                     }, function(err, trailers100) {
-                        console.log("Number of 100% Trailers:", trailers100.length);
                         wins2.push([2, trailers100.length]);
 
                         res.setHeader('content-type', 'application/json');
@@ -1417,7 +1381,6 @@ app.post("/piechartdata", function(req, res) {
         Trailer.count({
             status1: new RegExp('^10%', "i")
         }, function(err, count10) {
-            console.log("Number of 10% Trailers:", count10);
             piechartdata.push({
                 data: [
                     [0, count10]
@@ -1439,7 +1402,6 @@ app.post("/piechartdata", function(req, res) {
             };
 
             Trailer.count(or25_50_75_90, function(err, count25_50_75_90) {
-                console.log("Number of count25_50_75_90 Trailers:", count25_50_75_90);
                 piechartdata.push({
                     data: [
                         [1, count25_50_75_90]
@@ -1450,7 +1412,6 @@ app.post("/piechartdata", function(req, res) {
                 Trailer.count({
                     status1: new RegExp('^100%', "i")
                 }, function(err, count100) {
-                    console.log("Number of 100% Trailers:", count100);
                     piechartdata.push({
                         data: [
                             [2, count100]
@@ -1478,7 +1439,6 @@ app.post("/piechartdata", function(req, res) {
             }
             // {status1: new RegExp('^10%', "i")}
         Trailer.count(andclause, function(err, count10) {
-            console.log("Number of 10% Trailers:", count10);
             piechartdata.push({
                 data: [
                     [0, count10]
@@ -1505,7 +1465,6 @@ app.post("/piechartdata", function(req, res) {
                 }]
             }
             Trailer.count(andclause, function(err, count25_50_75_90) {
-                console.log("Number of 25_50_75_90 Trailers:", count25_50_75_90);
                 piechartdata.push({
                     data: [
                         [1, count25_50_75_90]
@@ -1522,7 +1481,6 @@ app.post("/piechartdata", function(req, res) {
                     }]
                 }
                 Trailer.count(andclause, function(err, count100) {
-                    console.log("Number of 100% Trailers:", count100);
                     piechartdata.push({
                         data: [
                             [2, count100]
@@ -1571,7 +1529,6 @@ app.post("/setsendemailoncompleted", function(req, res) {
                 jsonString += data;
             });
             req.on('end', function() {
-                console.log("/setsendemailoncompleted - jsonString == " + jsonString);
                 //saveUserToDatabase(JSON.parse(jsonString),req, res);
                 var userInfoJson = JSON.parse(jsonString)
 
@@ -1583,7 +1540,6 @@ app.post("/setsendemailoncompleted", function(req, res) {
                         console.log(err);
                     }
                     var foundUser = docs[0];
-                    console.log("FOUND USER - foundUser == " + JSON.stringify(foundUser));
                     foundUser.sendemailoncompleted = userInfoJson.sendemailoncompleted;
 
                     var capturedId = foundUser._id;
@@ -1622,7 +1578,6 @@ app.post("/senddailyemail", function(req, res) {
                 jsonString += data;
             });
             req.on('end', function() {
-                console.log("/senddailyemail - jsonString == " + jsonString);
                 //saveUserToDatabase(JSON.parse(jsonString),req, res);
 
                 var userInfoJson = JSON.parse(jsonString)
@@ -1640,7 +1595,6 @@ app.post("/senddailyemail", function(req, res) {
                             _id: capturedId
                         }, foundUser, {},
                         function(err, doc) {
-                            console.log("!!!!!!!!!!!!!!!!!!!!!!!! found and updated User /senddailyemail");
                             res.setHeader('content-type', 'application/json');
                             res.writeHead(200);
                             res.end('{"senddailyemail":"set successfully"}');
@@ -1670,7 +1624,6 @@ app.post("/resetuserspassword", function(req, res) {
             });
             req.on('end', function() {
                 var userdata = JSON.parse(jsonString);
-                console.log("/resetuserspassword - jsonString == " + jsonString);
 
 
                 User.findOne({
@@ -1690,7 +1643,6 @@ app.post("/resetuserspassword", function(req, res) {
 
 // for the user to change their own password
 app.post("/doletuserresetpassword", function(req, res) {
-    console.log("\n\n/doletuserresetpassword---------------customer == " + req.session.currentuser.customer + "\n\n");
 
     if (req.session.currentuser.customer != "" && req.session.currentuser.customer != undefined) {
         if (req.method == 'POST') {
@@ -1709,10 +1661,8 @@ app.post("/doletuserresetpassword", function(req, res) {
 
 
                     if (err) throw err;
-                    console.log('3.  found a user');
                     // login was successful if we have a user
                     if (user && user.activated) {
-                        console.log('4.  user is valid and activated');
                         // handle login success
 
 
@@ -1753,7 +1703,6 @@ app.post("/doletuserresetpassword", function(req, res) {
                             reasonCouldNotLogIn = "Max Attempts"
                             break;
                     }
-                    console.log('5. could not log in reasonCouldNotLogIn == ' + reasonCouldNotLogIn);
                     res.setHeader('content-type', 'application/json');
                     res.writeHead(200);
 
@@ -1827,7 +1776,6 @@ app.post("/savetrailer", function(req, res) {
 });
 
 app.post("/savelotwalkthrough", function(req, res) {
-    console.log("starting /savelotwalkthrough------------------------------------------");
     if (req.session.currentuser.customer == "ADMIN") {
         if (req.method == 'POST') {
             var jsonString = '';
@@ -1844,10 +1792,6 @@ app.post("/savelotwalkthrough", function(req, res) {
                         console.log('ERROR saving lotwalkthroughinstance!!');
                     } else {
                         console.log("LotWalkthroughTrailerInstance saved successfully!");
-
-                        console.log("-----------------start-------------------");
-                        // console.log("newTrailerWalkthroughTrailers string == "+jsonString);
-                        console.log("-----------------start-------------------");
 
                         var newLotWalkthroughTrailers = JSON.parse(jsonString);
                         var count = 0;
@@ -1870,7 +1814,6 @@ app.post("/savelotwalkthrough", function(req, res) {
                                           res.end("{}");
                                       }
 
-                                      console.log('saved newlotwalkthroughtrailer successfully.');
                                   }
                               }); // end newlotwalkthroughtrailer.save(...)
                             } else
@@ -1887,7 +1830,6 @@ app.post("/savelotwalkthrough", function(req, res) {
 
             var intermediaryObject = JSON.parse(JSON.stringify(obj[0]));
             intermediaryObject.past_revisions = [];
-            console.log("           _id before == "+intermediaryObject._id);
             delete intermediaryObject._id; 
             // intermediaryObject.when_this_revision_saved = when_this_revision_saved;
 
@@ -1905,7 +1847,6 @@ walkthroughTrailer.past_revisions.push(intermediaryObject);
                                                 res.end("{}");
                                             }
 
-                                            console.log('saved newlotwalkthroughtrailer successfully.');
                                         }
                                     }); // end newlotwalkthroughtrailer.save(...)
                                   }) // Trailer.find
@@ -1926,12 +1867,11 @@ walkthroughTrailer.past_revisions.push(intermediaryObject);
         } // end if (req.method == 'POST')
 
     } //end if
-    console.log("ending /savelotwalkthrough------------------------------------------");
 
 });
 
-
 app.post("/updatetrailer", function(req, res) {
+    console.log("\n\n\n************************** entering /updatetrailer ********************************************")
     if (req.session.currentuser.customer == "ADMIN") {
         if (req.method == 'POST') {
             var jsonString = '';
@@ -1940,8 +1880,7 @@ app.post("/updatetrailer", function(req, res) {
             });
             req.on('end', function() {
                 var newTrailerObject = JSON.parse(jsonString);
-                console.log("/updatetrailer - jsonString == " + jsonString);
-
+                console.log("\tnewTrailerObject == "+jsonString);
 
                 var statusesToSetToUndefined = ["100% COMPLETE:  IN TRANSIT TO CUSTOMER",
                     "100% COMPLETE:  READY FOR P/U",
@@ -1969,8 +1908,11 @@ app.post("/updatetrailer", function(req, res) {
                 var capturedId = newTrailerObject._id;
                 delete newTrailerObject._id;
                 var when_this_revision_saved = new Date();
-                delete newTrailerObject.when_this_revision_saved;
-                console.log("\n\n----------------- 1");
+                newTrailerObject.when_this_revision_saved = new Date();
+                console.log("new Object to be saved when_this_revision_saved == "+newTrailerObject.when_this_revision_saved);
+                // delete newTrailerObject.when_this_revision_saved;
+
+                console.log("\ncaptredId == "+capturedId);
 
                 Trailer.find({
                     _id: capturedId
@@ -1978,21 +1920,20 @@ app.post("/updatetrailer", function(req, res) {
                     if (err) {
                         console.log("ERROR! - can not find trailer record with capturedId == " + capturedId);
                     }
-                    console.log("Pushing past_revisions - " + JSON.stringify(obj[0]));
-            
-            var intermediaryObject = JSON.parse(JSON.stringify(obj[0]));
-            intermediaryObject.past_revisions = [];
-            console.log("           _id before == "+intermediaryObject._id);
-            delete intermediaryObject._id; 
-            intermediaryObject.when_this_revision_saved = when_this_revision_saved;
 
-            console.log("           _id after == "+intermediaryObject._id);
+                    console.log("\t\tobj[0] == "+JSON.stringify(obj[0]));
+
+                    var intermediaryObject = JSON.parse(JSON.stringify(obj[0]));
+                    intermediaryObject.past_revisions = [];
+                    delete intermediaryObject._id;
+                    // intermediaryObject.when_this_revision_saved = when_this_revision_saved;
+
                     obj[0].past_revisions.push(new Trailer(intermediaryObject));
                     obj[0].save(function(err) {
                         if (err) {
                             console.log("ERROR in saving obj[0] - " + err);
                         } else {
-                          console.log("obj[0] SAVED SUCCESSFULLY!!!!!!!!");
+                            console.log("\t\tobj[0] SAVED SUCCESSFULLY!!!!!!!!");
                         }
                         Trailer.findOneAndUpdate({
                             '_id': capturedId
@@ -2000,9 +1941,8 @@ app.post("/updatetrailer", function(req, res) {
                             if (err) {
                                 console.log("ERROR - could not find and update the trailer with doc._id == " + JSON.stringify(doc));
                             } else {
-                                console.log("found in updatetrailer - _id found == " + doc._id);
+                                console.log("\t\tfound in updatetrailer - _id found == " + doc._id);
                             }
-                            console.log("----------------- 2");
                             // send email if marked as 100%\
                             if (newTrailerObject.status1.indexOf("100%") > -1) {
                                 sendOneTrailerEmailWhenComplete(newTrailerObject)
@@ -2022,13 +1962,11 @@ app.post("/updatetrailer", function(req, res) {
                                     res.end("{}");
                                     return;
                                 }
-                                console.log("numer of files found == " + docs.length);
                                 var count = 0;
                                 for (var i = 0; i < docs.length; i++) {
                                     var foundFile = docs[i];
 
                                     foundFile.customer = newTrailerObject.customer;
-                                    console.log("----------------- 3 foundFile.name == " + foundFile.name);
                                     foundFile.save(function(err) {
                                         console.log(" err == " + err);
                                         if (err) throw err;
@@ -2056,20 +1994,17 @@ app.post("/updatetrailer", function(req, res) {
 
 
 
-                console.log("----------------- 5");
 
             });
 
-            console.log("----------------- 6   Write empty json response.");
 
 
         }
     } // end if
+    console.log("************************** exiting /updatetrailer ********************************************\n\n\n")
 });
-
-
 app.post("/updateonlottrailers", function(req, res) {
-    console.log('------------starting /updateonlottrailers');
+
     if (req.session.currentuser.customer == "ADMIN") {
         if (req.method == 'POST') {
             var jsonString = '';
@@ -2085,12 +2020,10 @@ app.post("/updateonlottrailers", function(req, res) {
                 var countOfTrailerObjects = newTrailerObjectsArray.length;
                 var counterOfTrailerObjects = 0;
 
-                console.log('     number of trailer objects to update == ' + countOfTrailerObjects);
 
                 var counterOfFilesRay = [];
                 var processedAllFiles = [];
                 for (var c = 0; c < countOfTrailerObjects; c++) {
-console.log("INITIALS -----"+newTrailerObjectsArray[c].initials);
                     counterOfFilesRay[c] = 0;
                     processedAllFiles[c] = false;
                 }
@@ -2129,7 +2062,6 @@ console.log("INITIALS -----"+newTrailerObjectsArray[c].initials);
                     };
                     if (query._id.indexOf('newrecordid') > -1) {
                         query._id = new mongoose.mongo.ObjectID();
-                        console.log("found correct trailerid - setting _id == " + query._id);
                     }
 
                     // console.log("----------------------customer before update findOne - custuer == " + newTrailerObjectsArray[k].customer);
@@ -2181,8 +2113,6 @@ function findAndUpdateTrailerStep1(trailerid, newTrailerObject, isLastTrailer)
       } // end err
 
 
-    console.log("\t\t\tbefore save INITIALS == "+newObjectAttributes.initials);
-
                 var alreadySentResponse = false;
 
                 File.find({
@@ -2200,13 +2130,11 @@ function findAndUpdateTrailerStep1(trailerid, newTrailerObject, isLastTrailer)
                         return;
                       }
                     }
-                    console.log("number of files found == " + docs.length);
                     var count = 0;
                     for (var i = 0; i < docs.length; i++) {
                         var foundFile = docs[i];
 
                         foundFile.customer = newObjectAttributes.customer;
-                        console.log("----------------- 3 foundFile.name == " + foundFile.name);
                         foundFile.save(function(err) {
                             console.log(" err == " + err);
                             if (err) throw err;
@@ -2255,15 +2183,11 @@ else
 
                         // send email if marked as 100%\
                         if (doc.status1.indexOf("100%") > -1) {
-                            console.log('     found 100% status so sending email-----------------------------');
                             sendOneTrailerEmailWhenComplete(doc)
                         }
 
 
                         var currentTrailer = doc;
-                        console.log("\n\n-------------------------");
-                        console.log("         doc.customer == " + doc.customer);
-                        console.log("-------------------------\n\n");
                         // numAffected is the number of updated documents
 
                         if (countOfTrailerObjects == counterOfTrailerObjects) {
@@ -2295,7 +2219,6 @@ else
 
         }
     } // end if
-    console.log('------------ending /updateonlottrailers');
 });
 
 
@@ -2616,7 +2539,6 @@ app.post("/getnameoftrailerarchivedocument", function(req, res) {
 
                             fs.writeFile(filenamewithpath, obj.contents, function(err) {
                                 if (err) return console.log(err);
-                                console.log('Hello World > helloworld.txt');
 
                                 res.setHeader('content-type', 'application/json');
                                 res.writeHead(200);
@@ -2657,7 +2579,6 @@ app.post("/getnameoftrailerarchivedocument", function(req, res) {
 
                             fs.writeFile(filenamewithpath, obj.contents, function(err) {
                                 if (err) return console.log(err);
-                                console.log('Hello World > helloworld.txt');
 
                                 res.setHeader('content-type', 'application/json');
                                 res.writeHead(200);
@@ -2693,7 +2614,6 @@ app.post("/gettrailerdocuments", function(req, res) {
                             obj[i].contents = null;
                         }
 
-                        console.log("called gettrailerdocuments obj == " + JSON.stringify(obj));
                         res.setHeader('content-type', 'application/json');
                         res.writeHead(200);
                         res.end(JSON.stringify(obj));
@@ -2709,7 +2629,6 @@ app.post("/gettrailerdocuments", function(req, res) {
             });
             req.on('end', function() {
                 var _idObj = JSON.parse(jsonString);
-                console.log("!!!!!!!!!!!executing File.find");
                 File.find({
                     trailer_id: _idObj._id,
                     customer: req.session.currentuser.customer
@@ -2721,7 +2640,6 @@ app.post("/gettrailerdocuments", function(req, res) {
                             obj[i].contents = null;
                         }
 
-                        console.log("called gettrailerdocuments obj == " + JSON.stringify(obj));
                         res.setHeader('content-type', 'application/json');
                         res.writeHead(200);
                         res.end(JSON.stringify(obj));
@@ -2753,7 +2671,6 @@ app.post("/gettrailerarchivedocuments", function(req, res) {
                             obj[i].contents = null;
                         }
 
-                        console.log("called gettrailerdocuments obj == " + JSON.stringify(obj));
                         res.setHeader('content-type', 'application/json');
                         res.writeHead(200);
                         res.end(JSON.stringify(obj));
@@ -2769,7 +2686,7 @@ app.post("/gettrailerarchivedocuments", function(req, res) {
             });
             req.on('end', function() {
                 var _idObj = JSON.parse(jsonString);
-                console.log("!!!!!!!!!!!executing File.find");
+
                 FileArchive.find({
                     trailer_id: _idObj._id,
                     customer: req.session.currentuser.customer
@@ -2781,7 +2698,6 @@ app.post("/gettrailerarchivedocuments", function(req, res) {
                             obj[i].contents = null;
                         }
 
-                        console.log("called gettrailerdocuments obj == " + JSON.stringify(obj));
                         res.setHeader('content-type', 'application/json');
                         res.writeHead(200);
                         res.end(JSON.stringify(obj));
@@ -2822,8 +2738,6 @@ app.post("/deletetrailer", function(req, res) {
             });
             req.on('end', function() {
                 var newDeleteTrailerObject = JSON.parse(jsonString);
-                console.log("jsonString for delete trailer == " + jsonString);
-                console.log("newDeleteTrailerObject._id == " + newDeleteTrailerObject._id);
 
                 Trailer.findOneAndRemove({
                     '_id': newDeleteTrailerObject._id
@@ -3006,10 +2920,7 @@ app.get("/greeting", function(req, res) {
     res.writeHead(200);
 
     var str = getAllObjectsProperties(req.headers);
-    console.log('------header properties == ' + str);
-    console.log('----------cookie header == ' + req.headers['cookie']);
 
-    console.log('============req.session.lastPage == ' + req.session.lastPage);
     req.session.lastPage = '/radical';
 
     if (req.headers['x-forwarded-proto'] == "https") {
@@ -3017,7 +2928,6 @@ app.get("/greeting", function(req, res) {
     } else {
         res.end("{\"id\":3433,\"content\":\"Hello, World!\"}");
     }
-    console.log("DISABLE_SSL == " + DISABLE_SSL);
 });
 
 io.on('connection', function(socket) {

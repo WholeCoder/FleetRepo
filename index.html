@@ -714,7 +714,7 @@
                      </tr>
                      <tr>
                         <td>Record Created At:</td>
-                        <td><b><%- new Date(when_this_revision_saved).toLocaleDateString() +" - "+new Date(when_this_revision_saved).toLocaleTimeString() %></b></td>
+                        <td><b><%- when_this_revision_saved == null ? "" : new Date(when_this_revision_saved).toLocaleDateString() +" - "+new Date(when_this_revision_saved).toLocaleTimeString() %></b></td>
                      </tr>
                      </tbody>
                    </table>
