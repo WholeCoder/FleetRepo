@@ -17,7 +17,7 @@ if (DISABLE_SSL && ENVIRONMENT == 'local_development') // on development
     mongodbconnectionstring = "mongodb://localhost/test";
 } else if (ENVIRONMENT == 'remote_development') // on testing site
 {
-    mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds047802.mongolab.com:47802/heroku_dswxx1s9";
+    mongodbconnectionstring = "mongodb://newdatabaseuser:qwertyuiop@ds047802.mongolab.com:47802/heroku_dswxx1s9";
 } else if (ENVIRONMENT == 'production') {
     require('newrelic');
     mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds027293-a0.mongolab.com:27293,ds027293-a1.mongolab.com:27293/heroku_qlr988hb?replicaSet=rs-ds027293";
