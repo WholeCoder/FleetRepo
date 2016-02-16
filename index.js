@@ -1909,7 +1909,7 @@ app.post("/updatetrailer", function(req, res) {
                 delete newTrailerObject._id;
                 var when_this_revision_saved = new Date();
                 newTrailerObject.when_this_revision_saved = new Date();
-                console.log("new Object to be saved when_this_revision_saved == "+newTrailerObject.when_this_revision_saved);
+                console.log("new ----- Object to be saved when_this_revision_saved == "+newTrailerObject.when_this_revision_saved);
                 // delete newTrailerObject.when_this_revision_saved;
 
                 console.log("\ncaptredId == "+capturedId);
@@ -1920,6 +1920,7 @@ app.post("/updatetrailer", function(req, res) {
                     if (err) {
                         console.log("ERROR! - can not find trailer record with capturedId == " + capturedId);
                     }
+                console.log("old ----- Object to be saved when_this_revision_saved == "+obj[0].when_this_revision_saved);
 
                     console.log("\t\tobj[0] == "+JSON.stringify(obj[0]));
 
