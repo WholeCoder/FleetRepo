@@ -21,7 +21,7 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
         if (past_revisions[i].when_this_revision_saved != undefined &&
             past_revisions[i].when_this_revision_saved != null)
         {
-          dateString = past_revisions[i].initials + ' ' + new Date(past_revisions[i].when_this_revision_saved).toLocaleDateString() +" - "+new Date(past_revisions[i].when_this_revision_saved).toLocaleTimeString();
+          dateString = past_revisions[i].initials + ' -  ' + new Date(past_revisions[i].when_this_revision_saved).toLocaleDateString() +" - "+new Date(past_revisions[i].when_this_revision_saved).toLocaleTimeString();
         } 
         this.$(".js-revision-date").append('<option value="'+i+'">'+dateString+'</option>');
       }
