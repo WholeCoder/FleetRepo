@@ -12,17 +12,17 @@ console.log("DISABLE_SSL == " + DISABLE_SSL);
 
 if (DISABLE_SSL && ENVIRONMENT == 'local_development') // on development
 {
-    console.log("!!!!!!!DISABLE_SSL was set - admin app won't be encrypted!!!!!!")
-    console.log("setting connection to local mongodb!!!!!!!!!!!!");
-    mongodbconnectionstring = "mongodb://localhost/test";
+  console.log("!!!!!!!DISABLE_SSL was set - admin app won't be encrypted!!!!!!")
+  console.log("setting connection to local mongodb!!!!!!!!!!!!");
+  mongodbconnectionstring = "mongodb://localhost/test";
 } else if (ENVIRONMENT == 'remote_development') // on testing site
 {
-    mongodbconnectionstring = "mongodb://newdatabaseuser:qwertyuiop@ds047802.mongolab.com:47802/heroku_dswxx1s9";
+  mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds047802.mongolab.com:47802/heroku_dswxx1s9";
 } else if (ENVIRONMENT == 'production') {
-    require('newrelic');
-    mongodbconnectionstring = "mongodb://dbuser:ubuntu2rbnue3@ds027293-a0.mongolab.com:27293,ds027293-a1.mongolab.com:27293/heroku_qlr988hb?replicaSet=rs-ds027293";
+  require('newrelic');
+  mongodbconnectionstring = "mongodb://newdatabaseuser:qwertyuiop@ds027293-a0.mongolab.com:27293,ds027293-a1.mongolab.com:27293/heroku_qlr988hb?replicaSet=rs-ds027293";
 } else {
-    console.log("!!CONFIG ERROR - ENVIRONMENT system variable not found.  Can not set mongodb variable!!!!")
+  console.log("!!CONFIG ERROR - ENVIRONMENT system variable not found.  Can not set mongodb variable!!!!")
 }
 
 var express = require('express'),
