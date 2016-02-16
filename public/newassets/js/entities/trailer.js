@@ -20,7 +20,7 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       note: "",
       initials: "",
       past_revisions: [],
-      when_this_revision_saved: new Date()
+      when_this_revision_saved: null
     }/*,
 
     validate: function(attrs, options) {
