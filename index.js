@@ -1004,7 +1004,8 @@ app.get("/FleetRepairSolutionsOnLotPortalData.xlsx", function(req, res) {
     "90%  A/W FINAL QUALITY CHECK",
     "100% COMPLETE:  IN TRANSIT TO CUSTOMER",
     "100% COMPLETE:  READY FOR P/U",
-    "100% COMPLETE:  RESERVED"
+    "100% COMPLETE:  RESERVED",
+    "100% COMPLETE: STORAGE ONLY / NO MAINTENANCE REQUESTED"
   ];
 
 
@@ -1220,7 +1221,8 @@ app.get("/trailersonlot", function(req, res) {
     "90%  A/W FINAL QUALITY CHECK",
     "100% COMPLETE:  IN TRANSIT TO CUSTOMER",
     "100% COMPLETE:  READY FOR P/U",
-    "100% COMPLETE:  RESERVED"
+    "100% COMPLETE:  RESERVED",
+    "100% COMPLETE: STORAGE ONLY / NO MAINTENANCE REQUESTED"
   ]
 
 
@@ -1800,7 +1802,8 @@ app.post("/savetrailer", function(req, res) {
 
         var statusesToSetToUndefined = ["100% COMPLETE:  IN TRANSIT TO CUSTOMER",
           "100% COMPLETE:  READY FOR P/U",
-          "100% COMPLETE:  RESERVED"
+          "100% COMPLETE:  RESERVED",
+          "100% COMPLETE: STORAGE ONLY / NO MAINTENANCE REQUESTED"
         ];
 
         var markForArchival = true;
@@ -1921,7 +1924,8 @@ app.post("/updatetrailer", function(req, res) {
 
         var statusesToSetToUndefined = ["100% COMPLETE:  IN TRANSIT TO CUSTOMER",
           "100% COMPLETE:  READY FOR P/U",
-          "100% COMPLETE:  RESERVED"
+          "100% COMPLETE:  RESERVED",
+          "100% COMPLETE: STORAGE ONLY / NO MAINTENANCE REQUESTED"
         ];
 
         var markForArchival = true;
@@ -2044,7 +2048,8 @@ app.post("/updateonlottrailers", function(req, res) {
 
           var statusesToSetToUndefined = ["100% COMPLETE:  IN TRANSIT TO CUSTOMER",
             "100% COMPLETE:  READY FOR P/U",
-            "100% COMPLETE:  RESERVED"
+            "100% COMPLETE:  RESERVED",
+            "100% COMPLETE: STORAGE ONLY / NO MAINTENANCE REQUESTED"
           ];
 
           var markForArchival = true;
