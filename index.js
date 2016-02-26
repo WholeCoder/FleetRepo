@@ -499,6 +499,10 @@ app.get("/activate", function(req, res) {
 app.get("/logout", function(req, res) {
   req.session.currentuser = {};
   req.session.save();
+  
+  res.setHeader('content-type', 'application/json');
+  res.writeHead(200);
+  res.end('{"successfully": "' + 'logged_out' + '"}');
 });
 
 app.get("/getenvironment", function(req, res) {
