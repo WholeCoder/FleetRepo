@@ -17,6 +17,7 @@ FleetRepManager.module("TrailersApp.LotWalkthrough", function(LotWalkthrough, Va
       var availableTags = [
           "Dedicated: Other Than Hershey",
           "Dedicated Hershey",
+          "Unknown",
           "OTR",
           "Intermodal"
           ];

@@ -17,6 +17,7 @@ FleetRepManager.module("TrailersApp.Edit", function(Edit, VapeBookManager, Backb
       var availableTags = [
           "Dedicated: Other Than Hershey",
           "Dedicated Hershey",
+          "Unknown",
           "OTR",
           "Intermodal"
           ];
