@@ -187,6 +187,13 @@ FleetRepManager.module("TrailersApp.New", function(New, VapeBookManager, Backbon
     saveClicked: function(e){
       e.preventDefault();
       var data = Backbone.Syphon.serialize(this);
+
+      if(data.authorizedinitials.trim() == '')
+      {
+        alert('Please enter your initials!');
+        return;
+      }
+
       //alert('save trailer submit button clicked! - Not implemented yet!');
       this.trigger("form:submit", data);
 

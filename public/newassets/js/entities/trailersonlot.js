@@ -17,7 +17,9 @@ FleetRepManager.module("Entities", function(Entities, FleetRepManager, Backbone,
       status2: "",
       status3: "",
       note: "",
-      updatedalready: false
+      authorizedinitials: "",
+      updatedalready: false,
+      dateauthorized: ""
     }/*,
 
     validate: function(attrs, options) {

@@ -1829,6 +1829,9 @@ app.post("/savetrailer", function(req, res) {
           newTrailerObject.whentobearchived = undefined;
         }
 
+        // Add when last updated
+        newTrailerObject.dateauthorized = new Date();
+
         var trailer = new Trailer(newTrailerObject);
 
 
@@ -1952,6 +1955,10 @@ app.post("/updatetrailer", function(req, res) {
         }
         var capturedId = newTrailerObject._id;
         delete newTrailerObject._id;
+
+        // Add date this change was made.
+        newTrailerObject.dateauthorized = new Date();
+
         console.log("\n\n----------------- 1");
         Trailer.findOneAndUpdate({
           '_id': capturedId

@@ -626,7 +626,7 @@
                 <div  class="col-sm-6">
                   <div class="panel panel-danger">
                      <div class="panel-heading"><b>New Unit Record</b></div>
-                     <div class="panel-body" style="height: 500px;">
+                     <div class="panel-body" style="height: 600px;">
 
 <form>             
                 <fieldset>
@@ -704,6 +704,18 @@
                           <textarea style="width:400px; height: 150px;" name="note" id="note"><%- note %></textarea>
                         </td>
                      </tr>
+                     <tr>
+                        <td><b style="color: red;">Initials (required):</b></td>
+                        <td><input style="width:400px;" placeholder="Your Initials" class="js-authorizedinitials" name="authorizedinitials" type="text"></td>
+                     </tr>
+                     <tr>
+                        <td><b>Last Updated by (Initials):</b></td>
+                        <td><%- authorizedinitials %></td>
+                     </tr>
+                     <tr>
+                        <td><b>Date Approved:</b></td>
+                        <td><%- dateauthorized == null ? "" : new Date(dateauthorized).toLocaleDateString() +" - "+new Date(dateauthorized).toLocaleTimeString() %></td>
+                     </tr>
                      </tbody>
                    </table>
                 </fieldset>
@@ -717,7 +729,7 @@
                 <div  class="col-sm-6">
                   <div class="panel panel-danger">
                      <div class="panel-heading"><b>Note</b></div>
-                     <div class="panel-body" style="height: 500px;">
+                     <div class="panel-body" style="height: 600px;">
                         <p><b>Setting</b> the <b>"Status 1 (Master)"</b> status input box <b>changes</b> the options in <b>"Status 2"</b> and <b>"Status 3"</b> boxes.</p>
                         <p>If <b>all statuses</b> are <b>blank</b> then they <b>will not</b> be <b>counted</b> in the <b>charts</b>.</p>
                      </div>
