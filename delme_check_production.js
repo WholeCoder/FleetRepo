@@ -14,7 +14,7 @@ mongoose.connect(connStr, function(err) {
 
 
 Trailer.find({
-unitnumber: 'rubensunit'
+unitnumber: '50818'
 }, function(err, docs) {
 	console.log("found "+docs.length+ " units with unitnumber == rubensunit (primary) status1 == "+docs[0].status1);
 
@@ -23,7 +23,7 @@ unitnumber: 'rubensunit'
 
 
 Trailer.find({
-unitnumber: 'rubensunit'
+unitnumber: '50818'
 }, function(err, docs) {
 	console.log("found "+docs.length+ " units with unitnumber == rubensunit (secondary) status1 == "+docs[0].status1);
 
